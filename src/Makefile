@@ -1,5 +1,5 @@
 DEPS = gtk+-3.0 json-glib-1.0 libsoup-2.4 gio-unix-2.0
-CFLAGS = `pkg-config --cflags $(DEPS)` -std=gnu11 -g -Wall -Wextra
+CFLAGS = `pkg-config --cflags $(DEPS)` -std=gnu11 -g -Wall -Wextra -Wno-unused
 LDLIBS = `pkg-config --libs $(DEPS)`
 
 BIN = bloop
@@ -11,7 +11,7 @@ Board.c: Board.vala
 	valac -H $*.h -C $<
 
 Page.c: Page.vala
-	valac -H $*.h -C $<
+	valac --pkg json-glib-1.0 -H $*.h -C $<
 
 .PHONY: clean
 clean:
