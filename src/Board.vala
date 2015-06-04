@@ -26,11 +26,4 @@ public class Board : Object {
     public int country_flags     { get; set; }
     public int math_tags         { get; set; }
     public int code_tags         { get; set; }
-
-    public string to_string() {
-    	var str =  @"/$board/ - $title";
-    	if (ws_board == 1)
-    	    str += " (NSFW)";
-    	return str;
-    }
 }
