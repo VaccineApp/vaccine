@@ -1,18 +1,15 @@
 DEPS = gtk+-3.0 json-glib-1.0 libsoup-2.4 gio-unix-2.0
-CFLAGS = `pkg-config --cflags $(DEPS)` -std=gnu11 -g -Wall -Wextra -Wno-unused
-LDLIBS = `pkg-config --libs $(DEPS)`
 
-BIN = bloop
-OBJECTS = Board.o Page.o
+SRCS = Bloop.vala Board.vala Page.vala
 
-$(BIN): $(OBJECTS)
-
-Board.c: Board.vala
-	valac -H $*.h -C $<
-
-Page.c: Page.vala
-	valac --pkg json-glib-1.0 -H $*.h -C $<
+all: $(SRCS)
+	valac                       \
+		--pkg gtk+-3.0      \
+		--pkg json-glib-1.0 \
+		--pkg libsoup-2.4   \
+		--pkg gio-unix-2.0  \
+		$(SRCS)
 
 .PHONY: clean
 clean:
-	-rm $(BIN) $(OBJECTS)
+	-rm $(BIN)
