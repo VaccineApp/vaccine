@@ -2,6 +2,7 @@
 <gresources>
     <gresource prefix="/vaccine">
         <file>main-window.ui</file>
+        <file>thread-widget.ui</file>
         <file>post-list-row.ui</file>
     </gresource>
 </gresources>
