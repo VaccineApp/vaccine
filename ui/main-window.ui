@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.1 -->
+<interface>
+  <requires lib="gtk+" version="3.12"/>
+  <template class="MainWindow" parent="GtkApplicationWindow">
+    <property name="width_request">300</property>
+    <property name="can_focus">False</property>
+    <property name="title">Bloop</property>
+    <property name="default_width">600</property>
+    <property name="default_height">650</property>
+    <property name="show_menubar">False</property>
+    <child>
+      <object class="GtkScrolledWindow" id="scrolledwindow1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="shadow_type">in</property>
+        <child>
+          <object class="GtkViewport" id="viewport1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkListBox" id="post_list">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="headerbar">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="title">Bloop</property>
+        <property name="show_close_button">True</property>
+        <child>
+          <object class="GtkComboBoxText" id="board_chooser">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

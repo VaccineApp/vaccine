@@ -1,31 +1,32 @@
-void demo () throws Error {
-    var sess = new Soup.Session ();
-    var boards_json = sess.send (new Soup.Message ("GET", "https://a.4cdn.org/boards.json"));
+public class Bloop : Gtk.Application {
+    public Bloop () {
+        Object (application_id: "bloop.Bloop", flags: ApplicationFlags.FLAGS_NONE);
+    }
 
-    var parser = new Json.Parser ();
-    parser.load_from_stream (boards_json);
-    var boards = parser.get_root ().get_object ().get_array_member ("boards");
-    boards.foreach_element((arr, index, node) => {
-        var b = Json.gobject_deserialize (typeof (Board), node) as Board;
-        if (b != null)
-            print (@"/$(b.board)/ ");
-    });
-
-    print ("\nChoose a board: ");
-    var choice = stdin.read_line ();
-    var threads_json = sess.send (new Soup.Message ("GET", @"https://a.4cdn.org/$choice/threads.json"));
-    parser.load_from_stream (threads_json);
-    parser.get_root ().get_array ().foreach_element ((arr, index, node) => {
-        var p = Json.gobject_deserialize(typeof (Page), node) as Page;
-        if (p != null)
-            print (p.to_string () + "\n");
-    });
+    protected override void activate () {
+        new MainWindow (this);
+    }
 }
 
-void main (string[] args) {
-    try {
-        demo ();
-    } catch (Error e) {
-        printerr ("Error: " + e.message);
-    }
+/*
+void demo () throws Error {
+    var choice = stdin.read_line ();
+    var catalog_json = sess.send (new Soup.Message ("GET", @"https://a.4cdn.org/$choice/catalog.json"));
+    parser.load_from_stream (catalog_json);
+    parser.get_root ().get_array ().foreach_element ((arr, index, node) => {
+        var p = Json.gobject_deserialize(typeof (Page), node) as Page;
+        if (p != null) {
+            print (@"Page #$(p.page)\n");
+            for (int i = 0; i < p.threads.length; ++i) {
+                var ti = p.threads.index(i);
+                print (@"\t$ti\n");
+            }
+        }
+    });
+}
+*/
+
+int main (string[] args) {
+    var bloop = new Bloop ();
+    return bloop.run (args);
 }

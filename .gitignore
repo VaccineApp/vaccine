@@ -30,3 +30,8 @@
 
 # Debug files
 *.dSYM/
+
+resources.c
+Bloop
+.gdb_history
+peda-*

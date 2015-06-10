@@ -1,4 +1,0 @@
-libsoup
-GInputStream
-async
-json-glib
