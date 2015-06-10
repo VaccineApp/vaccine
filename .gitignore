@@ -32,6 +32,6 @@
 *.dSYM/
 
 resources.c
-Bloop
+Vaccine
 .gdb_history
 peda-*

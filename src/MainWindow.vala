@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/bloop/main-window.ui")]
+[GtkTemplate (ui = "/vaccine/main-window.ui")]
 public class MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.ComboBoxText board_chooser;
     [GtkChild] private Gtk.ListBox post_list;

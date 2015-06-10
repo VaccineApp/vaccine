@@ -1,4 +1,4 @@
-BIN = Bloop
+BIN = Vaccine
 SRC = $(wildcard src/*.vala)
 XML = ui/resources.xml
 

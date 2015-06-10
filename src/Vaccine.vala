@@ -1,6 +1,6 @@
-public class Bloop : Gtk.Application {
-    public Bloop () {
-        Object (application_id: "bloop.Bloop", flags: ApplicationFlags.FLAGS_NONE);
+public class Vaccine : Gtk.Application {
+    public Vaccine () {
+        Object (application_id: "popcnt.Vaccine", flags: ApplicationFlags.FLAGS_NONE);
     }
 
     protected override void activate () {
@@ -27,6 +27,6 @@ void demo () throws Error {
 */
 
 int main (string[] args) {
-    var bloop = new Bloop ();
-    return bloop.run (args);
+    var app = new Vaccine ();
+    return app.run (args);
 }

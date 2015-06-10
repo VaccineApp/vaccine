@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/bloop/post-list-row.ui")]
+[GtkTemplate (ui = "/vaccine/post-list-row.ui")]
 public class PostListRow : Gtk.ListBoxRow {
     [GtkChild] private Gtk.Label name;
     [GtkChild] private Gtk.Label time;
