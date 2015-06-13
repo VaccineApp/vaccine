@@ -1,14 +1,14 @@
 using Gee;
 
 public class FourChan : Object {
-    private static Soup.Session soup = new Soup.Session ();
-
     private static FourChan it;
     public static new FourChan get () {
         if (it == null)
             it = new FourChan ();
         return it;
     }
+    
+    private Soup.Session soup = new Soup.Session ();
 
     public FourChan () {
         this.notify["cur_board"].connect((o, p) => this.refresh_catalog ());
