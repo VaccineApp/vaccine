@@ -1,5 +1,6 @@
 BIN = Vaccine
-SRC = $(wildcard src/*.vala)
+SRC = $(shell find src -name '*.vala')
+#SRC = $(wildcard src/*.vala)
 XML = ui/resources.xml
 
 DEPS = gtk+-3.0 json-glib-1.0 libsoup-2.4 gee-0.8
@@ -13,4 +14,5 @@ resources.c: $(XML) $(shell glib-compile-resources --generate-dependencies --sou
 
 .PHONY: clean
 clean:
-	-rm $(BIN) resources.c src/*.c
+	-find $(PWD) -name '*.c' -exec rm {} \;
+	-rm -f $(BIN)

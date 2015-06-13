@@ -7,10 +7,10 @@ public class PostListRow : Gtk.ListBoxRow {
     [GtkChild] private Gtk.Image image;
     [GtkChild] private Gtk.Label comment;
 
-    public PostListRow (ThreadInfo ti) {
-        name.label = ti.name;
-        time.label = ti.now;
-        post_no.label = ti.no.to_string ();
-        comment.label = ti.com;
+    public PostListRow (ThreadOP t) {
+        name.label = t.name;
+        time.label = t.now;
+        post_no.label = t.no.to_string ();
+        comment.label = t.com;
     }
 }
