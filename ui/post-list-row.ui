@@ -104,6 +104,7 @@
                 <property name="use_markup">True</property>
                 <property name="wrap">True</property>
                 <property name="selectable">True</property>
+                <property name="track_visited_links">False</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>

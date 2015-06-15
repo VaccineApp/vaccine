@@ -1,7 +1,7 @@
 using Gee;
 
 public class Thread : Object, ListModel {
-    private ArrayList<Post> posts = new ArrayList<Post> ();
+    public ArrayList<Post> posts = new ArrayList<Post> ();
 
 
     public Object? get_item (uint pos) {
@@ -19,10 +19,6 @@ public class Thread : Object, ListModel {
     }
 
 
-    public void add (Post post) {
-        posts.insert (0, post);
-    }
-
     public ThreadOP op {
         get {
             ThreadOP *p = posts[0] as ThreadOP;
@@ -32,9 +28,6 @@ public class Thread : Object, ListModel {
         }
     }
 
-    public async void update () {
-
-    }
 /*
     // Json.Serializable
     public bool deserialize_property (string prop_name, out Value val, ParamSpec pspec, Json.Node property_node) {

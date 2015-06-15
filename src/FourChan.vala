@@ -68,13 +68,26 @@ public class FourChan : Object {
         return list;
     }
 
-    // do we even need this?
-    public async Board? get_board_obj (string id) {
-        var boards = yield get_boards ();
-        foreach (Board x in boards)
-            if (x.board == id)
-                return x;
-        return null;
+    public async void update_thread (Thread thread) {
+        try {
+            var json = new Json.Parser ();
+            var thread_no = thread.posts[0].no;
+            var stream = yield soup.send_async (new Soup.Message ("GET", @"https://a.4cdn.org/$cur_board/thread/$thread_no.json"));
+            if (yield json.load_from_stream_async (stream, null)) {
+                var posts_arr = json.get_root ().get_object ().get_array_member ("posts");
+                int i = 0;
+                posts_arr.foreach_element ((arr, index, node) => {
+                    int64 no = node.get_object ().get_int_member ("no");
+                    if (i < thread.posts.size && thread.posts[i].no != no) {
+                        var p = Json.gobject_deserialize (typeof (Post), node) as Post;
+                        thread.posts.add (p);
+                    }
+                    ++i;
+                });
+            }
+        } catch (Error e) {
+            debug (e.message);
+        }
     }
 
     public ThreadWatcher[] watched;

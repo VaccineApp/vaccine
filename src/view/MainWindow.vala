@@ -18,10 +18,11 @@ public class MainWindow : Gtk.ApplicationWindow {
         });
 
         FourChan.get ().catalog_updated.connect ((o, catalog) => {
+            var board = FourChan.get ().cur_board;
             post_list.foreach (row => post_list.remove (row));
             foreach (Page p in catalog)
                 foreach (ThreadOP t in p.threads)
-                    post_list.add (new PostListRow (t));
+                    post_list.add (new PostListRow (t, board));
         });
         FourChan.get ().refresh_catalog.begin ();
 

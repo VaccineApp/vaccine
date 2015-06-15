@@ -1,5 +1,5 @@
 public class Post : Object {
-    public uint no              { get; set; }
+    public int64 no             { get; set; }
     public string now           { get; set; }
     public string name          { get; set; }
     public string com           { get; set; }
@@ -11,7 +11,7 @@ public class Post : Object {
     public uint h               { get; set; }
     public uint tn_w            { get; set; }
     public uint tn_h            { get; set; }
-    public uint tim             { get; set; }
+    public int64 tim            { get; set; }
     public string md5           { get; set; }
     public uint fsize           { get; set; }
 
