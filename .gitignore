@@ -31,7 +31,22 @@
 # Debug files
 *.dSYM/
 
-resources.c
-Vaccine
+# Autotools
+Makefile.in
+/autom4te.cache
+/aclocal.m4
+/compile
+/configure
+/depcomp
+/install-sh
+/missing
+/stamp-h1
+/config.guess
+/config.sub
+/ltmain.sh
+*.stamp
+
+*.c # this is a vala project
+vaccine
 .gdb_history
-peda-*
+peda-session-*
