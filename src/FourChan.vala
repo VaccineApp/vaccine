@@ -1,31 +1,37 @@
 using Gee;
 
 public class FourChan : Object {
-    private static FourChan it;
+    private static FourChan instance;
     public static new FourChan get () {
-        if (it == null)
-            it = new FourChan ();
-        return it;
+        if (instance == null)
+            instance = new FourChan ();
+        return instance;
     }
     
     private Soup.Session soup = new Soup.Session ();
-
-    public FourChan () {
-        this.notify["cur_board"].connect((o, p) => this.refresh_catalog ());
-    }
 
     ~FourChan () {
         soup.abort ();
     }
 
-    // TODO: save & restore
-    public string cur_board { get; set; default = "g"; }
+    private string _cur_board;
+    public string cur_board {
+        get {
+            return _cur_board;
+        }
+        set {
+            _cur_board = value;
+            refresh_catalog.begin ();
+        }
+        default = "g"; // TODO: save & restore
+    }
+
     public signal void catalog_updated (ArrayList<Page> catalog);
 
     public async void refresh_catalog ()  {
-        var json = new Json.Parser ();
         var catalog = new ArrayList<Page> ();
         try {
+            var json = new Json.Parser ();
             var stream = yield soup.send_async (new Soup.Message ("GET", @"https://a.4cdn.org/$cur_board/catalog.json"));
             if (yield json.load_from_stream_async (stream, null)) {
                 json.get_root ()
@@ -43,9 +49,9 @@ public class FourChan : Object {
 
     // TODO: do once in constructor and save result
     public async ArrayList<Board> get_boards () {
-        var json = new Json.Parser ();
         var list = new ArrayList<Board> ();
         try {
+            var json = new Json.Parser ();
             var stream = yield soup.send_async (new Soup.Message ("GET", "https://a.4cdn.org/boards.json"));
             if (yield json.load_from_stream_async (stream, null)) {
                 json.get_root ()

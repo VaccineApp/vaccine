@@ -1,6 +1,6 @@
 [GtkTemplate (ui = "/vaccine/post-list-row.ui")]
 public class PostListRow : Gtk.ListBoxRow {
-    [GtkChild] private Gtk.Label name;
+    [GtkChild] private new Gtk.Label name; // TODO: rename
     [GtkChild] private Gtk.Label time;
     [GtkChild] private Gtk.Label post_no;
 

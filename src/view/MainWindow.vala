@@ -3,24 +3,29 @@ public class MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.ComboBoxText board_chooser;
     [GtkChild] private Gtk.ListBox post_list;
 
+    [GtkCallback] private void board_changed (Gtk.ComboBox widget) {
+        var box = widget as Gtk.ComboBoxText;
+        FourChan.get ().cur_board = box.get_active_text ().split ("/")[1];
+    }
+
     public MainWindow (Gtk.Application app) {
         Object (application: app);
 
-        var ch = FourChan.get ();
-        assert (ch != null);
-        ch.get_boards.begin ((obj, res) => {
-            var boards = ch.get_boards.end (res);
+        FourChan.get ().get_boards.begin ((obj, res) => {
+            var boards = FourChan.get ().get_boards.end (res);
             foreach (Board b in boards)
                 board_chooser.append_text (@"/$(b.board)/ - $(b.title)");
         });
 
-        ch.cur_board = "g";
-        ch.catalog_updated.connect ((o, catalog) => {
+        FourChan.get ().catalog_updated.connect ((o, catalog) => {
+            post_list.foreach (row => {
+                post_list.remove (row);
+            });
             foreach (Page p in catalog)
                 foreach (ThreadOP t in p.threads)
                     post_list.add (new PostListRow (t));
         });
-        ch.refresh_catalog ();
+        FourChan.get ().refresh_catalog ();
 
         this.show_all ();
     }

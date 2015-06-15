@@ -38,6 +38,7 @@
           <object class="GtkComboBoxText" id="board_chooser">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <signal name="changed" handler="board_changed" swapped="no"/>
           </object>
         </child>
       </object>
