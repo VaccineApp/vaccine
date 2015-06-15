@@ -81,13 +81,3 @@ public class FourChan : Object {
 //    public ThreadWatcher watch_thread (Thread t);
 }
 
-public class ThreadWatcher : Object {
-    Thread thread;
-
-    public signal void new_post(Post p);
-
-    public ThreadWatcher (Thread thread) {
-        this.thread = thread;
-        // set timer
-    }
-}

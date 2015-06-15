@@ -4,10 +4,10 @@ public class Page : Object, Json.Serializable {
     public int page                    { get; set; }
     public ArrayList<ThreadOP> threads { get; set; }
 
-    public bool deserialize_property (string property_name, out Value val, ParamSpec pspec, Json.Node property_node) {
-        if (property_name != "threads") {
+    public bool deserialize_property (string prop_name, out Value val, ParamSpec pspec, Json.Node property_node) {
+        if (prop_name != "threads") {
             val = Value (pspec.value_type);
-            return default_deserialize_property (property_name, &val, pspec, property_node);
+            return default_deserialize_property (prop_name, &val, pspec, property_node);
         }
 
         var list = new ArrayList<ThreadOP> ();
@@ -26,7 +26,7 @@ public class Page : Object, Json.Serializable {
         return this.get_class ().find_property (name);
     }
 
-    public Json.Node serialize_property (string property_name, Value value, ParamSpec pspec) {
+    public Json.Node serialize_property (string prop_name, Value val, ParamSpec pspec) {
         error ("serialization not supported");
     }
 }

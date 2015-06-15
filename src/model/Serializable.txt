@@ -1,5 +1,5 @@
 public class ??? : Object, Json.Serializable {
-    public bool deserialize_property (string property_name, out Value val, ParamSpec pspec, Json.Node property_node) {
+    public bool deserialize_property (string prop_name, out Value val, ParamSpec pspec, Json.Node property_node) {
         if (property_name != "???") {
             val = Value (pspec.value_type);
             return default_deserialize_property (property_name, &val, pspec, property_node);
@@ -18,7 +18,7 @@ public class ??? : Object, Json.Serializable {
         return this.get_class ().find_property (name);
     }
 
-    public Json.Node serialize_property (string property_name, Value value, ParamSpec pspec) {
+    public Json.Node serialize_property (string prop_name, Value val, ParamSpec pspec) {
         error ("serialization not supported");
     }
 }
