@@ -90,6 +90,15 @@ public class FourChan : Object {
         }
     }
 
+    public async Gdk.Pixbuf load_post_thumbnail (Post p) {
+        assert (p.filename != null);
+
+        var url = @"https://i.4cdn.org/$cur_board/$(p.tim)s.jpg";
+        var msg = new Soup.Message ("GET", url);
+        var stream = yield soup.send_async (msg);
+        return yield new Gdk.Pixbuf.from_stream_async (stream, null);
+    }
+
     public ThreadWatcher[] watched;
 //    public ThreadWatcher watch_thread (Thread t);
 }

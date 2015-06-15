@@ -13,7 +13,9 @@ vaccine_sources = \
 	FourChan.vala \
 	view/ThreadWidget.vala \
 	view/PostListRow.vala \
-	view/MainWindow.vala
+	view/MainWindow.vala \
+	view/CatalogWidget.vala \
+	view/CatalogItem.vala
 
 ui_dir = $(top_srcdir)/ui
 resources.c: $(ui_dir)/resources.xml

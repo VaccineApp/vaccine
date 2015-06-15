@@ -4,5 +4,7 @@
         <file>main-window.ui</file>
         <file>thread-widget.ui</file>
         <file>post-list-row.ui</file>
+        <file>catalog-widget.ui</file>
+        <file>catalog-item.ui</file>
     </gresource>
 </gresources>

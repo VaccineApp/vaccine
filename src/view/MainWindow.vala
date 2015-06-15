@@ -1,7 +1,6 @@
 [GtkTemplate (ui = "/vaccine/main-window.ui")]
 public class MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.ComboBoxText board_chooser;
-    [GtkChild] private Gtk.ListBox post_list;
 
     [GtkCallback] private void board_changed (Gtk.ComboBox widget) {
         var box = widget as Gtk.ComboBoxText;
@@ -17,12 +16,14 @@ public class MainWindow : Gtk.ApplicationWindow {
                 board_chooser.append_text (@"/$(b.board)/ - $(b.title)");
         });
 
+        var c = new CatalogWidget ();
+        this.add (c);
+
         FourChan.get ().catalog_updated.connect ((o, catalog) => {
-            var board = FourChan.get ().cur_board;
-            post_list.foreach (row => post_list.remove (row));
+            c.clear ();
             foreach (Page p in catalog)
                 foreach (ThreadOP t in p.threads)
-                    post_list.add (new PostListRow (t, board));
+                    c.add (t);
         });
         FourChan.get ().refresh_catalog.begin ();
 
