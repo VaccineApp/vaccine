@@ -18,7 +18,7 @@ vaccine_sources = \
 	view/CatalogItem.vala
 
 ui_dir = $(top_srcdir)/ui
-resources.c: $(ui_dir)/resources.xml
+resources.c: $(ui_dir)/resources.xml $(ui_dir)/*.ui
 	glib-compile-resources \
 		--sourcedir=$(ui_dir) \
 		--generate-source \

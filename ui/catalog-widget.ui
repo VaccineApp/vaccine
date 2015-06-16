@@ -9,7 +9,6 @@
     <child>
       <object class="GtkFlowBox" id="layout">
         <property name="visible">True</property>
-        <property name="homogeneous">True</property>
       </object>
       <packing>
         <property name="expand">True</property>
