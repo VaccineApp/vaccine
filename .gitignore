@@ -43,10 +43,20 @@ Makefile.in
 /stamp-h1
 /config.guess
 /config.sub
+/config.log
+/config.status
+/libtool
 /ltmain.sh
 *.stamp
+Makefile
+.deps/
+.dirstamp
 
-*.c # this is a vala project
+# this is a vala proj
+*.c
+vaccine.h
+vaccine.vapi
+
 vaccine
 .gdb_history
 peda-session-*
