@@ -7,24 +7,15 @@ public class PostListRow : Gtk.ListBoxRow {
     [GtkChild] private Gtk.Image image;
     [GtkChild] private Gtk.Label comment;
 
-    public PostListRow (ThreadOP t, string board) {
-        assert (t != null);
-
+    public PostListRow (ThreadOP t) {
         name.label = t.name;
         time.label = t.now;
         post_no.label = t.no.to_string ();
         comment.label = t.com;
 
-        if (t.filename != null) {
-            var url = @"https://i.4cdn.org/$board/$(t.tim)s.jpg";
-            load_image.begin (url);
-        }
-    }
-
-    private async void load_image(string url) {
-        var soup = new Soup.Session ();
-        var msg = new Soup.Message ("GET", url);
-        var stream = yield soup.send_async (msg);
-        image.pixbuf = yield new Gdk.Pixbuf.from_stream_async (stream, null);
+        if (t.filename != null)
+            FourChan.get ().load_post_thumbnail.begin (t, (obj, res) => {
+                image.pixbuf = FourChan.get ().load_post_thumbnail.end (res);
+            });
     }
 }

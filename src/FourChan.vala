@@ -10,11 +10,7 @@ public class FourChan : Object {
     
     private Soup.Session soup = new Soup.Session ();
 
-    ~FourChan () {
-        soup.abort ();
-    }
-
-    private string _cur_board;
+    private string _cur_board = "g"; // TODO: save & restore
     public string cur_board {
         get {
             return _cur_board;
@@ -23,7 +19,6 @@ public class FourChan : Object {
             _cur_board = value;
             refresh_catalog.begin ();
         }
-        default = "g"; // TODO: save & restore
     }
 
     public signal void catalog_updated (ArrayList<Page> catalog);
@@ -90,13 +85,26 @@ public class FourChan : Object {
         }
     }
 
-    public async Gdk.Pixbuf load_post_thumbnail (Post p) {
+    public async Gdk.Pixbuf? load_post_thumbnail (Post p) {
         assert (p.filename != null);
 
         var url = @"https://i.4cdn.org/$cur_board/$(p.tim)s.jpg";
         var msg = new Soup.Message ("GET", url);
-        var stream = yield soup.send_async (msg);
-        return yield new Gdk.Pixbuf.from_stream_async (stream, null);
+        try {
+            var stream = yield soup.send_async (msg);
+            return yield new Gdk.Pixbuf.from_stream_async (stream, null);
+        } catch (Error e) {
+            debug (e.message);
+            return null;
+        }
+    }
+
+    public string clean_comment (string com) {
+        return com
+            .compress ()
+            .replace("<br>", "\n")
+            .replace("<wbr>", "")
+            .replace(" target=\"_blank\"", "");
     }
 
     public ThreadWatcher[] watched;

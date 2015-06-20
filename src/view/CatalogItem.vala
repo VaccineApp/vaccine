@@ -6,7 +6,9 @@ public class CatalogItem : Gtk.Box {
     public CatalogItem (ThreadOP t) {
         if (t.filename != null) { // deleted files
             FourChan.get ().load_post_thumbnail.begin (t, (obj, res) => {
-                image.pixbuf = FourChan.get ().load_post_thumbnail.end (res);
+                var buf = FourChan.get ().load_post_thumbnail.end (res);
+                assert (image != null);
+                image.pixbuf = buf;
             });
         }
         com.label = t.com;

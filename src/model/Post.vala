@@ -2,7 +2,12 @@ public class Post : Object {
     public int64 no             { get; set; }
     public string now           { get; set; }
     public string name          { get; set; }
-    public string com           { get; set; }
+
+    private string _com;
+    public string com {
+        get { return _com; }
+        set { _com = FourChan.get ().clean_comment (value); }
+    }
 
     // image stuff
     public string filename      { get; set; }
