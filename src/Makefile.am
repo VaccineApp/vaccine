@@ -1,9 +1,6 @@
-AM_CFLAGS = $(VACCINE_CFLAGS) -Wno-incompatible-pointer-types -g
-
 bin_PROGRAMS = vaccine
-noinst_LTLIBRARIES = libvaccine.la
 
-vaccine_sources = \
+vaccine_SOURCES = \
 	Vaccine.vala \
 	Thread.vala \
 	model/Board.vala \
@@ -15,21 +12,25 @@ vaccine_sources = \
 	view/PostListRow.vala \
 	view/MainWindow.vala \
 	view/CatalogWidget.vala \
-	view/CatalogItem.vala
+	view/CatalogItem.vala \
+	resources.c
 
-ui_dir = $(top_srcdir)/ui
-resources.c: $(ui_dir)/resources.xml $(ui_dir)/*.ui
-	glib-compile-resources \
-		--sourcedir=$(ui_dir) \
-		--generate-source \
-		--target $@ $(ui_dir)/resources.xml
+vaccine_resources = $(shell glib-compile-resources --sourcedir=$(top_srcdir)/ui --generate-dependencies $(top_srcdir)/ui/resources.xml)
+resources.c: $(top_srcdir)/ui/resources.xml $(top_srcdir)/ui/*.ui $(vaccine_resources)
+	glib-compile-resources --sourcedir=$(top_srcdir)/ui --generate-source --target $@ $<
 
-libvaccine_la_SOURCES = $(vaccine_sources)
-libvaccine_la_VALAFLAGS = --library vaccine -H vaccine.h $(VACCINE_VALA_FLAGS)
-libvaccine_la_LIBADD = $(VACCINE_LIBS)
+vaccine_CFLAGS = \
+	-g \
+	-Wno-incompatible-pointer-types \
+	$(GTK3_CFLAGS) \
+	$(JSON_GLIB_CFLAGS) \
+	$(SOUP_CFLAGS) \
+	$(GEE_CFLAGS)
 
-vaccine_SOURCES = main.vala resources.c
-vaccine_LDADD = libvaccine.la $(VACCINE_LIBS)
-vaccine_VALAFLAGS = vaccine.vapi $(VACCINE_VALA_FLAGS)
+vaccine_LDADD = \
+	$(GTK3_LIBS) \
+	$(JSON_GLIB_LIBS) \
+	$(SOUP_LIBS) \
+	$(GEE_LIBS)
 
-CLEANFILES = *.h *.c *.o *.stamp *.stamp-t resources.c libvaccine.la vaccine $(vaccine_sources:.vala=.c)
+CLEANFILES = *.h *.c *.o *.stamp resources.c vaccine $(vaccine_SOURCES:.vala=.c) $(vaccine_SOURCES:.vala=.lo)
