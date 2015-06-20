@@ -16,7 +16,7 @@ vaccine_SOURCES = \
 	resources.c
 
 vaccine_resources = $(shell glib-compile-resources --sourcedir=$(top_srcdir)/ui --generate-dependencies $(top_srcdir)/ui/resources.xml)
-resources.c: $(top_srcdir)/ui/resources.xml $(top_srcdir)/ui/*.ui $(vaccine_resources)
+resources.c: $(top_srcdir)/ui/resources.xml $(vaccine_resources)
 	glib-compile-resources --sourcedir=$(top_srcdir)/ui --generate-source --target $@ $<
 
 vaccine_CFLAGS = \
