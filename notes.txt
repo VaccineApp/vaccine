@@ -11,7 +11,7 @@ ThreadWatcher
     - read & deserialize json on an interval
 
 UI ===========================================================================================================================
- change board       refresh catalog     update UI            watch a thread  bind signals to UI    change preferences
+ change board       refresh clicked     update UI            watch a thread  bind signals to UI    change preferences
        |                 |               ^    ^                   |          ^                        |
        V                 V               |    |                   V          |                        |
   prop curboard      async call ---> sig catalog changed     new threadwatcher                        V

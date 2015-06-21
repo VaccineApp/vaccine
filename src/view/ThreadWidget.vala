@@ -4,7 +4,7 @@ using Gee;
 public class ThreadWidget : Gtk.ScrolledWindow {
     [GtkChild] private Gtk.ListBox list;
 
-    public ThreadWidget (Thread t) {
-
+    public ThreadWidget (Thread thread) {
+        list.bind_model (thread, item => new PostListRow (item as Post));
     }
 }

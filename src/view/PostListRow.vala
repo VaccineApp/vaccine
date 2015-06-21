@@ -7,15 +7,16 @@ public class PostListRow : Gtk.ListBoxRow {
     [GtkChild] private Gtk.Image image;
     [GtkChild] private Gtk.Label comment;
 
-    public PostListRow (ThreadOP t) {
+    public PostListRow (Post t) {
         name.label = t.name;
         time.label = t.now;
         post_no.label = t.no.to_string ();
         comment.label = t.com;
 
-        if (t.filename != null)
-            FourChan.get ().load_post_thumbnail.begin (t, (obj, res) => {
-                image.pixbuf = FourChan.get ().load_post_thumbnail.end (res);
+        if (t.filename != null) {
+            FourChan.get_thumbnail.begin (t, (obj, res) => {
+                image.pixbuf = FourChan.get_thumbnail.end (res);
             });
+        }
     }
 }

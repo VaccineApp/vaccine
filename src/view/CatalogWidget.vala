@@ -2,8 +2,8 @@
 public class CatalogWidget : Gtk.ScrolledWindow {
     [GtkChild] public Gtk.FlowBox layout;
 
-    public void add (ThreadOP t) {
-        layout.add (new CatalogItem (t));
+    public new void add (MainWindow win, ThreadOP t) {
+        layout.add (new CatalogItem (win, t));
     }
 
     public void clear () {

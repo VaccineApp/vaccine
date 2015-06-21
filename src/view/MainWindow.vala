@@ -1,32 +1,40 @@
 [GtkTemplate (ui = "/vaccine/main-window.ui")]
 public class MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.ComboBoxText board_chooser;
+    [GtkChild] private Gtk.Stack stack;
 
     [GtkCallback] private void board_changed (Gtk.ComboBox widget) {
-        var box = widget as Gtk.ComboBoxText;
-        FourChan.get ().cur_board = box.get_active_text ().split ("/")[1];
+        FourChan.board = board_chooser.get_active_id ();
     }
 
-    public MainWindow (Gtk.Application app) {
+    public MainWindow (Vaccine app) {
         Object (application: app);
 
-        FourChan.get ().get_boards.begin ((obj, res) => {
-            var boards = FourChan.get ().get_boards.end (res);
+        FourChan.get_boards.begin ((obj, res) => {
+            var boards = FourChan.get_boards.end (res);
             foreach (Board b in boards)
-                board_chooser.append_text (@"/$(b.board)/ - $(b.title)");
+                board_chooser.append (b.board, @"/$(b.board)/ - $(b.title)");
         });
 
-        var c = new CatalogWidget ();
-        this.add (c);
+        var catalog = new CatalogWidget ();
+        stack.add_titled(catalog, "catalog", "Catalog");
 
-        FourChan.get ().catalog_updated.connect ((o, catalog) => {
-            c.clear ();
-            foreach (Page p in catalog)
+        FourChan.catalog.downloaded.connect ((o, data) => {
+            catalog.clear ();
+            foreach (Page p in data)
                 foreach (ThreadOP t in p.threads)
-                    c.add (t);
+                    catalog.add (this, t);
         });
-        FourChan.get ().refresh_catalog.begin ();
 
         this.show_all ();
+    }
+
+    public void show_thread (int64 no) {
+        FourChan.get_thread.begin (no, (obj, res) => {
+            var thread = FourChan.get_thread.end (res);
+            var widget = new ThreadWidget (thread);
+            stack.add_titled (widget, @"thread $no", @"/$(FourChan.board)/$no");
+            stack.set_visible_child (widget);
+        });
     }
 }

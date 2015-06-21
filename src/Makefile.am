@@ -3,11 +3,12 @@ bin_PROGRAMS = vaccine
 vaccine_SOURCES = \
 	Vaccine.vala \
 	Thread.vala \
+	ThreadWatcher.vala \
+	FourChan.vala \
+	Catalog.vala \
 	model/Board.vala \
 	model/Catalog.vala \
 	model/Post.vala \
-	ThreadWatcher.vala \
-	FourChan.vala \
 	view/ThreadWidget.vala \
 	view/PostListRow.vala \
 	view/MainWindow.vala \

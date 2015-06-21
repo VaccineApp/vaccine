@@ -1,10 +1,22 @@
 public class Vaccine : Gtk.Application {
+    public FourChan chan = new FourChan ();
+
     public Vaccine () {
-        Object (application_id: "popcnt.Vaccine", flags: ApplicationFlags.FLAGS_NONE);
+        Object (application_id: "popcnt.Vaccine",
+                flags: ApplicationFlags.FLAGS_NONE);
+    }
+
+
+    private MainWindow main_window;
+
+    protected override void startup () {
+        base.startup ();
+        main_window = new MainWindow (this);
     }
 
     protected override void activate () {
-        new MainWindow (this);
+        base.activate ();
+        main_window.present ();
     }
 }
 

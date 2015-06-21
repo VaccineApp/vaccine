@@ -1,16 +1,25 @@
 [GtkTemplate (ui = "/vaccine/catalog-item.ui")]
-public class CatalogItem : Gtk.Box {
-    [GtkChild] private Gtk.Image image;
-    [GtkChild] private Gtk.Label com;
+public class CatalogItem : Gtk.Button {
+    private MainWindow main_window;
 
-    public CatalogItem (ThreadOP t) {
+    [GtkChild] private Gtk.Image post_image;
+    [GtkChild] private Gtk.Label post_comment;
+
+    private int64 post_no = -1;
+
+    public CatalogItem (MainWindow win, ThreadOP t) {
+        this.main_window = win;
+        post_no = t.no;
+
         if (t.filename != null) { // deleted files
-            FourChan.get ().load_post_thumbnail.begin (t, (obj, res) => {
-                var buf = FourChan.get ().load_post_thumbnail.end (res);
-                assert (image != null);
-                image.pixbuf = buf;
+            FourChan.get_thumbnail.begin (t, (obj, res) => {
+                post_image.pixbuf = FourChan.get_thumbnail.end (res);
             });
         }
-        com.label = t.com;
+        post_comment.label = t.com;
+    }
+
+    public override void clicked () {
+        main_window.show_thread(post_no);
     }
 }

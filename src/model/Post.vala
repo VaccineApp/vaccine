@@ -6,7 +6,7 @@ public class Post : Object {
     private string _com;
     public string com {
         get { return _com; }
-        set { _com = FourChan.get ().clean_comment (value); }
+        set { _com = FourChan.clean_comment (value); }
     }
 
     // image stuff
