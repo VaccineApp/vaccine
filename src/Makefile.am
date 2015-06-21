@@ -3,7 +3,6 @@ bin_PROGRAMS = vaccine
 vaccine_SOURCES = \
 	Vaccine.vala \
 	Thread.vala \
-	ThreadWatcher.vala \
 	FourChan.vala \
 	Catalog.vala \
 	model/Board.vala \

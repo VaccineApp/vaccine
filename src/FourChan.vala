@@ -100,10 +100,5 @@ public class FourChan : Object {
             .replace(" class=\"quote\"", "")
             .replace(" class=\"quotelink\"", "");
     }
-
-/*
-    public ThreadWatcher[] watched;
-    public ThreadWatcher watch_thread (Thread t);
-*/
 }
 

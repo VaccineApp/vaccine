@@ -23,14 +23,9 @@ public class Thread : Object, ListModel {
         get {
             assert (posts.size > 0);
             ThreadOP *p = posts[0] as ThreadOP;
-            print ("%u\n", p->ref_count);
+            p->unref();
             return p;
         }
-    }
-
-
-    public string to_string () {
-        return @"Thread $(op.no) with $(posts.size) posts";
     }
 }
 
