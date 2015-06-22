@@ -34,7 +34,8 @@ public class FourChan : Object {
         return list;
     }
 
-/*    public static async void update_thread (Thread thread) {
+    /*
+    public static async void update_thread (Thread thread) {
         try {
             var json = new Json.Parser ();
             var thread_no = thread.posts[0].no;
@@ -54,7 +55,8 @@ public class FourChan : Object {
         } catch (Error e) {
             debug (e.message);
         }
-    }*/
+    }
+    */
 
     public static async Thread get_thread (int64 no) {
         var thread = new Thread ();

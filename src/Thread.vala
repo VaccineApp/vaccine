@@ -3,6 +3,15 @@ using Gee;
 public class Thread : Object, ListModel {
     public ArrayList<Post> posts = new ArrayList<Post> ();
 
+    public ThreadOP op {
+        get {
+            assert (posts.size > 0);
+            ThreadOP *p = posts[0] as ThreadOP;
+            p->unref();
+            return p;
+        }
+    }
+
 
     public Object? get_item (uint pos) {
         assert (pos >= 0);
@@ -16,16 +25,6 @@ public class Thread : Object, ListModel {
 
     public uint get_n_items () {
         return posts.size;
-    }
-
-
-    public ThreadOP op {
-        get {
-            assert (posts.size > 0);
-            ThreadOP *p = posts[0] as ThreadOP;
-            p->unref();
-            return p;
-        }
     }
 }
 
