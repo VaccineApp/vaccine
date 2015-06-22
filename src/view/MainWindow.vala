@@ -33,7 +33,13 @@ public class MainWindow : Gtk.ApplicationWindow {
         FourChan.get_thread.begin (no, (obj, res) => {
             var thread = FourChan.get_thread.end (res);
             var widget = new ThreadWidget (thread);
-            stack.add_titled (widget, @"thread $no", @"/$(FourChan.board)/$no");
+            var name = @"/$(FourChan.board)/$no";
+            const int maxlen = 16;
+            if (thread.op.sub != null)
+                name += " - " + thread.op.sub.substring(0, maxlen) + "...";
+            else if (thread.op.com != null)
+                name += " - " + thread.op.com.substring(0, maxlen) + "...";
+            stack.add_titled (widget, @"thread $no", name);
             stack.set_visible_child (widget);
         });
     }

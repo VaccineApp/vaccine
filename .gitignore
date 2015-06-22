@@ -51,6 +51,7 @@ Makefile.in
 Makefile
 .deps/
 .dirstamp
+.libs/
 
 # this is a vala proj
 *.c

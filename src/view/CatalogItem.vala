@@ -1,6 +1,6 @@
 [GtkTemplate (ui = "/vaccine/catalog-item.ui")]
 public class CatalogItem : Gtk.Button {
-    private MainWindow main_window;
+    private unowned MainWindow main_window;
 
     [GtkChild] private Gtk.Image post_image;
     [GtkChild] private Gtk.Label post_comment;
@@ -13,7 +13,8 @@ public class CatalogItem : Gtk.Button {
 
         if (t.filename != null) { // deleted files
             FourChan.get_thumbnail.begin (t, (obj, res) => {
-                post_image.pixbuf = FourChan.get_thumbnail.end (res);
+                if (post_image != null) // I think it is null when being finalized
+                    post_image.pixbuf = FourChan.get_thumbnail.end (res);
             });
         }
         post_comment.label = t.com;

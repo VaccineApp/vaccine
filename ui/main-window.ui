@@ -10,12 +10,35 @@
     <property name="default_height">650</property>
     <property name="show_menubar">False</property>
     <child>
-      <object class="GtkStack" id="stack">
+      <object class="GtkBox" id="box1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="transition_type">slide-left-right</property>
         <child>
-          <placeholder/>
+          <object class="GtkStackSidebar" id="stacksidebar1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="stack">stack</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkStack" id="stack">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="transition_type">slide-up-down</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
     </child>
@@ -23,6 +46,8 @@
       <object class="GtkHeaderBar" id="headerbar">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="title">Vaccine</property>
+        <property name="subtitle">vaccines cause autism</property>
         <property name="show_close_button">True</property>
         <child>
           <object class="GtkComboBoxText" id="board_chooser">
@@ -33,13 +58,6 @@
           <packing>
             <property name="position">1</property>
           </packing>
-        </child>
-        <child type="title">
-          <object class="GtkStackSwitcher" id="stackswitcher">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="stack">stack</property>
-          </object>
         </child>
       </object>
     </child>
