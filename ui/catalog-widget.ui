@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.1 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <template class="CatalogWidget" parent="GtkScrolledWindow">
     <property name="visible">True</property>
-    <property name="can_focus">True</property>
     <property name="hscrollbar_policy">never</property>
     <child>
       <object class="GtkFlowBox" id="layout">

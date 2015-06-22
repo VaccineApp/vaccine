@@ -1,14 +1,12 @@
 [GtkTemplate (ui = "/vaccine/main-window.ui")]
 public class MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.ComboBoxText board_chooser;
-    [GtkChild] private Gtk.Stack stack;
-
-    [GtkCallback] private void board_changed (Gtk.ComboBox widget) {
-        FourChan.board = board_chooser.get_active_id ();
-    }
+    [GtkChild] private Gtk.Notebook notebook;
 
     public MainWindow (Vaccine app) {
         Object (application: app);
+
+        board_chooser.changed.connect(ch => FourChan.board = ch.get_active_id ());
 
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
@@ -17,7 +15,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         });
 
         var catalog = new CatalogWidget ();
-        stack.add_titled(catalog, "catalog", "Catalog");
+        notebook.append_page (catalog, new Tab ("Catalog", false));
 
         FourChan.catalog.downloaded.connect ((o, data) => {
             catalog.clear ();
@@ -39,8 +37,8 @@ public class MainWindow : Gtk.ApplicationWindow {
                 name += " - " + thread.op.sub.substring(0, maxlen) + "...";
             else if (thread.op.com != null)
                 name += " - " + thread.op.com.substring(0, maxlen) + "...";
-            stack.add_titled (widget, @"thread $no", name);
-            stack.set_visible_child (widget);
+            int i = notebook.append_page (widget, new Tab (name, true));
+            notebook.set_current_page (i);
         });
     }
 }

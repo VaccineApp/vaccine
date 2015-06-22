@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.19.0 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <template class="PostListRow" parent="GtkListBoxRow">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
     <property name="activatable">False</property>
     <property name="selectable">False</property>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkSeparator" id="separator1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -27,12 +23,10 @@
         <child>
           <object class="GtkBox" id="box3">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
             <property name="spacing">30</property>
             <child>
               <object class="GtkLabel" id="name">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -43,7 +37,6 @@
             <child>
               <object class="GtkLabel" id="time">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -54,7 +47,6 @@
             <child>
               <object class="GtkLabel" id="post_no">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -72,13 +64,11 @@
         <child>
           <object class="GtkGrid" id="grid1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
             <property name="row_spacing">5</property>
             <property name="column_spacing">5</property>
             <child>
               <object class="GtkImage" id="image">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -88,7 +78,6 @@
             <child>
               <object class="GtkLabel" id="comment">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="use_markup">True</property>
                 <property name="wrap">True</property>
                 <property name="wrap_mode">word-char</property>

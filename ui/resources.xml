@@ -6,5 +6,6 @@
         <file>post-list-row.ui</file>
         <file>catalog-widget.ui</file>
         <file>catalog-item.ui</file>
+        <file>tab.ui</file>
     </gresource>
 </gresources>

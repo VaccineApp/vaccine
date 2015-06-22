@@ -13,6 +13,7 @@ vaccine_SOURCES = \
 	view/MainWindow.vala \
 	view/CatalogWidget.vala \
 	view/CatalogItem.vala \
+	view/Tab.vala \
 	resources.c
 
 vaccine_resources = $(shell glib-compile-resources --sourcedir=$(top_srcdir)/ui --generate-dependencies $(top_srcdir)/ui/resources.xml)
