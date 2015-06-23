@@ -24,14 +24,13 @@
             <property name="use_markup">True</property>
             <property name="wrap">True</property>
             <property name="wrap_mode">word-char</property>
-            <property name="selectable">True</property>
             <property name="ellipsize">end</property>
-            <property name="max_width_chars">15</property>
-            <property name="track_visited_links">False</property>
+            <property name="max_width_chars">0</property>
           </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
+            <property name="pack_type">end</property>
             <property name="position">1</property>
           </packing>
         </child>

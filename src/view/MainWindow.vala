@@ -15,7 +15,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         });
 
         var catalog = new CatalogWidget ();
-        notebook.append_page (catalog, new Tab ("Catalog", false));
+        add_page (catalog, "Catalog", false);
 
         FourChan.catalog.downloaded.connect ((o, data) => {
             catalog.clear ();
@@ -37,8 +37,12 @@ public class MainWindow : Gtk.ApplicationWindow {
                 name += " - " + thread.op.sub.substring(0, maxlen) + "...";
             else if (thread.op.com != null)
                 name += " - " + thread.op.com.substring(0, maxlen) + "...";
-            int i = notebook.append_page (widget, new Tab (name, true));
-            notebook.set_current_page (i);
+            add_page (widget, name, true);
         });
+    }
+
+    private void add_page (Gtk.Widget w, string t, bool c) {
+        int i = notebook.append_page (w, new Tab (notebook, w, t, c));
+        notebook.set_current_page (i);
     }
 }
