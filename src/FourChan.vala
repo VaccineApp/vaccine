@@ -18,7 +18,7 @@ public class FourChan : Object {
         var list = new ArrayList<Board> ();
         try {
             var json = new Json.Parser ();
-            var stream = yield soup.send_async (new Soup.Message ("GET", "https://a.4cdn.org/boards.json"));
+            InputStream stream = yield soup.send_async (new Soup.Message ("GET", "https://a.4cdn.org/boards.json"));
             if (yield json.load_from_stream_async (stream, null)) {
                 json.get_root ()
                     .get_object ()
@@ -62,7 +62,7 @@ public class FourChan : Object {
         var thread = new Thread ();
         try {
             var json = new Json.Parser ();
-            var stream = yield soup.send_async (new Soup.Message ("GET", @"https://a.4cdn.org/$board/thread/$no.json"));
+            InputStream stream = yield soup.send_async (new Soup.Message ("GET", @"https://a.4cdn.org/$board/thread/$no.json"));
             if (yield json.load_from_stream_async (stream, null)) {
                 var posts_arr = json.get_root ().get_object ().get_array_member ("posts");
                 thread.posts.add (Json.gobject_deserialize (typeof (ThreadOP), posts_arr.get_element (0)) as ThreadOP);
@@ -79,9 +79,9 @@ public class FourChan : Object {
         return thread;
     }
 
-    public static async Gdk.Pixbuf? get_thumbnail (Post p) {
-        assert (p.filename != null);
-
+    public static async Gdk.Pixbuf? get_thumbnail (Post p)
+        requires (p.filename != null)
+    {
         var url = @"https://i.4cdn.org/$board/$(p.tim)s.jpg";
         var msg = new Soup.Message ("GET", url);
         try {

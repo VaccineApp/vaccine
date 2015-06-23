@@ -4,9 +4,9 @@ public class Tab : Gtk.Box {
     [GtkChild] private Gtk.Button closebutton;
 
     public Tab (Gtk.Notebook notebook, Gtk.Widget child, string title, bool closeable) {
-        tablabel.label = title;
-        closebutton.visible = closeable;
+        this.tablabel.label = title;
+        this.closebutton.visible = closeable;
 
-        closebutton.clicked.connect(button => notebook.remove (child));
+        this.closebutton.clicked.connect(button => notebook.remove (child));
     }
 }

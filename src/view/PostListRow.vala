@@ -8,10 +8,10 @@ public class PostListRow : Gtk.ListBoxRow {
     [GtkChild] private Gtk.Label comment;
 
     public PostListRow (Post t) {
-        name.label = t.name;
-        time.label = t.now;
-        post_no.label = t.no.to_string ();
-        comment.label = t.com;
+        this.name.label = t.name;
+        this.time.label = t.now;
+        this.post_no.label = t.no.to_string ();
+        this.comment.label = t.com;
 
         if (t.filename != null) {
             FourChan.get_thumbnail.begin (t, (obj, res) => {

@@ -9,7 +9,7 @@ public class CatalogItem : Gtk.Button {
 
     public CatalogItem (MainWindow win, ThreadOP t) {
         this.main_window = win;
-        post_no = t.no;
+        this.post_no = t.no;
 
         if (t.filename != null) { // deleted files
             FourChan.get_thumbnail.begin (t, (obj, res) => {
@@ -17,7 +17,7 @@ public class CatalogItem : Gtk.Button {
                     post_image.pixbuf = FourChan.get_thumbnail.end (res);
             });
         }
-        post_comment.label = t.com;
+        this.post_comment.label = t.com;
     }
 
     public override void clicked () {
