@@ -29,14 +29,17 @@ public class MainWindow : Gtk.ApplicationWindow {
 
     public void show_thread (int64 no) {
         FourChan.get_thread.begin (no, (obj, res) => {
-            var thread = FourChan.get_thread.end (res);
+            Thread thread = FourChan.get_thread.end (res);
             var widget = new ThreadWidget (thread);
-            var name = @"/$(FourChan.board)/$no";
-            const int maxlen = 16;
-            if (thread.op.sub != null)
-                name += " - " + thread.op.sub.substring(0, maxlen) + "...";
-            else if (thread.op.com != null)
-                name += " - " + thread.op.com.substring(0, maxlen) + "...";
+
+            string cont;
+                 if (thread.op.sub != null && thread.op.sub.strip ().char_count () != 0) cont = thread.op.sub;
+            else if (thread.op.com != null && thread.op.com.strip ().char_count () != 0) cont = thread.op.com;
+            else cont = thread.op.no.to_string ();
+
+            if (cont.char_count () > 16) cont = cont.substring (0, 16) + "...";
+
+            string name = @"/$(FourChan.board)/ - $cont";
             add_page (widget, name, true);
         });
     }
