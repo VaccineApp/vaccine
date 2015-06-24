@@ -9,7 +9,7 @@ public class MainWindow : Gtk.ApplicationWindow {
     public MainWindow (Vaccine app) {
         Object (application: app);
 
-        listbox.set_filter_func (row => row.get_child ().name.contains (searchentry.text));
+        listbox.set_filter_func (row => (row.get_child () as Gtk.Label).label.down ().contains (searchentry.text.down ()));
         searchentry.changed.connect (listbox.invalidate_filter);
 
         FourChan.get_boards.begin ((obj, res) => {
