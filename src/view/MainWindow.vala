@@ -1,21 +1,33 @@
 [GtkTemplate (ui = "/vaccine/main-window.ui")]
 public class MainWindow : Gtk.ApplicationWindow {
-    [GtkChild] private Gtk.ComboBoxText board_chooser;
+    [GtkChild] private Gtk.HeaderBar headerbar;
+    [GtkChild] private Gtk.Button choose_board_button;
     [GtkChild] private Gtk.Notebook notebook;
+
+    private Gtk.Popover popover;
 
     public MainWindow (Vaccine app) {
         Object (application: app);
 
-        board_chooser.changed.connect(ch => FourChan.board = ch.get_active_id ());
+        var list = new Gtk.ListBox ();
+        popover = new Gtk.Popover (choose_board_button);
+        popover.modal = true;
+        popover.add (list);
+
+        choose_board_button.bind_property ("active", popover, "visible", BindingFlags.BIDIRECTIONAL);
+//        list.row_selected.connect (row => FourChan.board = row.get_id ());
 
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
-            foreach (Board b in boards)
-                board_chooser.append (b.board, @"/$(b.board)/ - $(b.title)");
+            foreach (Board b in boards) {
+                var l = new Gtk.Label (@"/$(b.board)/ - $(b.title)");
+                list.add (l);
+            }
+            list.show_all ();
         });
 
         var catalog = new CatalogWidget ();
-        add_page (catalog, "Catalog", false);
+        add_page (catalog, null, false);
 
         FourChan.catalog.downloaded.connect ((o, data) => {
             catalog.clear ();
@@ -27,25 +39,26 @@ public class MainWindow : Gtk.ApplicationWindow {
         this.show_all ();
     }
 
+/*    [GtkCallback] private void board_selected () {
+
+    }*/
+
     public void show_thread (int64 no) {
         FourChan.get_thread.begin (no, (obj, res) => {
             Thread thread = FourChan.get_thread.end (res);
             var widget = new ThreadWidget (thread);
 
-            string cont;
-                 if (thread.op.sub != null && thread.op.sub.strip ().char_count () != 0) cont = thread.op.sub;
-            else if (thread.op.com != null && thread.op.com.strip ().char_count () != 0) cont = thread.op.com;
-            else cont = thread.op.no.to_string ();
-
-            if (cont.char_count () > 16) cont = cont.substring (0, 16) + "...";
-
-            string name = @"/$(FourChan.board)/ - $cont";
+            string name = @"/$(FourChan.board)/ - $(shorten(thread.name, 32))";
             add_page (widget, name, true);
         });
     }
 
-    private void add_page (Gtk.Widget w, string t, bool c) {
-        int i = notebook.append_page (w, new Tab (notebook, w, t, c));
+    [GtkCallback] private void on_switch_page (Gtk.Widget page, uint num) {
+        headerbar.title = shorten (page.name, 64);
+    }
+
+    private void add_page (Gtk.Widget w, string? name, bool c) {
+        int i = notebook.append_page (w, new Tab (notebook, w, name, c));
         notebook.set_current_page (i);
     }
 }

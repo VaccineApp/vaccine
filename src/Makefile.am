@@ -5,6 +5,7 @@ vaccine_SOURCES = \
 	Thread.vala \
 	FourChan.vala \
 	Catalog.vala \
+	Util.vala \
 	model/Board.vala \
 	model/Catalog.vala \
 	model/Post.vala \

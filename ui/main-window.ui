@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.19.0 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <template class="MainWindow" parent="GtkApplicationWindow">
-    <property name="width_request">300</property>
     <property name="title">Vaccine</property>
     <property name="window_position">center</property>
     <property name="default_width">1000</property>
@@ -12,17 +12,20 @@
       <object class="GtkNotebook" id="notebook">
         <property name="visible">True</property>
         <property name="tab_pos">left</property>
+        <signal name="switch-page" handler="on_switch_page" swapped="no"/>
       </object>
     </child>
     <child type="titlebar">
       <object class="GtkHeaderBar" id="headerbar">
         <property name="visible">True</property>
         <property name="title">Vaccine</property>
-        <property name="subtitle">vaccines cause autism</property>
+        <property name="subtitle">Vaccines cause autism</property>
         <property name="show_close_button">True</property>
         <child>
-          <object class="GtkComboBoxText" id="board_chooser">
+          <object class="GtkToggleButton" id="choose_board_button">
+            <property name="label">Board</property>
             <property name="visible">True</property>
+            <property name="can_focus">True</property>
           </object>
         </child>
       </object>
