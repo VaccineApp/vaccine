@@ -17,6 +17,7 @@ public class MainWindow : Gtk.ApplicationWindow {
             foreach (Board b in boards) {
                 var row = new Gtk.Label (@"/$(b.board)/ - $(b.title)");
                 row.name = b.board;
+                row.margin = 6;
                 row.halign = Gtk.Align.START;
                 listbox.add (row);
             }
@@ -46,10 +47,6 @@ public class MainWindow : Gtk.ApplicationWindow {
             string name = @"/$(FourChan.board)/ - $(shorten(thread.name, 32))";
             add_page (widget, name, true);
         });
-    }
-
-    [GtkCallback] private void on_switch_page (Gtk.Widget page, uint num) {
-        headerbar.title = shorten (page.name, 64);
     }
 
     private void add_page (Gtk.Widget w, string? name, bool c) {

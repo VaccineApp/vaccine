@@ -6,6 +6,12 @@ public class ThreadWidget : Gtk.ScrolledWindow {
 
     public ThreadWidget (Thread thread) {
         this.name = thread.name;
-        this.list.bind_model (thread, item => new PostListRow (item as Post));
+        this.list.bind_model (thread, item => {
+            var p = item as Post;
+            if (p.filename != null)
+                return new ImagePostListRow (p);
+            else
+                return new PostListRow (p);
+        });
     }
 }
