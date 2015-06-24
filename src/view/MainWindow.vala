@@ -1,30 +1,29 @@
 [GtkTemplate (ui = "/vaccine/main-window.ui")]
 public class MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.HeaderBar headerbar;
-    [GtkChild] private Gtk.Button choose_board_button;
     [GtkChild] private Gtk.Notebook notebook;
 
-    private Gtk.Popover popover;
+    [GtkChild] private Gtk.ListBox listbox;
+    [GtkChild] private Gtk.SearchEntry searchentry;
 
     public MainWindow (Vaccine app) {
         Object (application: app);
 
-        var list = new Gtk.ListBox ();
-        popover = new Gtk.Popover (choose_board_button);
-        popover.modal = true;
-        popover.add (list);
-
-        choose_board_button.bind_property ("active", popover, "visible", BindingFlags.BIDIRECTIONAL);
-//        list.row_selected.connect (row => FourChan.board = row.get_id ());
+        listbox.set_filter_func (row => row.get_child ().name.contains (searchentry.text));
+        searchentry.changed.connect (listbox.invalidate_filter);
 
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
             foreach (Board b in boards) {
-                var l = new Gtk.Label (@"/$(b.board)/ - $(b.title)");
-                list.add (l);
+                var row = new Gtk.Label (@"/$(b.board)/ - $(b.title)");
+                row.name = b.board;
+                row.halign = Gtk.Align.START;
+                listbox.add (row);
             }
-            list.show_all ();
+            listbox.show_all ();
         });
+
+        listbox.row_selected.connect (row => FourChan.board = row.get_child ().name);
 
         var catalog = new CatalogWidget ();
         add_page (catalog, null, false);
@@ -38,10 +37,6 @@ public class MainWindow : Gtk.ApplicationWindow {
 
         this.show_all ();
     }
-
-/*    [GtkCallback] private void board_selected () {
-
-    }*/
 
     public void show_thread (int64 no) {
         FourChan.get_thread.begin (no, (obj, res) => {

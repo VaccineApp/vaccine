@@ -1,4 +1,4 @@
 SUBDIRS = src
 
 run: all
-		src/vaccine
+		env G_MESSAGES_DEBUG=all src/vaccine
