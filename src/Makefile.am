@@ -1,7 +1,7 @@
 bin_PROGRAMS = vaccine
 
 vaccine_SOURCES = \
-	Vaccine.vala \
+	App.vala \
 	Thread.vala \
 	FourChan.vala \
 	Catalog.vala \

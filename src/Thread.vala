@@ -1,36 +1,37 @@
 using Gee;
 
-public class Thread : Object, ListModel {
-    public ArrayList<Post> posts = new ArrayList<Post> ();
+namespace Vaccine {
+    public class Thread : Object, ListModel {
+        public ArrayList<Post> posts = new ArrayList<Post> ();
 
-    public string name  {
-        owned get {
-            return op.sub ?? op.com ?? op.no.to_string ();
+        public string name  {
+            owned get {
+                return op.sub ?? op.com ?? op.no.to_string ();
+            }
         }
-    }
 
-    public ThreadOP op {
-        get {
-            assert (posts.size > 0);
-            ThreadOP *p = posts[0] as ThreadOP;
-            p->unref();
-            return p;
+        public ThreadOP op {
+            get {
+                assert (posts.size > 0);
+                ThreadOP *p = posts[0] as ThreadOP;
+                p->unref();
+                return p;
+            }
         }
-    }
 
 
-    public Object? get_item (uint pos) {
-        assert (pos >= 0);
-        assert (pos < posts.size);
-        return posts[(int)pos];
-    }
+        public Object? get_item (uint pos) {
+            assert (pos >= 0);
+            assert (pos < posts.size);
+            return posts[(int)pos];
+        }
 
-    public Type get_item_type () {
-        return typeof (Post);
-    }
+        public Type get_item_type () {
+            return typeof (Post);
+        }
 
-    public uint get_n_items () {
-        return posts.size;
+        public uint get_n_items () {
+            return posts.size;
+        }
     }
 }
-

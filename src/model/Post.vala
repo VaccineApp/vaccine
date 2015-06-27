@@ -1,3 +1,4 @@
+namespace Vaccine {
 public class Post : Object {
     public int64 no             { get; set; }
     public string now           { get; set; }
@@ -39,4 +40,5 @@ public class ThreadOP : Post {
     public uint bumplimit       { get; set; }
     public uint imagelimit      { get; set; }
     public uint unique_ips      { get; set; }
+}
 }

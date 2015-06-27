@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.19.0 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
-  <template class="PostListRow" parent="GtkListBoxRow">
+  <template class="VaccinePostListRow" parent="GtkListBoxRow">
     <property name="visible">True</property>
     <property name="selectable">False</property>
     <child>

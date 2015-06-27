@@ -1,3 +1,4 @@
+namespace Vaccine {
 public class Board : Object {
     public string board            { get; set; }
     public string title            { get; set; }
@@ -26,4 +27,5 @@ public class Board : Object {
     public uint country_flags      { get; set; }
     public uint math_tags          { get; set; }
     public uint code_tags          { get; set; }
+}
 }

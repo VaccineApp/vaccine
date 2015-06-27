@@ -1,5 +1,6 @@
 using Gee;
 
+namespace Vaccine {
 public class Page : Object, Json.Serializable {
     public int page                    { get; set; }
     public ArrayList<ThreadOP> threads { get; set; }
@@ -30,4 +31,4 @@ public class Page : Object, Json.Serializable {
         error ("serialization not supported");
     }
 }
-
+}

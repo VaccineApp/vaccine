@@ -46,7 +46,7 @@
     </child>
   </object>
 
-  <template class="MainWindow" parent="GtkApplicationWindow">
+  <template class="VaccineMainWindow" parent="GtkApplicationWindow">
     <property name="title">Vaccine</property>
     <property name="window_position">center</property>
     <property name="default_width">1000</property>
