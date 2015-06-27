@@ -7,7 +7,7 @@ namespace Vaccine {
         [GtkChild] private Gtk.ListBox listbox;
         [GtkChild] private Gtk.SearchEntry searchentry;
 
-        public MainWindow (App app) {
+        public MainWindow (Gtk.Application app) {
             Object (application: app);
 
             listbox.set_filter_func (row => (row.get_child () as Gtk.Label).label.down ().contains (searchentry.text.down ()));
