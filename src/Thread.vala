@@ -14,9 +14,9 @@ namespace Vaccine {
         }
 
 
-        public Object? get_item (uint pos) {
-            assert (pos >= 0);
-            assert (pos < posts.size);
+        public Object? get_item (uint pos)
+            requires(0 <= pos && pos < posts.size)
+        {
             return posts[(int)pos];
         }
 

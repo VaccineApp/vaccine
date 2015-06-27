@@ -9,7 +9,9 @@ vaccine_SOURCES = \
 	model/Board.vala \
 	model/Catalog.vala \
 	model/Post.vala \
+	model/ThreadOP.vala \
 	view/ThreadWidget.vala \
+	view/ThreadPaneView.vala \
 	view/PostListRow.vala \
 	view/ImagePostListRow.vala \
 	view/MainWindow.vala \
