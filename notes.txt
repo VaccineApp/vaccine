@@ -17,3 +17,8 @@ UI =============================================================================
   prop curboard      async call ---> sig catalog changed     new threadwatcher                        V
   async call ---------------------------------^                                                   change whatever is needed
 FourChan ======================================================================================================================
+
+Features:
+- post generator (markov chain)
+- animations
+- touchscreen support
