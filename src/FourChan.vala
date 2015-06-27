@@ -13,8 +13,7 @@ namespace Vaccine {
                 catalog.download (_board);
             }
         }
-
-        // TODO: do once in constructor and save result?
+ // TODO: do once in constructor and save result?
         public static async ArrayList<Board> get_boards () {
             var list = new ArrayList<Board> ();
             try {

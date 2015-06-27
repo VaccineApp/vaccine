@@ -1,34 +1,34 @@
 using Gee;
 
 namespace Vaccine {
-public class Page : Object, Json.Serializable {
-    public int page                    { get; set; }
-    public ArrayList<ThreadOP> threads { get; set; }
+    public class Page : Object, Json.Serializable {
+        public int page                    { get; set; }
+        public ArrayList<ThreadOP> threads { get; set; }
 
-    public bool deserialize_property (string prop_name, out Value val, ParamSpec pspec, Json.Node property_node) {
-        if (prop_name != "threads") {
-            val = Value (pspec.value_type);
-            return default_deserialize_property (prop_name, &val, pspec, property_node);
+        public bool deserialize_property (string prop_name, out Value val, ParamSpec pspec, Json.Node property_node) {
+            if (prop_name != "threads") {
+                val = Value (pspec.value_type);
+                return default_deserialize_property (prop_name, &val, pspec, property_node);
+            }
+
+            var list = new ArrayList<ThreadOP> ();
+            property_node.get_array ().foreach_element ((arr, index, node) => {
+                var o = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
+                assert (o != null);
+                list.add (o);
+            });
+
+            val = Value (list.get_type ());
+            val.set_object (list);
+            return true;
         }
 
-        var list = new ArrayList<ThreadOP> ();
-        property_node.get_array ().foreach_element ((arr, index, node) => {
-            var o = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
-            assert (o != null);
-            list.add (o);
-        });
+        public unowned ParamSpec find_property (string name) {
+            return this.get_class ().find_property (name);
+        }
 
-        val = Value (list.get_type ());
-        val.set_object (list);
-        return true;
-    }
-
-    public unowned ParamSpec find_property (string name) {
-        return this.get_class ().find_property (name);
-    }
-
-    public Json.Node serialize_property (string prop_name, Value val, ParamSpec pspec) {
-        error ("serialization not supported");
-    }
+        public Json.Node serialize_property (string prop_name, Value val, ParamSpec pspec) {
+            error ("serialization not supported");
+        }
 }
 }

@@ -1,5 +1,3 @@
-using Gee;
-
 namespace Vaccine {
     [GtkTemplate (ui = "/vaccine/thread-widget.ui")]
     public class ThreadWidget : Gtk.ScrolledWindow {
