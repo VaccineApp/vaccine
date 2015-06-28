@@ -20,7 +20,6 @@
                 <property name="width_request">130</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xpad">10</property>
                 <property name="label" translatable="yes">Anonymous</property>
                 <property name="wrap">True</property>
                 <property name="wrap_mode">char</property>
@@ -131,7 +130,6 @@
                     <property name="name">post_thumbnail_name</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xpad">10</property>
                     <property name="label" translatable="yes">shiggy_diggy.jpg</property>
                     <property name="ellipsize">end</property>
                     <property name="width_chars">20</property>
@@ -150,8 +148,6 @@
               <object class="GtkLabel" id="post_text">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xpad">10</property>
-                <property name="ypad">10</property>
                 <property name="label" translatable="yes">This is a post</property>
                 <property name="use_markup">True</property>
                 <property name="wrap">True</property>
