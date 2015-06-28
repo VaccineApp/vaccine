@@ -10,9 +10,8 @@ namespace Vaccine {
         [GtkChild] private Gtk.Image post_thumbnail;
 
         public ImagePostListRow (Post t)
-            requires(t.filename != null && t.ext != null)
         {
-            post_name.label = t.trip ?? t.name;
+            post_name.label = t.name + (t.trip ?? "");
             post_time.label = new DateTime.from_unix_utc(t.time).format("%a, %b %e %Y @ %l:%M %P");
             post_number.label = @"#$(t.no.to_string ())";
             post_text.label = t.com;
