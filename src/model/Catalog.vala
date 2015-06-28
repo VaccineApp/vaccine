@@ -2,7 +2,14 @@ using Gee;
 
 namespace Vaccine {
     public class Page : Object, Json.Serializable {
+        /**
+         * The page number
+         */
         public int page                    { get; set; }
+
+        /**
+         * The threads on this page
+         */
         public ArrayList<ThreadOP> threads { get; set; }
 
         public bool deserialize_property (string prop_name, out Value val, ParamSpec pspec, Json.Node property_node) {
