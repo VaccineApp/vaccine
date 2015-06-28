@@ -36,36 +36,31 @@ namespace Vaccine {
          *      !tripcode
          *      !!securetripcode
          */
-        public string trip?         { get; set; }
+        public string? trip         { get; set; }
 
         /**
          * ID
          * Mod, Admin, Developer
          */
-        public string id?           { get; set; }
+        public string? id           { get; set; }
 
         /**
          * Capcode
          *
          * none, mod, admin, admin_highlight, developer
          */
-        public string capcode?      { get; set; }
+        public string? capcode      { get; set; }
 
         /**
          * Country code
          * 2 characters, ISO-3166-1 alpha-2
          */
-        public string country?      { get; set; }
-
-        private string _com;
+        public string? country      { get; set; }
 
         /**
          * Comment
          */
-        public string com {
-            get { return _com; }
-            set { _com = FourChan.clean_comment (value); }
-        }
+        public string com           { get; set; }
 
         /**
          * Renamed filename
@@ -76,12 +71,12 @@ namespace Vaccine {
         /**
          * Original filename
          */
-        public string filename?     { get; set; }
+        public string? filename     { get; set; }
 
         /**
          * File extension
          */
-        public string ext?          { get; set; }
+        public string? ext          { get; set; }
 
         /**
          * File size
@@ -112,7 +107,7 @@ namespace Vaccine {
          * File MD5
          * 24 chars, base64
          */
-        public string md5?          { get; set; }
+        public string? md5          { get; set; }
 
         /**
          * File deleted?

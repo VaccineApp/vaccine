@@ -11,7 +11,7 @@ namespace Vaccine {
             this.name.label = t.name;
             this.time.label = t.now;
             this.post_no.label = t.no.to_string ();
-            this.comment.label = t.com;
+            this.comment.label = FourChan.get_post_text(t.com);
         }
     }
 }

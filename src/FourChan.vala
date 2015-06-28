@@ -5,6 +5,8 @@ namespace Vaccine {
         public static Catalog catalog = new Catalog ();
         public static Soup.Session soup = new Soup.Session ();
 
+        // NOTE: pass to function if it is async,
+        // otherwise function can access it directly
         private static string _board; // TODO: save & restore
         public static string board {
             get { return _board; }
@@ -59,7 +61,7 @@ namespace Vaccine {
         }
         */
 
-        public static async Thread get_thread (int64 no) {
+        public static async Thread get_thread (string board, int64 no) {
             var thread = new Thread ();
             try {
                 var json = new Json.Parser ();
@@ -80,7 +82,7 @@ namespace Vaccine {
             return thread;
         }
 
-        public static async Gdk.Pixbuf? get_thumbnail (Post p)
+        public static async Gdk.Pixbuf? get_thumbnail (string board, Post p)
             requires (p.filename != null)
         {
             var url = @"https://i.4cdn.org/$board/$(p.tim)s.jpg";
@@ -94,14 +96,28 @@ namespace Vaccine {
             }
         }
 
-        public static string clean_comment (string com) {
+        public static string get_post_text (string com) {
             return com
                 .compress () // unescape
-                .replace("<br>", "\n")
-                .replace("<wbr>", "") // suggested word breaks
-                .replace(" target=\"_blank\"", "") // external links
-                .replace(" class=\"quote\"", " foreground=\"#789922\"") // greentext
-                .replace(" class=\"quotelink\"", ""); // TODO
+                .replace ("<br>", "\n")
+                .replace ("<wbr>", "") // suggested word breaks
+                .replace (" target=\"_blank\"", "") // external links
+                .replace (" class=\"quote\"", " foreground=\"#789922\"") // greentext
+                .replace (" class=\"quotelink\"", ""); // TODO
+        }
+
+        public static string get_tab_title (Thread thread) {
+            var title = @"/$board/ - ";
+            if (thread.op.sub != null)
+                title += thread.op.sub;
+            else if (thread.op.com != null)
+                title += thread.op.com
+                    .compress ()
+                    .replace ("<br>", " ")
+                    .replace ("\n", " ");
+            else
+                title += thread.op.no.to_string ();
+            return ellipsize (title, 32);
         }
     }
 }

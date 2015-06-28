@@ -1,4 +1,3 @@
-string shorten (string s, uint lim) {
-    var res = s.replace ("\n", " ");
-    return res.length > lim ? res[0:lim] + "..." : res;
+string ellipsize (string s, uint lim) {
+    return s.length > lim ? s[0:lim] + "..." : s;
 }

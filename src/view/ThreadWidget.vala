@@ -6,7 +6,6 @@ namespace Vaccine {
         [GtkChild] private Gtk.ListBox list;
 
         public ThreadWidget (Thread thread) {
-            this.name = thread.name;
             this.list.bind_model (thread, item => {
                 var p = item as Post;
                 if (p.filename != null)
