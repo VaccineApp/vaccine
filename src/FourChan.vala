@@ -96,12 +96,12 @@ namespace Vaccine {
 
         public static string clean_comment (string com) {
             return com
-                .compress ()
+                .compress () // unescape
                 .replace("<br>", "\n")
-                .replace("<wbr>", "")
-                .replace(" target=\"_blank\"", "")
-                .replace(" class=\"quote\"", "")
-                .replace(" class=\"quotelink\"", "");
+                .replace("<wbr>", "") // suggested word breaks
+                .replace(" target=\"_blank\"", "") // external links
+                .replace(" class=\"quote\"", " foreground=\"#789922\"") // greentext
+                .replace(" class=\"quotelink\"", ""); // TODO
         }
     }
 }
