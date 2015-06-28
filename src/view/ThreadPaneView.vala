@@ -3,17 +3,22 @@ namespace Vaccine {
     public class ThreadPaneView : Gtk.Box {
         public ThreadPaneView (Thread thread) {
             add_pane(new ThreadWidget (thread));
-            this.show_all();
+            this.show_all ();
         }
 
         public void add_pane (Gtk.Widget w) {
+            /*
             var revealer = new Gtk.Revealer ();
             revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_LEFT);
-            revealer.set_transition_duration (4000);
+            revealer.set_transition_duration (700);
             revealer.add (w);
-            this.pack_start (revealer, true, true, 0);
-            revealer.set_reveal_child (true);
-            // TODO: call revealer after tab is visible
+            revealer.visible = false; */
+            this.pack_start (w, false, false, 0);
+            /*
+            GLib.Timeout.add (1000, () => {
+                revealer.set_reveal_child (true);
+                return false;
+            }); */
         }
     }
 }
