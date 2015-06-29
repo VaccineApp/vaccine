@@ -4,7 +4,8 @@ namespace Vaccine {
         [GtkChild] private Gtk.ListBox list;
 
         public ThreadPane (Thread thread) {
-            this.name = thread.name;
+            // this.name = thread.name;
+            this.name = FourChan.get_tab_title(thread);
             this.list.set_header_func ((row, before) =>
                 row.set_header (before != null ?
                     row.get_header () ?? new Gtk.Separator (Gtk.Orientation.HORIZONTAL) :

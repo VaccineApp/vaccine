@@ -13,7 +13,7 @@ namespace Vaccine {
             this.post_no = t.no;
 
             if (t.filename != null) { // deleted files
-                FourChan.get_thumbnail.begin (FourChan.board, t, (obj, res) => {
+                FourChan.get_thumbnail.begin (t, (obj, res) => {
                     if (post_image != null) // I think it is null when being finalized
                         post_image.pixbuf = FourChan.get_thumbnail.end (res);
                 });
