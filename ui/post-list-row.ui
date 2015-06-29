@@ -20,6 +20,7 @@
                 <property name="width_request">130</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="xpad">5</property>
                 <property name="label" translatable="yes">Anonymous</property>
                 <property name="wrap">True</property>
                 <property name="wrap_mode">char</property>
@@ -91,6 +92,8 @@
           <object class="GtkBox" id="text_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">5</property>
+            <property name="margin_right">5</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="post_text">
