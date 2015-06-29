@@ -120,7 +120,9 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <!-- <placeholder/> -->
+          <object class="GtkFlowBox" id="replies_flowbox">
+          </object>
         </child>
       </object>
     </child>
