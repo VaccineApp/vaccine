@@ -2,7 +2,7 @@ namespace Vaccine {
     [GtkTemplate (ui = "/vaccine/thread-pane-view.ui")]
     public class ThreadPaneView : Gtk.Box {
         public ThreadPaneView (Thread thread) {
-            add_pane(new ThreadWidget (thread));
+            add_pane(new ThreadPane (thread));
             this.show_all ();
         }
 
@@ -13,7 +13,7 @@ namespace Vaccine {
             revealer.set_transition_duration (700);
             revealer.add (w);
             revealer.visible = false; */
-            this.pack_start (w, false, false, 0);
+            this.pack_start (w, true, true, 0);
             /*
             GLib.Timeout.add (1000, () => {
                 revealer.set_reveal_child (true);

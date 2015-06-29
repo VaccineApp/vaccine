@@ -2,7 +2,7 @@
 <gresources>
     <gresource prefix="/vaccine">
         <file>main-window.ui</file>
-        <file>thread-widget.ui</file>
+        <file>thread-pane.ui</file>
         <file>thread-pane-view.ui</file>
         <file>post-list-row.ui</file>
         <file>image-post-list-row.ui</file>
