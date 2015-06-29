@@ -95,16 +95,6 @@ namespace Vaccine {
             }
         }
 
-        public static string get_post_text (string com) {
-            return com
-                .compress () // unescape
-                .replace ("<br>", "\n")
-                .replace ("<wbr>", "") // suggested word breaks
-                .replace (" target=\"_blank\"", "") // external links
-                .replace (" class=\"quote\"", " foreground=\"#789922\"") // greentext
-                .replace (" class=\"quotelink\"", ""); // TODO
-        }
-
         public static string get_tab_title (Thread thread) {
             var title = @"/$board/ - ";
             if (thread.op.sub != null)
@@ -117,6 +107,20 @@ namespace Vaccine {
             else
                 title += thread.op.no.to_string ();
             return ellipsize (title, 32);
+	}
+
+        public static string get_post_text (string com) {
+            string cleaned = com.compress () // unescape
+                .replace("<br>", "\n")
+                .replace("<wbr>", "") // suggested word breaks
+                .replace(" target=\"_blank\"", "") // external links
+                .replace(" class=\"quote\"", " foreground=\"#789922\"") // greentext
+                .replace(" class=\"quotelink\"", "");
+            try {
+                return /(\s)?(http[s]*:\/\/.*\.\w+.*)/.replace(cleaned, -1, 0, "\\1<a href=\"\\2\">\\2</a>");
+            } catch (Error e) {
+                return cleaned;
+            }
         }
     }
 }
