@@ -15,12 +15,13 @@
           <object class="GtkBox" id="box2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_top">5</property>
             <child>
               <object class="GtkLabel" id="post_name">
                 <property name="width_request">130</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xpad">5</property>
+                <property name="xpad">10</property>
                 <property name="label" translatable="yes">Anonymous</property>
                 <property name="wrap">True</property>
                 <property name="wrap_mode">char</property>
@@ -65,6 +66,7 @@
                     <property name="name">post_no</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="xpad">10</property>
                     <property name="label" translatable="yes">No. 233662</property>
                     <property name="justify">center</property>
                   </object>
@@ -127,6 +129,7 @@
                       <object class="GtkBox" id="box5">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_bottom">5</property>
                         <child>
                           <object class="GtkButton" id="btn_download">
                             <property name="visible">True</property>
@@ -228,7 +231,8 @@
               <object class="GtkLabel" id="post_text">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xpad">5</property>
+                <property name="margin_bottom">10</property>
+                <property name="xpad">10</property>
                 <property name="label" translatable="yes">This is a post</property>
                 <property name="use_markup">True</property>
                 <property name="wrap">True</property>
