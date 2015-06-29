@@ -101,7 +101,7 @@ namespace Vaccine {
                 .replace(" class=\"quote\"", " foreground=\"#789922\"") // greentext
                 .replace(" class=\"quotelink\"", "");
             try {
-                return /(\s)?(http[s]*:\/\/.*\.\w+.*)/.replace(cleaned, -1, 0, "\\1<a href=\"\\2\">\\2</a>");
+                return /(\s)?(http[s]?:\/\/.*\.\w+.*)/.replace(cleaned, -1, 0, "\\1<a href=\"\\2\">\\2</a>");
             } catch (Error e) {
                 return cleaned;
             }
