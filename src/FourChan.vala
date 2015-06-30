@@ -110,28 +110,29 @@ namespace Vaccine {
                     .replace ("\n", " ");
             else
                 title += thread.op.no.to_string ();
-            return ellipsize (title, 32);
+            return Util.ellipsize (title, 32);
         }
 
         public static string get_post_text (string com) {
-            string cleaned = com.compress () // unescape
-                .replace ("<br>", "\n")
-                .replace ("<wbr>", "") // suggested word breaks
-                .replace (" target=\"_blank\"", "") // external links
-                .replace (" class=\"quote\"", " foreground=\"#789922\"") // greentext
-                .replace (" class=\"quotelink\"", "")
-                .replace (" class=\"deadlink\"", "");
+            var post_text = new Util.StringModifier (com.compress ())
 
-            debug (@"original = $cleaned");
+                .remove ("<wbr>")                // suggested word breaks
+                .remove (" target=\"_blank\"")   // external links
+                .remove (" class=\"quotelink\"") // TODO
+                .remove (" class=\"deadlink\"")
 
-            var done = new Util.RegexStream (cleaned)
+                .replace_text ("<br>", "\n")     // newlines
+                .replace_text (" class=\"quote\"", " foreground=\"#789922\"") // greentext
+
                 .replace (/<a href="((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(\/[\w%&?=\-,\.#~]*)*)">.*<\/a>/, "\\1")
                 .replace (/((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(\/[\w%&?=\-,\.#~]*)*)/, "<a href=\"\\1\">\\1</a>")
-                .replace (/<pre.*>([\s\S]*)<\/pre>/, "<span font=\"monospace\">\\1</span>")
+                .replace (/<pre .*>([\s\S]*)<\/pre>/, "<span font=\"monospace\">\\1</span>")
+
                 .text;
 
-            debug (@"text = $done");
-            return done;
+            debug (@"original = $com");
+            debug (@"post_text = $post_text");
+            return post_text;
         }
 
         public static string get_post_time (uint time) {
