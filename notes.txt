@@ -22,3 +22,4 @@ Features:
 - post generator (markov chain)
 - animations
 - touchscreen support
+- relative times (e.g. 6 hours ago)
