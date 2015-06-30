@@ -15,7 +15,7 @@ namespace Vaccine {
             post_name.label = t.name + (t.trip ?? "");
             post_time.label = new DateTime.from_unix_utc(t.time).format("%a, %b %e, %Y @ %l:%M %P");
             post_number.label = @"#$(t.no.to_string ())";
-            post_text.label = FourChan.get_post_text(t.com);
+            post_text.label = FourChan.get_post_text (t.com);
 
             post_thumbnail_filename.label = t.filename + t.ext;
             FourChan.get_thumbnail.begin (t, (obj, res) => {

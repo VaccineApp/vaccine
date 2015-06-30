@@ -10,7 +10,7 @@ namespace Vaccine {
             post_name.label = t.trip ?? t.name;
             post_time.label = new DateTime.from_unix_utc(t.time).format("%a, %b %e, %Y @ %l:%M %P");
             post_number.label = @"#$(t.no.to_string ())";
-            post_text.label = FourChan.get_post_text(t.com);
+            post_text.label = FourChan.get_post_text (t.com);
         }
     }
 }
