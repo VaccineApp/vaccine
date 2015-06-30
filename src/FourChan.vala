@@ -125,13 +125,17 @@ namespace Vaccine {
             debug (@"original = $cleaned");
 
             var done = new Util.RegexStream (cleaned)
-                .replace (/<a href="((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.\w+)*(\/[\w%&?=\-,\.#~]*)*)">.*<\/a>/, "\\1")
-                .replace (/((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.\w+)*(\/[\w%&?=\-,\.#~]*)*)/, "<a href=\"\\1\">\\1</a>")
+                .replace (/<a href="((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(\/[\w%&?=\-,\.#~]*)*)">.*<\/a>/, "\\1")
+                .replace (/((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(\/[\w%&?=\-,\.#~]*)*)/, "<a href=\"\\1\">\\1</a>")
                 .replace (/<pre.*>([\s\S]*)<\/pre>/, "<span font=\"monospace\">\\1</span>")
                 .text;
 
             debug (@"text = $done");
             return done;
+        }
+
+        public static string get_post_time (uint time) {
+            return new DateTime.from_unix_local (time).format ("%a, %b %e, %Y @ %l:%M %P");
         }
     }
 }

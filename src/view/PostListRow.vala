@@ -7,8 +7,8 @@ namespace Vaccine {
         [GtkChild] private Gtk.Label post_text;
 
         public PostListRow (Post t) {
-            post_name.label = t.trip ?? t.name;
-            post_time.label = new DateTime.from_unix_utc(t.time).format("%a, %b %e, %Y @ %l:%M %P");
+            post_name.label = t.name + (t.trip ?? "");
+            post_time.label = FourChan.get_post_time (t.time);
             post_number.label = @"#$(t.no.to_string ())";
             post_text.label = FourChan.get_post_text (t.com);
         }
