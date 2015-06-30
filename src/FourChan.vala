@@ -125,9 +125,10 @@ namespace Vaccine {
             debug (@"original = $cleaned");
 
             var done = new Util.RegexStream (cleaned)
-                .replace (/<a href="((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(\/[\w%&?=\-,\.#~]*)*)">.*<\/a>/, "\\1")
-                .replace (/((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(\/[\w%&?=\-,\.#~]*)*)/, "<a href=\"\\1\">\\1</a>")
-                .replace (/<pre.*>([\s\S]*)<\/pre>/, "<span font=\"monospace\">\\1</span>")
+                .replace (/<a href="((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(:\d+)?(\/[\w%&?=\-,\.#~]*)*)">.*<\/a>/, "\\1")
+                .replace (/((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(:\d+)?(\/[\w%&?=\-,\.#~]*)*)/, "<a href=\"\\1\">\\1</a>")
+                .replace (/<pre( \w+=".*")*>([\s\S]*)(?=<\/pre>)/, "<span font=\"monospace\">\\2</span>")
+                .replace (/<\/?pre( \w+=".+")*>/, "")
                 .text;
 
             debug (@"text = $done");

@@ -11,9 +11,9 @@ namespace Vaccine {
                 this.text = text;
             }
 
-            public RegexStream replace (Regex exp, string replacement) {
+            public RegexStream replace (Regex exp, string replacement, RegexMatchFlags flags = 0) {
                 try {
-                    text = exp.replace (text, -1, 0, replacement);
+                    text = exp.replace (text, -1, 0, replacement, flags);
                 } catch (Error e) {
                     debug (e.message);
                 }
