@@ -114,7 +114,7 @@ namespace Vaccine {
         }
 
         public static string get_post_text (string com) {
-            var post_text = new Util.StringModifier (com.compress ())
+            return new Util.StringModifier (com.compress ())
 
                 .remove ("<wbr>")                // suggested word breaks
                 .remove (" target=\"_blank\"")   // external links
@@ -124,15 +124,11 @@ namespace Vaccine {
                 .replace_text ("<br>", "\n")     // newlines
                 .replace_text (" class=\"quote\"", " foreground=\"#789922\"") // greentext
 
-                .replace (/<a href="((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(\/[\w%&?=\-,\.#~]*)*)">.*<\/a>/, "\\1")
-                .replace (/((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(\/[\w%&?=\-,\.#~]*)*)/, "<a href=\"\\1\">\\1</a>")
+                .replace (/<a href="((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(\/[\w%&?=\-,\.#~+]*)*)">.*<\/a>/, "\\1")
+                .replace (/((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(\/[\w%&?=\-,\.#~+]*)*)/, "<a href=\"\\1\">\\1</a>")
                 .replace (/(?<=<)(pre class="prettyprint")(?=>)/, "tt")
                 .replace (/(?<=<\/)(pre)(?=>)/, "tt")
                 .text;
-
-            debug (@"original = $com");
-            debug (@"post_text = $post_text");
-            return post_text;
         }
 
         public static string get_post_time (uint time) {
