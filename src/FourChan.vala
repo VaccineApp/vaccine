@@ -115,6 +115,7 @@ namespace Vaccine {
 
         public static string get_post_text (string com) {
             string cleaned = com.compress () // unescape
+                .replace ("\n", "")
                 .replace ("<br>", "\n")
                 .replace ("<wbr>", "") // suggested word breaks
                 .replace (" target=\"_blank\"", "") // external links
@@ -122,17 +123,12 @@ namespace Vaccine {
                 .replace (" class=\"quotelink\"", "")
                 .replace (" class=\"deadlink\"", "");
 
-            debug (@"original = $cleaned");
-
-            var done = new Util.RegexStream (cleaned)
-                .replace (/<a href="((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(:\d+)?(\/[\w%&?=\-,\.#~]*)*)">.*<\/a>/, "\\1")
-                .replace (/((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(:\d+)?(\/[\w%&?=\-,\.#~]*)*)/, "<a href=\"\\1\">\\1</a>")
-                .replace (/<pre( \w+=".*")*>([\s\S]*)(?=<\/pre>)/, "<span font=\"monospace\">\\2</span>")
-                .replace (/<\/?pre( \w+=".+")*>/, "")
+            return new Util.RegexStream (cleaned)
+                .replace (/<a href="((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(:\d+)?(\/[\w%&?=\-,\.#~+]*)*)">.*<\/a>/, "\\1")
+                .replace (/((ht|f)tps?:\/\/([\w\-]+\.\w+)(\.[\w\-]+)*(:\d+)?(\/[\w%&?=\-,\.#~+]*)*)/, "<a href=\"\\1\">\\1</a>")
+                .replace (/(?<=<)(pre class="prettyprint")(?=>)/, "tt")
+                .replace (/(?<=<\/)(pre)(?=>)/, "tt")
                 .text;
-
-            debug (@"text = $done");
-            return done;
         }
 
         public static string get_post_time (uint time) {
