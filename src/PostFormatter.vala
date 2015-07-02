@@ -81,11 +81,13 @@ namespace Vaccine {
         public static string transform_post (string com) throws MarkupError {
             var xfm = new PostTransformer ();
             var post = com
-                .compress()
-                .replace("<br></br>", "\n")
-                .replace("<br>",      "\n") // unclosed tag
-                .replace("<br />",    "\n")
-                .replace("<wbr>",     "");
+                .compress ()
+                .replace ("\n", "\\n") // in code tags
+                .replace ("\t", "\\t")
+                .replace ("<br></br>", "\n")
+                .replace ("<br>",      "\n") // unclosed tag
+                .replace ("<br />",    "\n")
+                .replace ("<wbr>",     "");
             xfm.ctx.parse (@"<_toplevel>$post</_toplevel>", -1); // requires a top-level element
             // TODO: remove when it all works
             print (@"\n\x1b[35m==========================================\x1b[0m\n$com\n\t\t\t\t\x1b[44mv\x1b[0m\n$(xfm.dest)\n\n");
