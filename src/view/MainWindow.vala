@@ -4,13 +4,14 @@ namespace Vaccine {
         [GtkChild] private Gtk.HeaderBar headerbar;
         [GtkChild] private Gtk.Notebook notebook;
 
+        [GtkChild] private Gtk.Popover popover;
         [GtkChild] private Gtk.ListBox listbox;
         [GtkChild] private Gtk.SearchEntry searchentry;
 
         public MainWindow (Gtk.Application app) {
             Object (application: app);
 
-            listbox.set_filter_func (row => (row.get_child () as Gtk.Label).label.down ().contains (searchentry.text.down ()));
+            listbox.set_filter_func (row => (row.get_child () as Gtk.Label).name.down ().contains (searchentry.text.down ()));
             searchentry.changed.connect (listbox.invalidate_filter);
 
             FourChan.get_boards.begin ((obj, res) => {
@@ -25,7 +26,11 @@ namespace Vaccine {
                 listbox.show_all ();
             });
 
-            listbox.row_selected.connect (row => FourChan.board = row.get_child ().name);
+            listbox.row_selected.connect (row => {
+                FourChan.board = row.get_child ().name;
+                popover.visible = false;
+                searchentry.text = "";
+            });
 
             var catalog = new CatalogWidget ();
             add_page (catalog, null, false);
