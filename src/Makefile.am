@@ -5,11 +5,13 @@ vaccine_SOURCES = \
 	Thread.vala \
 	FourChan.vala \
 	Catalog.vala \
+	PostFormatter.vala \
 	Util.vala \
 	model/Board.vala \
-	model/Catalog.vala \
+	model/Page.vala \
 	model/Post.vala \
-	view/ThreadWidget.vala \
+	view/ThreadPane.vala \
+	view/ThreadPaneView.vala \
 	view/PostListRow.vala \
 	view/ImagePostListRow.vala \
 	view/MainWindow.vala \

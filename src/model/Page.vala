@@ -2,6 +2,8 @@ using Gee;
 
 namespace Vaccine {
     public class Page : Object, Json.Serializable {
+        public string? board              { get; set; }
+
         /**
          * The page number
          */
@@ -22,6 +24,7 @@ namespace Vaccine {
             property_node.get_array ().foreach_element ((arr, index, node) => {
                 var o = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
                 assert (o != null);
+                o.board = board;
                 list.add (o);
             });
 

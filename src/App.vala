@@ -7,7 +7,6 @@ namespace Vaccine {
                     flags: ApplicationFlags.FLAGS_NONE);
         }
 
-
         private MainWindow main_window;
 
         protected override void startup () {

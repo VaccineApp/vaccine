@@ -1,25 +1,7 @@
-App : Gtk.Application
-FourChan
-    - curboard property
-    - refresh_catalog()
-    - async post(Thread) 
-    - ThreadWatcher[]
-    - ThreadWatcher watch_thread(uint no)
-ThreadWatcher
-    - private Thread object
-    - signal new_posts
-    - read & deserialize json on an interval
-
-UI ===========================================================================================================================
- change board       refresh clicked     update UI            watch a thread  bind signals to UI    change preferences
-       |                 |               ^    ^                   |          ^                        |
-       V                 V               |    |                   V          |                        |
-  prop curboard      async call ---> sig catalog changed     new threadwatcher                        V
-  async call ---------------------------------^                                                   change whatever is needed
-FourChan ======================================================================================================================
-
-Features:
+TODO:
 - post generator (markov chain)
 - animations
 - touchscreen support
 - relative times (e.g. 6 hours ago)
+- GtkSourceView for [code][/code]
+- post formatting (try every board to test ancient stickies)

@@ -1,1 +1,4 @@
-# hi this is a ~~shitty~~ amazing 4chan client, contribute or gtfo
+Vaccine
+=======
+
+Vaccine is a modern 4chan browser for the Linux desktop. It is written in Vala and uses GTK+.

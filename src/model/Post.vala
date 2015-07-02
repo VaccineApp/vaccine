@@ -127,6 +127,14 @@ namespace Vaccine {
         public uint custom_spoiler  { get; set; }
 
         public bool isOP { get { return resto == 0; } }
+
+        public weak Thread? thread  { get; set; }
+
+        private string _board;
+        public string board {
+            get { return thread != null ? thread.board : _board; }
+            set { _board = value; }
+        }
     }
 
     public class ThreadOP : Post {

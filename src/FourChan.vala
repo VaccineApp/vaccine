@@ -15,8 +15,7 @@ namespace Vaccine {
                 catalog.download (_board);
             }
         }
-
-        // TODO: do once in constructor and save result?
+ // TODO: do once in constructor and save result?
         public static async ArrayList<Board> get_boards () {
             var list = new ArrayList<Board> ();
             try {
@@ -62,16 +61,20 @@ namespace Vaccine {
         */
 
         public static async Thread get_thread (string board, int64 no) {
-            var thread = new Thread ();
+            var thread = new Thread (board);
             try {
                 var json = new Json.Parser ();
                 InputStream stream = yield soup.send_async (new Soup.Message ("GET", @"https://a.4cdn.org/$board/thread/$no.json"));
                 if (yield json.load_from_stream_async (stream, null)) {
                     var posts_arr = json.get_root ().get_object ().get_array_member ("posts");
-                    thread.posts.add (Json.gobject_deserialize (typeof (ThreadOP), posts_arr.get_element (0)) as ThreadOP);
                     posts_arr.foreach_element ((arr, index, node) => {
                         if (index != 0) {
                             var p = Json.gobject_deserialize (typeof (Post), node) as Post;
+                            p.thread = thread;
+                            thread.posts.add (p);
+                        } else {
+                            var p = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
+                            p.thread = thread;
                             thread.posts.add (p);
                         }
                     });
@@ -82,28 +85,18 @@ namespace Vaccine {
             return thread;
         }
 
-        public static async Gdk.Pixbuf? get_thumbnail (string board, Post p)
+        public static async Gdk.Pixbuf? get_thumbnail (Post p)
             requires (p.filename != null)
         {
-            var url = @"https://i.4cdn.org/$board/$(p.tim)s.jpg";
+            var url = @"https://i.4cdn.org/$(p.board)/$(p.tim)s.jpg";
             var msg = new Soup.Message ("GET", url);
             try {
                 var stream = yield soup.send_async (msg);
                 return yield new Gdk.Pixbuf.from_stream_async (stream, null);
             } catch (Error e) {
-                debug (e.message);
+                debug (@"$(e.message) (board=$(p.thread == null))");
                 return null;
             }
-        }
-
-        public static string get_post_text (string com) {
-            return com
-                .compress () // unescape
-                .replace ("<br>", "\n")
-                .replace ("<wbr>", "") // suggested word breaks
-                .replace (" target=\"_blank\"", "") // external links
-                .replace (" class=\"quote\"", " foreground=\"#789922\"") // greentext
-                .replace (" class=\"quotelink\"", ""); // TODO
         }
 
         public static string get_tab_title (Thread thread) {
@@ -117,7 +110,22 @@ namespace Vaccine {
                     .replace ("\n", " ");
             else
                 title += thread.op.no.to_string ();
-            return ellipsize (title, 32);
+            return Util.ellipsize (title, 32);
+        }
+
+        public static string get_post_text (string? com) {
+            if (com == null)
+                return "";
+            try {
+                return PostTransformer.transform_post (com);
+            } catch (MarkupError e) {
+                debug (e.message);
+                return "";
+            }
+        }
+
+        public static string get_post_time (uint time) {
+            return new DateTime.from_unix_local (time).format ("%a, %b %e, %Y @ %l:%M %P");
         }
     }
 }
