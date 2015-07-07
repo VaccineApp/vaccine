@@ -1,5 +1,7 @@
 namespace Vaccine {
     class PostTransformer : Object {
+        private const string TOP_LEVEL_TAG = "_top_level"; // no one will ever use this
+
         private const MarkupParser parser = {
             visit_start,
             visit_end,
@@ -41,7 +43,7 @@ namespace Vaccine {
             else if (elem == "pre") elem = "tt";
 
             // our dummy top-level XML element
-            else if (elem == "_toplevel") return;
+            else if (elem == TOP_LEVEL_TAG) return;
 
             // 4chan oddly puts <font class="unkfunc"></font> around some quotelinks
             // I think this was used for greentext in the past and the ancient stickies have never been change
@@ -64,7 +66,7 @@ namespace Vaccine {
         void visit_end (MarkupParseContext context, string elem) throws MarkupError {
             if (elem == "a") a_tag_level--;
             else if (elem == "pre") elem = "tt";
-            else if (elem == "_toplevel") return;
+            else if (elem == TOP_LEVEL_TAG) return;
             else if (elem == "font") return;
 
             dest += @"</$elem>";
@@ -82,13 +84,14 @@ namespace Vaccine {
             var xfm = new PostTransformer ();
             var post = com
                 .compress ()
+                .replace ("&", "&amp;")
                 .replace ("\n", "\\n") // in code tags
                 .replace ("\t", "\\t")
                 .replace ("<br></br>", "\n")
                 .replace ("<br>",      "\n") // unclosed tag
                 .replace ("<br />",    "\n")
                 .replace ("<wbr>",     "");
-            xfm.ctx.parse (@"<_toplevel>$post</_toplevel>", -1); // requires a top-level element
+            xfm.ctx.parse (@"<$TOP_LEVEL_TAG>$post</$TOP_LEVEL_TAG>", -1); // requires a top-level element
             // TODO: remove when it all works
             print (@"\n\x1b[35m==========================================\x1b[0m\n$com\n\t\t\t\t\x1b[44mv\x1b[0m\n$(xfm.dest)\n\n");
             return xfm.dest;

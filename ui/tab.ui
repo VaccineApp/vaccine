@@ -29,6 +29,7 @@
       <object class="GtkLabel" id="tablabel">
         <property name="visible">True</property>
         <property name="label" translatable="yes">label</property>
+        <property name="use_markup">True</property>
       </object>
       <packing>
         <property name="expand">True</property>

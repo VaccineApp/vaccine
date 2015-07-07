@@ -126,6 +126,8 @@ namespace Vaccine {
          */
         public uint custom_spoiler  { get; set; }
 
+
+        // begin vaccine stuff
         public bool isOP { get { return resto == 0; } }
 
         public weak Thread? thread  { get; set; }

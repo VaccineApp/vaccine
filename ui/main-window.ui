@@ -62,7 +62,7 @@
       <object class="GtkHeaderBar" id="headerbar">
         <property name="visible">True</property>
         <property name="title">Vaccine</property>
-        <property name="subtitle">Vaccines cause autism</property>
+        <property name="subtitle">it causes autism</property>
         <property name="show_close_button">True</property>
         <child>
           <object class="GtkMenuButton" id="menubutton">

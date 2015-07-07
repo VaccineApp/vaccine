@@ -22,7 +22,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xpad">10</property>
-                <property name="label" translatable="yes">Anonymous</property>
+                <property name="label">Anonymous</property>
                 <property name="wrap">True</property>
                 <property name="wrap_mode">char</property>
                 <property name="ellipsize">end</property>
@@ -44,7 +44,7 @@
               <object class="GtkLabel" id="post_time">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Sat, Jun 27th, 2015 @ 5:55pm</property>
+                <property name="label">Sat, Jun 27th, 2015 @ 5:55pm</property>
                 <attributes>
                   <attribute name="scale" value="1"/>
                   <attribute name="foreground" value="#8d8d90909191"/>
@@ -67,7 +67,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="xpad">10</property>
-                    <property name="label" translatable="yes">No. 233662</property>
                     <property name="justify">center</property>
                   </object>
                   <packing>
@@ -101,7 +100,9 @@
                 <property name="can_focus">False</property>
                 <property name="margin_bottom">10</property>
                 <property name="xpad">10</property>
-                <property name="label" translatable="yes">This is a post</property>
+                <property name="label">!!! VACCINE ERROR !!!
+SOMETHING HAS GONE WRONG
+TELL A PROGRAMMER</property>
                 <property name="use_markup">True</property>
                 <property name="wrap">True</property>
                 <property name="wrap_mode">word-char</property>

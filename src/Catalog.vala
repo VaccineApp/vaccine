@@ -4,7 +4,9 @@ namespace Vaccine {
     public class Catalog : Object {
         public signal void downloaded (ArrayList<Page> catalog);
 
-        private async void real_download (string board) {
+        public async void download (string board) {
+            if (board == "")
+                return;
             var catalog = new ArrayList<Page> ();
             try {
                 var json = new Json.Parser ();
@@ -24,11 +26,6 @@ namespace Vaccine {
                 debug (e.message);
             }
             downloaded (catalog);
-        }
-
-        public void download (string board)  {
-            if (board != null && board != "")
-                real_download.begin (board);
         }
     }
 }

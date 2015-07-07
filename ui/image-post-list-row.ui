@@ -233,7 +233,9 @@
                 <property name="can_focus">False</property>
                 <property name="margin_bottom">10</property>
                 <property name="xpad">10</property>
-                <property name="label" translatable="yes">This is a post</property>
+                <property name="label">!!! VACCINE ERROR !!!
+SOMETHING HAS GONE WRONG
+TELL A PROGRAMMER</property>
                 <property name="use_markup">True</property>
                 <property name="wrap">True</property>
                 <property name="wrap_mode">word-char</property>
