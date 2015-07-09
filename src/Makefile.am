@@ -11,9 +11,7 @@ vaccine_SOURCES = \
 	model/Page.vala \
 	model/Post.vala \
 	view/ThreadPane.vala \
-	view/ThreadPaneView.vala \
 	view/PostListRow.vala \
-	view/ImagePostListRow.vala \
 	view/MainWindow.vala \
 	view/CatalogWidget.vala \
 	view/CatalogItem.vala \

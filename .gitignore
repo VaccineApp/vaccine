@@ -55,8 +55,6 @@ Makefile
 
 # this is a vala proj
 *.c
-vaccine.h
-vaccine.vapi
 
 vaccine
 .gdb_history
