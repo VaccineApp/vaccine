@@ -24,7 +24,7 @@ namespace Vaccine {
             if (a_tag_level == 0) { // we are not inside an <a> tag, so wrap links
                 string link;
                 try {
-                    link = /(\S+:\/\/\S*)/.replace(text, -1, 0, "<a href=\"\\1\">\\1</a>");
+                    link = /(\w+:\/\/\S*)/.replace(text, -1, 0, "<a href=\"\\1\">\\1</a>");
                 } catch (RegexError e) {
                     debug (e.message);
                     link = text;
