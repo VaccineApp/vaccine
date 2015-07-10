@@ -1,7 +1,7 @@
 namespace Vaccine {
     [GtkTemplate (ui = "/vaccine/main-window.ui")]
     public class MainWindow : Gtk.ApplicationWindow {
-        [GtkChild] private Gtk.HeaderBar headerbar;
+        /*unused*/ // [GtkChild] private Gtk.HeaderBar headerbar;
         [GtkChild] private Gtk.Notebook notebook;
 
         [GtkChild] private Gtk.Popover popover;
@@ -27,19 +27,22 @@ namespace Vaccine {
             });
 
             listbox.row_selected.connect (row => {
-                FourChan.board = row.get_child ().name;
-                popover.visible = false;
-                searchentry.text = "";
+                if (row != null) { // why is it null?
+                    FourChan.board = row.get_child ().name;
+                    popover.visible = false;
+                    searchentry.text = "";
+                }
             });
 
             var catalog = new CatalogWidget ();
-            add_page (catalog, null, false);
+            add_page (catalog, false);
 
-            FourChan.catalog.downloaded.connect ((o, data) => {
+            FourChan.catalog.downloaded.connect ((o, board, threads) => {
                 catalog.clear ();
-                foreach (Page p in data)
-                    foreach (ThreadOP t in p.threads)
+                foreach (Page page in threads)
+                    foreach (ThreadOP t in page.threads)
                         catalog.add (this, t);
+                catalog.name = @"/$board/ - Catalog";
             });
 
             this.show_all ();
@@ -49,12 +52,12 @@ namespace Vaccine {
             FourChan.get_thread.begin (FourChan.board, no, (obj, res) => {
                 Thread thread = FourChan.get_thread.end (res);
                 var widget = new ThreadPane (thread);
-                add_page (widget, FourChan.get_tab_title (thread), true);
+                add_page (widget);
             });
         }
 
-        private void add_page (Gtk.Widget w, string? name, bool c) {
-            int i = notebook.append_page (w, new Tab (notebook, w, name, c));
+        private void add_page (Gtk.Widget w, bool closeable = true) {
+            int i = notebook.append_page (w, new Tab (notebook, w, closeable));
             notebook.set_current_page (i);
         }
     }

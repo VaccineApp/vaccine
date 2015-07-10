@@ -14,9 +14,8 @@ namespace Vaccine {
             if (t.filename == null) {
                 post_thumbnail.destroy ();
             } else {
-                FourChan.get_thumbnail.begin (t, (obj, res) => {
-                    post_thumbnail.pixbuf = FourChan.get_thumbnail.end (res);
-                });
+                FourChan.get_thumbnail.begin (t, (obj, res) =>
+                    post_thumbnail.pixbuf = FourChan.get_thumbnail.end (res));
             }
         }
     }

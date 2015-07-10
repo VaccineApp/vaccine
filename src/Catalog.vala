@@ -2,11 +2,12 @@ using Gee;
 
 namespace Vaccine {
     public class Catalog : Object {
-        public signal void downloaded (ArrayList<Page> catalog);
+        public signal void downloaded (string board, ArrayList<Page> catalog);
 
-        public async void download (string board) {
-            if (board == "")
-                return;
+        public async void download (string board)
+        {
+            if (board.length == 0)
+                return; // can't have requires () on an async function
             var catalog = new ArrayList<Page> ();
             try {
                 var json = new Json.Parser ();
@@ -25,7 +26,7 @@ namespace Vaccine {
             } catch (Error e) {
                 debug (e.message);
             }
-            downloaded (catalog);
+            downloaded (board, catalog);
         }
     }
 }

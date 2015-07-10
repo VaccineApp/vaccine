@@ -82,7 +82,15 @@ namespace Vaccine {
 
         public static string transform_post (string com) throws MarkupError {
             var xfm = new PostTransformer ();
-            var post = com
+            var post = common_clean (com);
+            xfm.ctx.parse (@"<$TOP_LEVEL_TAG>$post</$TOP_LEVEL_TAG>", -1); // requires a top-level element
+            // TODO: remove when it all works
+            // print (@"\n\x1b[35m==========================================\x1b[0m\n$com\n\t\t\t\t\x1b[44mv\x1b[0m\n$(xfm.dest)\n\n");
+            return xfm.dest;
+        }
+
+        public static string common_clean (string com) {
+            return com
                 .compress ()
                 .replace ("&", "&amp;")
                 .replace ("\n", "\\n") // in code tags
@@ -91,10 +99,6 @@ namespace Vaccine {
                 .replace ("<br>",      "\n") // unclosed tag
                 .replace ("<br />",    "\n")
                 .replace ("<wbr>",     "");
-            xfm.ctx.parse (@"<$TOP_LEVEL_TAG>$post</$TOP_LEVEL_TAG>", -1); // requires a top-level element
-            // TODO: remove when it all works
-            // print (@"\n\x1b[35m==========================================\x1b[0m\n$com\n\t\t\t\t\x1b[44mv\x1b[0m\n$(xfm.dest)\n\n");
-            return xfm.dest;
         }
     }
 }

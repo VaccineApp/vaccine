@@ -6,6 +6,7 @@ vaccine_SOURCES = \
 	FourChan.vala \
 	Catalog.vala \
 	PostFormatter.vala \
+	Stripper.vala \
 	Util.vala \
 	model/Board.vala \
 	model/Page.vala \
