@@ -2,21 +2,21 @@ bin_PROGRAMS = vaccine
 
 vaccine_SOURCES = \
 	App.vala \
-	Thread.vala \
-	FourChan.vala \
 	Catalog.vala \
+	FourChan.vala \
 	PostFormatter.vala \
 	Stripper.vala \
+	Thread.vala \
 	Util.vala \
 	model/Board.vala \
 	model/Page.vala \
 	model/Post.vala \
-	view/ThreadPane.vala \
-	view/PostListRow.vala \
-	view/MainWindow.vala \
-	view/CatalogWidget.vala \
 	view/CatalogItem.vala \
+	view/CatalogWidget.vala \
+	view/MainWindow.vala \
+	view/PostListRow.vala \
 	view/Tab.vala \
+	view/ThreadPane.vala \
 	resources.c
 
 vaccine_resources = $(shell glib-compile-resources --sourcedir=$(top_srcdir)/ui --generate-dependencies $(top_srcdir)/ui/resources.xml)

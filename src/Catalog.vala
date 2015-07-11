@@ -19,7 +19,7 @@ namespace Vaccine {
                             var page = Json.gobject_deserialize (typeof (Page), node) as Page;
                             page.board = board;
                             foreach (var op in page.threads)
-                                op.board = page.board;
+                                op.board = board;
                             catalog.add (page);
                         });
                 }
