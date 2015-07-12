@@ -56,7 +56,8 @@ namespace Vaccine {
         public void show_thread (int64 no) {
             FourChan.get_thread.begin (FourChan.board, no, (obj, res) => {
                 Thread thread = FourChan.get_thread.end (res);
-                var widget = new ThreadPane (thread);
+                var widget = new PanelView.with_name (FourChan.get_tab_title (thread));
+                widget.add (new ThreadPane (thread));
                 add_page (widget);
             });
         }

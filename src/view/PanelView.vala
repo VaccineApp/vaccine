@@ -2,6 +2,8 @@ using Gtk;
 
 namespace Vaccine {
     public class PanelView : Container {
+        private List<Widget> _children;
+
         private uint _current = 0;
         public uint current {
             get { return _current; }
@@ -25,29 +27,49 @@ namespace Vaccine {
             base.set_has_window (false);
             base.set_can_focus (true);
             base.set_redraw_on_allocate (false);
+            // Widget
+            this.set_visible (true);
             // misc
             max_visible = maximum_visible;
+            _children = new List<weak Widget> ();
+        }
+
+        public PanelView.with_name (string name, uint maximum_visible = 2) {
+            this (maximum_visible);
+            this.name = name;
         }
 
         public override void add (Widget widget) {
+            _children.append (widget);
             widget.set_parent (this);
+            if (get_visible () && widget.get_visible ())
+                queue_resize ();
         }
 
         public override void remove (Widget widget) {
+            _children.remove (widget);
             widget.unparent ();
             if (get_visible () && widget.get_visible ())
-                queue_resize_no_redraw ();
+                queue_resize ();
+        }
+
+        public override void forall_internal (bool include_internal, Gtk.Callback callback) {
+            _children.foreach ((w) => callback(w));
         }
 
         public override SizeRequestMode get_request_mode () {
             return SizeRequestMode.WIDTH_FOR_HEIGHT;
         }
 
+        public override Type child_type () {
+            return typeof (ThreadPane);
+        }
+
         public override void size_allocate (Allocation allocation) {
             uint border_width = get_border_width ();
             Allocation child_allocation = Allocation ();
-            child_allocation.x = (int) border_width;
-            child_allocation.y = (int) border_width;
+            child_allocation.x = allocation.x + (int) border_width;
+            child_allocation.y = allocation.y + (int) border_width;
             child_allocation.width = (allocation.width - 2*(int) border_width) / (int) max_visible;
             child_allocation.height = allocation.height - 2*(int) border_width;
             uint nthchild = 0;
@@ -68,7 +90,7 @@ namespace Vaccine {
         }
 
         public new void get_preferred_size (out Requisition minimum_size, out Requisition natural_size) {
-            unowned List<weak Widget> list = get_children ().nth (current);
+            unowned List<Widget> list = get_children ().nth (current);
             minimum_size = { 0, 0 };
             natural_size = { 0, 0 };
 
