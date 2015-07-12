@@ -2,8 +2,14 @@ using Gee;
 
 namespace Vaccine {
     public class Thread : Object, ListModel {
-        public ArrayList<Post> posts = new ArrayList<Post> ();
+        private ArrayList<Post> realposts;
+        private ArrayList<Post>? _filtered_posts;
+        public ArrayList<Post> posts {
+            get { return _filtered_posts ?? realposts; }
+        }
         public string board { get; construct; }
+
+        public delegate bool FilterFunc(Post p);
 
         public ThreadOP op {
             get {
@@ -14,8 +20,19 @@ namespace Vaccine {
             }
         }
 
-        public Thread(string board_name) {
+        public Thread (string board_name) {
             Object(board: board_name);
+            realposts = new ArrayList<Post> ();
+        }
+
+        public Thread filter (FilterFunc func) {
+            Thread t = new Thread (board);
+            t.realposts = realposts;
+            t._filtered_posts = new ArrayList<Post> ();
+            foreach (var post in t.realposts)
+                if (func (post))
+                    t._filtered_posts.add (post);
+            return t;
         }
 
         public Object? get_item (uint pos)
