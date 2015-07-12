@@ -43,14 +43,14 @@ namespace Vaccine {
             _children.append (widget);
             widget.set_parent (this);
             if (get_visible () && widget.get_visible ())
-                queue_resize ();
+                queue_resize_no_redraw ();
         }
 
         public override void remove (Widget widget) {
             _children.remove (widget);
             widget.unparent ();
             if (get_visible () && widget.get_visible ())
-                queue_resize ();
+                queue_resize_no_redraw ();
         }
 
         public override void forall_internal (bool include_internal, Gtk.Callback callback) {
@@ -66,7 +66,7 @@ namespace Vaccine {
         }
 
         public override void size_allocate (Allocation allocation) {
-            uint length = get_children ().length ();
+            uint length = _children.length ();
             int border_width = (int) get_border_width ();
             Allocation child_allocation = Allocation ();
             child_allocation.x = allocation.x + border_width;
@@ -74,7 +74,7 @@ namespace Vaccine {
             child_allocation.width = (allocation.width - 2*border_width) / (int) uint.min(max_visible, length);
             child_allocation.height = allocation.height - 2*border_width;
             uint nthchild = 0;
-            get_children ().foreach ((widget) => {
+            _children.foreach ((widget) => {
                 Allocation widget_allocation = Allocation() {
                     x = child_allocation.x +
                         (nthchild <= current ? 0 : (int)(nthchild - current)*child_allocation.width),
@@ -91,7 +91,7 @@ namespace Vaccine {
         }
 
         public new void get_preferred_size (out Requisition minimum_size, out Requisition natural_size) {
-            unowned List<Widget> list = get_children ().nth (current);
+            unowned List<Widget> list = _children.nth (current);
             minimum_size = { 0, 0 };
             natural_size = { 0, 0 };
 

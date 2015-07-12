@@ -9,7 +9,7 @@ namespace Vaccine {
         }
 
         public ThreadPane (Thread thread) {
-            this.name = FourChan.get_tab_title(thread);
+            this.name = thread.get_tab_title ();
             this.list.set_header_func (add_separator);
             this.list.bind_model (thread, item => new PostListRow (item as Post));
         }

@@ -109,12 +109,6 @@ namespace Vaccine {
             }
         }
 
-        public static string get_tab_title (Thread thread) {
-            var title = @"/$board/ - ";
-            title += thread.op.sub ?? Stripper.transform_post(thread.op.com) ?? thread.op.no.to_string ();
-            return Util.ellipsize(title, 32);
-        }
-
         public static string get_post_text (string? com) {
             if (com == null)
                 return "";
