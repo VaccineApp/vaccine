@@ -66,11 +66,12 @@ namespace Vaccine {
         }
 
         public override void size_allocate (Allocation allocation) {
+            uint length = get_children ().length ();
             uint border_width = get_border_width ();
             Allocation child_allocation = Allocation ();
             child_allocation.x = allocation.x + (int) border_width;
             child_allocation.y = allocation.y + (int) border_width;
-            child_allocation.width = (allocation.width - 2*(int) border_width) / (int) max_visible;
+            child_allocation.width = (allocation.width - 2*(int) border_width) / (int) uint.min(max_visible, length);
             child_allocation.height = allocation.height - 2*(int) border_width;
             uint nthchild = 0;
             get_children ().foreach ((widget) => {
