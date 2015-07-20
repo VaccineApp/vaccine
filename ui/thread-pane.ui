@@ -16,7 +16,6 @@
           <object class="GtkListBox" id="list">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="selection_mode">browse</property>
           </object>
         </child>
       </object>

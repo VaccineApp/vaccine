@@ -3,13 +3,13 @@ using Gee;
 namespace Vaccine {
     public class Thread : Object, ListModel {
         private ArrayList<Post> realposts;
-        private ArrayList<Post>? _filtered_posts;
+        private ArrayList<Post>? filtered_posts;
         public ArrayList<Post> posts {
-            get { return _filtered_posts ?? realposts; }
+            get { return filtered_posts ?? realposts; }
         }
         public string board { get; construct; }
 
-        public delegate bool FilterFunc(Post p);
+        public delegate bool FilterFunc (Post p);
 
         public ThreadOP op {
             get {
@@ -28,10 +28,10 @@ namespace Vaccine {
         public Thread filter (FilterFunc func) {
             Thread t = new Thread (board);
             t.realposts = realposts;
-            t._filtered_posts = new ArrayList<Post> ();
+            t.filtered_posts = new ArrayList<Post> ();
             foreach (var post in t.realposts)
                 if (func (post))
-                    t._filtered_posts.add (post);
+                    t.filtered_posts.add (post);
             return t;
         }
 
@@ -49,9 +49,9 @@ namespace Vaccine {
             return posts.size;
         }
 
-        public static string get_tab_title (Thread thread) {
+        public string get_tab_title () {
             var title = @"/$board/ - ";
-            title += thread.op.sub ?? Stripper.transform_post(thread.op.com) ?? thread.op.no.to_string ();
+            title += op.sub ?? Stripper.transform_post(op.com) ?? op.no.to_string ();
             return Util.ellipsize(title, 32);
         }
     }

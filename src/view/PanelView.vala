@@ -42,8 +42,12 @@ namespace Vaccine {
         public override void add (Widget widget) {
             _children.append (widget);
             widget.set_parent (this);
-            if (get_visible () && widget.get_visible ())
+            if (get_visible () && widget.get_visible ()) {
                 queue_resize_no_redraw ();
+                uint len = _children.length ();
+                if (len - current > 2)
+                    current = len - 2;
+            }
         }
 
         public override void remove (Widget widget) {
@@ -54,7 +58,7 @@ namespace Vaccine {
         }
 
         public override void forall_internal (bool include_internal, Gtk.Callback callback) {
-            _children.foreach ((w) => callback(w));
+            _children.foreach ((w) => callback (w));
         }
 
         public override SizeRequestMode get_request_mode () {
@@ -90,7 +94,7 @@ namespace Vaccine {
             base.size_allocate (allocation);
         }
 
-        // TODO: remove this later
+        /*
         public new void get_preferred_size (out Requisition minimum_size, out Requisition natural_size) {
             unowned List<Widget> list = _children.nth (current);
             minimum_size = { 0, 0 };
@@ -107,6 +111,7 @@ namespace Vaccine {
                 natural_size.height += child_natsize.height;
             }
         }
+        */
 
         public override bool draw (Cairo.Context cr) {
             base.draw (cr);
