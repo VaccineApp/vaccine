@@ -69,15 +69,11 @@ namespace Vaccine {
                 if (yield json.load_from_stream_async (stream, null)) {
                     var posts_arr = json.get_root ().get_object ().get_array_member ("posts");
                     posts_arr.foreach_element ((arr, index, node) => {
-                        if (index != 0) {
-                            var p = Json.gobject_deserialize (typeof (Post), node) as Post;
-                            p.thread = thread;
-                            thread.posts.add (p);
-                        } else {
-                            var p = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
-                            p.thread = thread;
-                            thread.posts.add (p);
-                        }
+                        Post p;
+                        if (index == 0) p = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
+                        else            p = Json.gobject_deserialize (typeof (Post), node) as Post;
+                        p.thread = thread;
+                        thread.posts.add (p);
                     });
                 }
             } catch (Error e) {
@@ -90,12 +86,16 @@ namespace Vaccine {
             requires (p.filename != null)
         {
             var url = @"https://i.4cdn.org/$(p.board)/$(p.tim)s.jpg";
+            return yield download_image (url);
+        }
+
+        public static async Gdk.Pixbuf? download_image (string url) {
             var msg = new Soup.Message ("GET", url);
             try {
                 var stream = yield soup.send_async (msg);
                 return yield new Gdk.Pixbuf.from_stream_async (stream, null);
             } catch (Error e) {
-                debug (@"$(e.message) (board=$(p.thread == null))");
+                debug (e.message);
                 return null;
             }
         }
