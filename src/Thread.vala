@@ -11,13 +11,10 @@ namespace Vaccine {
 
         public delegate bool FilterFunc (Post p);
 
+        private ThreadOP? _op;
         public ThreadOP op {
-            get {
-                assert (posts.size > 0);
-                ThreadOP *p = posts[0] as ThreadOP;
-                p->unref(); // TODO: is this truly necessary?
-                return p;
-            }
+            get { return _op == null ? (_op = posts[0] as ThreadOP) : _op; }
+            private set { _op = value; }
         }
 
         public Thread (string board_name) {
@@ -27,6 +24,7 @@ namespace Vaccine {
 
         public Thread filter (FilterFunc func) {
             Thread t = new Thread (board);
+            t.op = op;
             t.realposts = realposts;
             t.filtered_posts = new ArrayList<Post> ();
             foreach (var post in t.realposts)

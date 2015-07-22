@@ -51,6 +51,7 @@ namespace Vaccine {
         }
 
         public override void remove (Widget widget) {
+            // TODO: remove all nodes after this widget, too
             _children.remove (widget);
             widget.unparent ();
             if (get_visible () && widget.get_visible ())

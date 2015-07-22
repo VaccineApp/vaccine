@@ -1,7 +1,10 @@
+using Vaccine.Util;
+
 namespace Vaccine {
     [GtkTemplate (ui = "/vaccine/thread-pane.ui")]
     public class ThreadPane : Gtk.ScrolledWindow {
         [GtkChild] private Gtk.ListBox list;
+        public Thread thread { get; construct; }
 
         private void add_separator (Gtk.ListBoxRow row, Gtk.ListBoxRow? before) {
                 if (before != null && row.get_header () == null)
@@ -9,9 +12,11 @@ namespace Vaccine {
         }
 
         public ThreadPane (Thread thread) {
-            this.name = thread.get_tab_title ();
-            this.list.set_header_func (add_separator);
-            this.list.bind_model (thread, item => new PostListRow (item as Post));
+            Object (thread: thread);
+            name = new StringModifier (thread.get_tab_title ()).replace (/\s/, "_").text;
+            list.set_header_func (add_separator);
+            list.bind_model (thread, item => new PostListRow (item as Post));
+            get_style_context ().remove_class ("frame");    // no borders
         }
     }
 }

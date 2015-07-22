@@ -14,7 +14,12 @@ namespace Vaccine {
 
         private Cancellable? cancel = null;
 
+        public Post post { get; construct; }
+        public Thread replies { get; private set; }
+
         public PostListRow (Post t) {
+            Object (post: t);
+            replies = get_all_replies ();
             /*
             post_time.label = FourChan.get_post_time (t.time);
             post_id.label = @"#$(t.no)";
@@ -39,11 +44,25 @@ namespace Vaccine {
             });
 
             post_text.label = FourChan.get_post_text (t.com);
+
+            if (replies.posts.size == 0)
+                responses_button.destroy ();
+            else
+                responses_button.set_tooltip_text (@"Show replies to #$(t.no)");
         }
 
         ~PostListRow () {
             if (cancel != null)
                 cancel.cancel ();
+        }
+
+        private Thread get_all_replies () {
+            return post.thread.filter ((p) => p.com != null && p.com.contains ("&gt;&gt;"+post.no.to_string ()));
+        }
+
+        [GtkCallback] private void show_responses () {
+            var panelView = (get_ancestor (typeof (PanelView)) as PanelView);
+            panelView.add (new ThreadPane (replies));
         }
     }
 }

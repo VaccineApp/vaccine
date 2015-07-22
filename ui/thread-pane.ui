@@ -20,5 +20,8 @@
         </child>
       </object>
     </child>
+    <style>
+      <class name="threadpane"/>
+    </style>
   </template>
 </interface>
