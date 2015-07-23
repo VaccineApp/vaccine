@@ -7,6 +7,7 @@ namespace Vaccine {
         [GtkChild] private Gtk.Popover popover;
         [GtkChild] private Gtk.ListBox listbox;
         [GtkChild] private Gtk.SearchEntry searchentry;
+        [GtkChild] private Gtk.Label buttonlabel;
 
         public MainWindow (Gtk.Application app) {
             Object (application: app);
@@ -28,9 +29,14 @@ namespace Vaccine {
 
             listbox.row_selected.connect (row => {
                 if (row != null) { // why is it null?
-                    FourChan.board = row.get_child ().name;
+                    var child = row.get_child () as Gtk.Label;
+                    FourChan.board = child.name;
+                    buttonlabel.label = child.label;
+
                     popover.visible = false;
                     searchentry.text = "";
+
+                    notebook.set_current_page (0);
                 }
             });
 
@@ -42,7 +48,6 @@ namespace Vaccine {
                 foreach (Page page in threads)
                     foreach (ThreadOP t in page.threads)
                         catalog.add (this, t);
-                catalog.name = @"/$board/ - Catalog";
             });
 
             this.show_all ();

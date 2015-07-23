@@ -71,7 +71,7 @@
             <property name="receives_default">True</property>
             <property name="popover">popover</property>
             <child>
-              <object class="GtkLabel" id="label1">
+              <object class="GtkLabel" id="buttonlabel">
                 <property name="visible">True</property>
                 <property name="label">Board</property>
               </object>

@@ -7,6 +7,8 @@ namespace Vaccine {
         [GtkChild] private Gtk.Label post_subject;
         [GtkChild] private Gtk.Label post_comment;
 
+        private Cancellable cancel = null;
+
         private int64 post_no = -1;
 
         public CatalogItem (MainWindow win, ThreadOP t) {
@@ -14,9 +16,9 @@ namespace Vaccine {
             this.post_no = t.no;
 
             if (t.filename != null) { // deleted files
-                FourChan.get_thumbnail.begin (t, (obj, res) => {
-                    if (post_image != null) // I think it is null when being finalized
-                        post_image.pixbuf = FourChan.get_thumbnail.end (res);
+                cancel = FourChan.get_thumbnail (t, buf => {
+                    cancel = null;
+                    post_image.pixbuf = buf;
                 });
             }
             this.post_comment.label = FourChan.get_post_text (t.com);
@@ -24,6 +26,11 @@ namespace Vaccine {
                 this.post_subject.label = @"<b>$(t.sub)</b>";
             else
                 post_subject.destroy ();
+        }
+
+        ~CatalogItem () {
+            if (cancel != null)
+                cancel.cancel ();
         }
 
         public override void clicked () {

@@ -82,17 +82,25 @@ namespace Vaccine {
             return thread;
         }
 
-        public static async Gdk.Pixbuf? get_thumbnail (Post p)
+        public delegate void UseDownloadedPixbuf (Gdk.Pixbuf buf);
+
+        public static Cancellable get_thumbnail (Post p, UseDownloadedPixbuf cb)
             requires (p.filename != null)
         {
             var url = @"https://i.4cdn.org/$(p.board)/$(p.tim)s.jpg";
-            return yield download_image (url);
+            var cancel = new Cancellable ();
+            download_image.begin (url, cancel, (obj, res) => {
+                Gdk.Pixbuf? buf = download_image.end (res);
+                if (buf != null)
+                    cb (buf);
+            });
+            return cancel;
         }
 
-        public static async Gdk.Pixbuf? download_image (string url) {
+        public static async Gdk.Pixbuf? download_image (string url, Cancellable cancel) {
             var msg = new Soup.Message ("GET", url);
             try {
-                var stream = yield soup.send_async (msg);
+                var stream = yield soup.send_async (msg, cancel);
                 return yield new Gdk.Pixbuf.from_stream_async (stream, null);
             } catch (Error e) {
                 debug (e.message);
