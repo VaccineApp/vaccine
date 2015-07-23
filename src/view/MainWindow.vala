@@ -12,7 +12,7 @@ namespace Vaccine {
         public MainWindow (Gtk.Application app) {
             Object (application: app);
 
-            listbox.set_filter_func (row => (row.get_child () as Gtk.Label).name.down ().contains (searchentry.text.down ()));
+            listbox.set_filter_func (row => (row.get_child () as Gtk.Label).name.contains (searchentry.text));
             searchentry.changed.connect (listbox.invalidate_filter);
 
             FourChan.get_boards.begin ((obj, res) => {

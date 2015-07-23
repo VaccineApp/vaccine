@@ -92,7 +92,7 @@ namespace Vaccine {
             var cancel = new Cancellable ();
             download_image.begin (url, cancel, (obj, res) => {
                 Gdk.Pixbuf? buf = download_image.end (res);
-                if (buf != null)
+                if (!cancel.is_cancelled () && buf != null)
                     cb ((!) buf);
             });
             return cancel;
