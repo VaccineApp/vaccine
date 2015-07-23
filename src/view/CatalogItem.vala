@@ -4,6 +4,7 @@ namespace Vaccine {
         private unowned MainWindow main_window;
 
         [GtkChild] private Gtk.Image post_image;
+        [GtkChild] private Gtk.Label post_subject;
         [GtkChild] private Gtk.Label post_comment;
 
         private int64 post_no = -1;
@@ -19,6 +20,10 @@ namespace Vaccine {
                 });
             }
             this.post_comment.label = FourChan.get_post_text (t.com);
+            if (t.sub != null)
+                this.post_subject.label = @"<b>$(t.sub)</b>";
+            else
+                post_subject.destroy ();
         }
 
         public override void clicked () {
