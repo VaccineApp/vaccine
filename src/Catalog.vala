@@ -7,7 +7,7 @@ namespace Vaccine {
         public async void download (string board)
         {
             if (board.length == 0)
-                return; // can't have requires () on an async function
+                return; // can't have requires () on an async function?
             var catalog = new ArrayList<Page> ();
             try {
                 var json = new Json.Parser ();
@@ -17,6 +17,7 @@ namespace Vaccine {
                         .get_array ()
                         .foreach_element ((arr, index, node) => {
                             var page = Json.gobject_deserialize (typeof (Page), node) as Page;
+                            assert (page != null);
                             page.board = board;
                             foreach (var op in page.threads)
                                 op.board = board;

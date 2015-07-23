@@ -7,7 +7,7 @@ namespace Vaccine {
         [GtkChild] private Gtk.Label post_subject;
         [GtkChild] private Gtk.Label post_comment;
 
-        private Cancellable cancel = null;
+        private Cancellable? cancel = null;
 
         private int64 post_no = -1;
 

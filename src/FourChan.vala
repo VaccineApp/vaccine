@@ -72,7 +72,8 @@ namespace Vaccine {
                         Post p;
                         if (index == 0) p = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
                         else            p = Json.gobject_deserialize (typeof (Post), node) as Post;
-                        p.thread = thread;
+                        assert (p != null);
+                        p.board = board;
                         thread.posts.add (p);
                     });
                 }
@@ -92,7 +93,7 @@ namespace Vaccine {
             download_image.begin (url, cancel, (obj, res) => {
                 Gdk.Pixbuf? buf = download_image.end (res);
                 if (buf != null)
-                    cb (buf);
+                    cb ((!) buf);
             });
             return cancel;
         }
@@ -118,7 +119,7 @@ namespace Vaccine {
             if (com == null)
                 return "";
             try {
-                return PostTransformer.transform_post (com);
+                return PostTransformer.transform_post ((!) com);
             } catch (MarkupError e) {
                 debug (e.message);
                 return "";
