@@ -50,7 +50,7 @@ namespace Vaccine {
         public string get_tab_title () {
             var title = @"/$board/ - ";
             title += op.sub ?? Stripper.transform_post(op.com) ?? op.no.to_string ();
-            return Util.ellipsize(title, 32);
+            return title;
         }
     }
 }

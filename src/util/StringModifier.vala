@@ -1,9 +1,5 @@
 namespace Vaccine {
     namespace Util {
-        string ellipsize (string s, uint lim) {
-            return s.length > lim ? s[0:lim] + "..." : s;
-        }
-
         public class StringModifier : Object {
             public string text { get; private set; }
 

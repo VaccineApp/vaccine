@@ -16,7 +16,6 @@ namespace Vaccine {
             name = new StringModifier (thread.get_tab_title ()).replace (/\s/, "_").text;
             list.set_header_func (add_separator);
             list.bind_model (thread, item => new PostListRow (item as Post));
-            get_style_context ().remove_class ("frame");    // no borders
         }
     }
 }

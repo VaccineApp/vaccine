@@ -1,16 +1,16 @@
 namespace Vaccine {
     [GtkTemplate (ui = "/vaccine/post-list-row.ui")]
     public class PostListRow : Gtk.ListBoxRow {
-        // still unsure about showing time, id, etc...
-        /*
-        [GtkChild] private Gtk.Label post_time;
+        [GtkChild] private Gtk.Box content;
+
         [GtkChild] private Gtk.Label post_name;
-        [GtkChild] private Gtk.Label post_id;
-        */
+        [GtkChild] private Gtk.Label post_time;
+        [GtkChild] private Gtk.Label post_no;
+
         [GtkChild] private Gtk.Label post_text;
         [GtkChild] private Gtk.Image post_thumbnail;
-        [GtkChild] private Gtk.Button image_button;
         [GtkChild] private Gtk.Button responses_button;
+        [GtkChild] private Gtk.Label replies_text;
 
         private Cancellable? cancel = null;
 
@@ -20,13 +20,15 @@ namespace Vaccine {
         public PostListRow (Post t) {
             Object (post: t);
             replies = get_all_replies ();
-            /*
-            post_time.label = FourChan.get_post_time (t.time);
-            post_id.label = @"#$(t.no)";
+
+            content.margin = 20; // glade erases this so just set in code
+
             post_name.label = t.name;
-            */
+            post_time.label = FourChan.get_post_time (t.time);
+            post_no.label = @"No. $(t.no)";
+
             if (t.filename == null) {
-                image_button.destroy ();
+                post_thumbnail.destroy ();
             } else {
                 cancel = FourChan.get_thumbnail (t, buf => {
                     cancel = null;
@@ -38,8 +40,10 @@ namespace Vaccine {
 
             if (replies.posts.size == 0)
                 responses_button.destroy ();
+            else if (replies.posts.size == 1)
+                replies_text.label = "1 reply";
             else
-                responses_button.set_tooltip_text (@"Show replies to #$(t.no)");
+                replies_text.label = replies.posts.size.to_string () + " replies";
         }
 
         ~PostListRow () {
@@ -52,7 +56,7 @@ namespace Vaccine {
         }
 
         [GtkCallback] private void show_responses () {
-            var panelView = (get_ancestor (typeof (PanelView)) as PanelView);
+            var panelView = get_ancestor (typeof (PanelView)) as PanelView;
             panelView.add (new ThreadPane (replies));
         }
     }
