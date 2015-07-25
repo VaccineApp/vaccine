@@ -45,14 +45,21 @@ namespace Vaccine {
             if (get_visible () && widget.get_visible ()) {
                 queue_resize_no_redraw ();
                 uint len = _children.length ();
-                if (len - current > 2)
-                    current = len - 2;
+                if (len - current > max_visible)
+                    current = len - max_visible;
             }
         }
 
         public override void remove (Widget widget) {
-            // TODO: remove all nodes after this widget, too
+            unowned List<Widget> elem = _children.find (widget);
+            int position = _children.position (elem);
+            if (elem.next != null)
+                remove (elem.next.data);
             _children.remove (widget);
+            if (current >= position)
+                current = position >= max_visible ? position - max_visible : position - 1;
+            else if (position - (int)current < max_visible)
+                current = current > 0 ? current - 1 : current;
             widget.unparent ();
             if (get_visible () && widget.get_visible ())
                 queue_resize_no_redraw ();

@@ -7,5 +7,6 @@
         <file>catalog-widget.ui</file>
         <file>catalog-item.ui</file>
         <file>tab.ui</file>
+        <file>thread-pane.css</file>
     </gresource>
 </gresources>
