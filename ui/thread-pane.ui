@@ -44,6 +44,10 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
                     <signal name="clicked" handler="close" swapped="no"/>
                     <child>
                       <object class="GtkImage" id="image1">
@@ -54,7 +58,7 @@
                     </child>
                     <style>
                       <class name="button"/>
-                      <class name="small-button"/>
+                      <class name="image-button"/>
                       <class name="flat"/>
                     </style>
                   </object>
