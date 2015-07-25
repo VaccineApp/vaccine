@@ -34,15 +34,6 @@ namespace Vaccine {
                 });
             }
 
-            responses_button.clicked.connect(() => {
-                PanelView view = get_ancestor (typeof (PanelView)) as PanelView;
-                Thread replies = t.thread.filter ((post) => post.com.contains ("&gt;&gt;"+t.no.to_string ()));
-                foreach (var post in replies.posts) // for debug
-                    stdout.printf ("reply: %s\n", post.com);
-                if (replies.posts.size > 0)
-                    view.add (new ThreadPane (replies));
-            });
-
             post_text.label = FourChan.get_post_text (t.com);
 
             if (replies.posts.size == 0)

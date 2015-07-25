@@ -23,8 +23,9 @@ namespace Vaccine {
             var list = new ArrayList<ThreadOP> ();
             property_node.get_array ().foreach_element ((arr, index, node) => {
                 var o = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
-                if (o != null)
-                    list.add ((!) o);
+                assert (o != null);
+                o.board = board;
+                list.add ((!) o);
             });
 
             val = Value (list.get_type ());
