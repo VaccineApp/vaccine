@@ -8,5 +8,6 @@
         <file>catalog-item.ui</file>
         <file>tab.ui</file>
         <file>thread-pane.css</file>
+        <file>post-list-row.css</file>
     </gresource>
 </gresources>

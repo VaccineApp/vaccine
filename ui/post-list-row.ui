@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.19.0 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <template class="VaccinePostListRow" parent="GtkListBoxRow">
@@ -21,8 +22,10 @@
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Anonymous</property>
                 <attributes>
-                  <attribute name="foreground" value="#bababdbdb6b6"/>
+                  <attribute name="weight" value="semibold"/>
+                  <attribute name="foreground" value="#2e2e34343636"/>
                 </attributes>
               </object>
               <packing>
@@ -36,6 +39,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">center</property>
+                <property name="label" translatable="yes">Date</property>
                 <attributes>
                   <attribute name="foreground" value="#bababdbdb6b6"/>
                 </attributes>
@@ -53,6 +57,7 @@
                 <property name="opacity">0.91000000000000003</property>
                 <property name="halign">end</property>
                 <property name="hexpand">True</property>
+                <property name="label" translatable="yes">No. 111111</property>
                 <attributes>
                   <attribute name="foreground" value="#bababdbdb6b6"/>
                 </attributes>
@@ -96,8 +101,6 @@
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">start</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
                 <property name="label" translatable="yes">&lt;span background="red" foreground="white" size="12000"&gt;/!\ ERROR /!\
 YOU SHOULD NOT SEE THIS
 &lt;a href="http://github.com/VaccineApp/vaccine/issues"&gt;tell a programmer (with the post no.)&lt;/a&gt;&lt;/span&gt;</property>
@@ -107,66 +110,86 @@ YOU SHOULD NOT SEE THIS
                 <property name="wrap_mode">word-char</property>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="footer">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
               <object class="GtkButton" id="responses_button">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="halign">end</property>
-                <property name="valign">end</property>
                 <property name="relief">none</property>
                 <signal name="clicked" handler="show_responses" swapped="no"/>
                 <child>
-                  <object class="GtkBox" id="box1">
+                  <object class="GtkOverlay" id="responses_image_overlay">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="spacing">6</property>
                     <child>
-                      <object class="GtkImage" id="replyicon">
+                      <object class="GtkImage" id="responses_image">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can_focus">True</property>
                         <property name="icon_name">user-available-symbolic</property>
+                        <property name="use_fallback">True</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
+                        <property name="index">-1</property>
                       </packing>
                     </child>
-                    <child>
-                      <object class="GtkLabel" id="replies_text">
+                    <child type="overlay">
+                      <object class="GtkLabel" id="responses_amount">
+                        <property name="width_request">16</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">3 replies</property>
+                        <property name="label" translatable="yes">0</property>
+                        <property name="justify">center</property>
+                        <property name="yalign">0.2800000011920929</property>
+                        <attributes>
+                          <attribute name="weight" value="semibold"/>
+                          <attribute name="foreground" value="#ffffffffffff"/>
+                          <attribute name="size" value="4900"/>
+                        </attributes>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="pass_through">True</property>
                       </packing>
                     </child>
                   </object>
                 </child>
+                <style>
+                  <class name="image-button"/>
+                </style>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">2</property>
+                <property name="pack_type">end</property>
+                <property name="position">0</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>
     </child>
+    <style>
+      <class name="post-list-row"/>
+    </style>
   </template>
 </interface>

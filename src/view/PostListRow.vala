@@ -10,7 +10,7 @@ namespace Vaccine {
         [GtkChild] private Gtk.Label post_text;
         [GtkChild] private Gtk.Image post_thumbnail;
         [GtkChild] private Gtk.Button responses_button;
-        [GtkChild] private Gtk.Label replies_text;
+        [GtkChild] private Gtk.Label responses_amount;
 
         private Cancellable? cancel = null;
 
@@ -21,7 +21,7 @@ namespace Vaccine {
             Object (post: t);
             replies = get_all_replies ();
 
-            content.margin = 20; // glade erases this so just set in code
+            content.margin = 15; // glade erases this so just set in code
 
             post_name.label = t.name;
             post_time.label = FourChan.get_post_time (t.time);
@@ -40,10 +40,11 @@ namespace Vaccine {
 
             if (replies.posts.size == 0)
                 responses_button.destroy ();
-            else if (replies.posts.size == 1)
-                replies_text.label = "1 reply";
-            else
-                replies_text.label = replies.posts.size.to_string () + " replies";
+            else {
+                responses_amount.label = replies.posts.size > 99 ? "99+" : @"$(replies.posts.size)";
+                responses_amount.get_style_context ().remove_class ("label");
+            }
+            Util.Stylizer.set_widget_css (this, "/vaccine/post-list-row.css");
         }
 
         ~PostListRow () {
