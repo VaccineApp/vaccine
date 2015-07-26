@@ -2,7 +2,7 @@ using Gtk;
 
 namespace Vaccine {
     public class PanelView : Container {
-        private List<Widget> _children;
+        private List<weak Widget> _children;
 
         private uint _current = 0;
         public uint current {
