@@ -1,3 +1,5 @@
+using Vaccine.Collections;
+
 namespace Vaccine {
     [GtkTemplate (ui = "/vaccine/post-list-row.ui")]
     public class PostListRow : Gtk.ListBoxRow {
@@ -16,8 +18,11 @@ namespace Vaccine {
 
         public Post post { get; construct; }
 
+        public ItemStore<Post> replies { get; private set; }
+
         public PostListRow (Post post) {
             Object (post: post);
+            replies = get_all_replies ();
 
             content.margin = 15; // glade erases this so just set in code
 
@@ -36,8 +41,7 @@ namespace Vaccine {
 
             post_text.label = FourChan.get_post_text (post.com);
 
-            var replies = get_all_replies ();
-            var nreplies = replies.get_n_items ();
+            var nreplies = replies.length;
             if (nreplies == 0) {
                 responses_button.destroy ();
             } else {
@@ -52,7 +56,7 @@ namespace Vaccine {
                 cancel.cancel ();
         }
 
-        private ListModel get_all_replies () {
+        private ItemStore<Post> get_all_replies () {
             return post.thread.filtered (_p => {
                 var p = _p as Post;
                 if (p == null || p.com == null) return false;
@@ -68,7 +72,7 @@ namespace Vaccine {
             Gtk.Widget? next;
             if ((next = children.nth_data (position + 1)) != null)
                 panelView.remove (next);
-            panelView.add (new ThreadPane (post.thread, get_all_replies (), @"Replies to No. $(post.no)"));
+            panelView.add (new ThreadPane (post.thread, replies, @"Replies to No. $(post.no)"));
         }
     }
 }
