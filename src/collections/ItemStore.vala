@@ -29,7 +29,7 @@ namespace Vaccine.Collections {
 
         public abstract void remove_all () requires (mutable);
 
-        public abstract ItemStore<G> filtered (owned Predicate<G> filter);
+        public abstract ItemStore<G> filtered (Predicate<G> func);
 
         public abstract Iterator<G> iterator ();
 

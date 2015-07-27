@@ -6,7 +6,7 @@ namespace Vaccine.Collections {
         ArrayList<G> list;
         Predicate<G> filterFunc;
 
-        public FilteredItemStore (ItemStore<G> store, owned Predicate<G> filter) {
+        public FilteredItemStore (ItemStore<G> store, Predicate<G> filter) {
             this.store = store;
             filterFunc = filter;
             mutable = false;
@@ -29,7 +29,7 @@ namespace Vaccine.Collections {
 
         public override void remove_all () {}
 
-        public override ItemStore<G> filtered (owned Predicate<G> func) {
+        public override ItemStore<G> filtered (Predicate<G> func) {
             return new FilteredItemStore<G> (this, func);
         }
 

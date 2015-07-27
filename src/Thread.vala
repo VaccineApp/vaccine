@@ -19,7 +19,7 @@ namespace Vaccine {
             }
         }
 
-        public override uint length { get { return (uint) posts.size; } }
+        public override uint length { get { return posts.size; } }
 
         public Thread (string board) {
             Object(board: board);
@@ -48,7 +48,7 @@ namespace Vaccine {
             posts.clear ();
         }
 
-        public override ItemStore<Post> filtered (owned Predicate<Post> func) {
+        public override ItemStore<Post> filtered (Predicate<Post> func) {
             return new FilteredItemStore<Post> (this, func);
         }
 
