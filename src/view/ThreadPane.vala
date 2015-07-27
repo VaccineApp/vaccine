@@ -14,7 +14,7 @@ namespace Vaccine {
 
         public ThreadPane (Thread thread, ListModel? model = null, string title = "") {
             Object (model: model);
-            name = new StringModifier (thread.get_tab_title ()).replace (/\s/, "_").text;
+            name = new StringModifier (thread.title).replace (/\s/, "_").window (0, 32).text;
             list.set_header_func (add_separator);
             list.bind_model (model ?? thread, item => new PostListRow (item as Post));
 

@@ -5,6 +5,12 @@ namespace Vaccine {
     public class Thread : ItemStore<Post> {
         ArrayList<Post> posts = new ArrayList<Post> ();
         public string board { get; construct; }
+        private string _title;
+        public string title {
+            get {
+                return _title ?? (_title = @"/$board/ - $(op.sub ?? Stripper.transform_post(op.com) ?? op.no.to_string ())");
+            }
+        }
 
         public ThreadOP op {
             get {
@@ -51,12 +57,6 @@ namespace Vaccine {
 
         public override Iterator<Post> iterator () {
             return posts.iterator ();
-        }
-
-        public string get_tab_title () {
-            var title = @"/$board/ - ";
-            title += op.sub ?? Stripper.transform_post(op.com) ?? op.no.to_string ();
-            return title;
         }
     }
 }

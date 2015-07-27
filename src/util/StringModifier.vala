@@ -23,5 +23,10 @@ namespace Vaccine {
         public StringModifier remove (string rm) {
             return this.replace_text (rm, "");
         }
+
+        public StringModifier window (uint start, uint length) {
+            text = text [start:uint.min(start+length,text.length-1)];
+            return this;
+        }
     }
 }
