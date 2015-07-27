@@ -16,7 +16,7 @@ namespace Vaccine {
             uint i = 0, f = 0;
             for (; f <= pos && i < data.get_n_items (); ++i) {
                 Object? obj = data.get_item (i);
-                if (obj != null && filter ((!) obj) == true)
+                if (obj != null && filter ((!) obj))
                     ++f;
             }
 
@@ -28,12 +28,10 @@ namespace Vaccine {
         }
 
         public uint get_n_items () {
-            var objs = new ArrayList<weak Object> ();
-            for (int i = 0; i < data.get_n_items (); ++i)
-                objs.add (data.get_item (i));
             uint count = 0;
-            foreach (var obj in objs)
-                if (filter (obj))
+            uint length = data.get_n_items ();
+            for (uint i = 0; i < length; ++i)
+                if (filter (data.get_item (i)))
                     ++count;
             return count;
         }

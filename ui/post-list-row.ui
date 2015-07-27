@@ -105,7 +105,6 @@
 YOU SHOULD NOT SEE THIS
 &lt;a href="http://github.com/VaccineApp/vaccine/issues"&gt;tell a programmer (with the post no.)&lt;/a&gt;&lt;/span&gt;</property>
                 <property name="use_markup">True</property>
-                <property name="justify">fill</property>
                 <property name="wrap">True</property>
                 <property name="wrap_mode">word-char</property>
               </object>

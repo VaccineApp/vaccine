@@ -21,9 +21,8 @@ namespace Vaccine {
             if (model != null && !(model.get_item (0) as Post).isOP) {
                 heading.label = @"<span size=\"large\">$title</span>";
                 Stylizer.set_widget_css (this, "/vaccine/thread-pane.css");
-            } else {
+            } else
                 heading_box.destroy ();
-            }
         }
 
         [GtkCallback] public void close () {

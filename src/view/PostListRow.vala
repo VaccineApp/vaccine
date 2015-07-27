@@ -65,7 +65,7 @@ namespace Vaccine {
             var tpane = get_ancestor (typeof (ThreadPane)) as ThreadPane;
             var children = panelView.get_children ();
             int position = children.index (tpane);
-            Gtk.Widget next;
+            Gtk.Widget? next;
             if ((next = children.nth_data (position + 1)) != null)
                 panelView.remove (next);
             panelView.add (new ThreadPane (post.thread, get_all_replies (), @"Replies to No. $(post.no)"));
