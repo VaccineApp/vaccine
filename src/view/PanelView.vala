@@ -121,6 +121,7 @@ namespace Vaccine {
         }
         */
 
+        // What is the point of this method?
         public override bool draw (Cairo.Context cr) {
             base.draw (cr);
             return false;

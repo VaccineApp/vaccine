@@ -15,36 +15,36 @@ namespace Vaccine {
         private Cancellable? cancel = null;
 
         public Post post { get; construct; }
-        public Thread replies { get; private set; }
 
-        public PostListRow (Post t) {
-            Object (post: t);
-            replies = get_all_replies ();
+        public PostListRow (Post post) {
+            Object (post: post);
 
             content.margin = 15; // glade erases this so just set in code
 
-            post_name.label = t.name;
-            post_time.label = FourChan.get_post_time (t.time);
-            post_no.label = @"No. $(t.no)";
+            post_name.label = post.name;
+            post_time.label = FourChan.get_post_time (post.time);
+            post_no.label = @"No. $(post.no)";
 
-            if (t.filename == null) {
+            if (post.filename == null) {
                 post_thumbnail.destroy ();
             } else {
-                cancel = FourChan.get_thumbnail (t, buf => {
+                cancel = FourChan.get_thumbnail (post, buf => {
                     cancel = null;
                     post_thumbnail.pixbuf = buf;
                 });
             }
 
-            post_text.label = FourChan.get_post_text (t.com);
+            post_text.label = FourChan.get_post_text (post.com);
 
-            if (replies.posts.size == 0)
+            var replies = get_all_replies ();
+            var nreplies = replies.get_n_items ();
+            if (nreplies == 0) {
                 responses_button.destroy ();
-            else {
-                responses_amount.label = replies.posts.size > 99 ? "99+" : @"$(replies.posts.size)";
+            } else {
+                responses_amount.label = nreplies > 99 ? "99+" : nreplies.to_string ();
                 responses_amount.get_style_context ().remove_class ("label");
             }
-            Util.Stylizer.set_widget_css (this, "/vaccine/post-list-row.css");
+            Stylizer.set_widget_css (this, "/vaccine/post-list-row.css");
         }
 
         ~PostListRow () {
@@ -52,8 +52,12 @@ namespace Vaccine {
                 cancel.cancel ();
         }
 
-        private Thread get_all_replies () {
-            return post.thread.filter ((p) => p.com != null && p.com.contains ("&gt;&gt;"+post.no.to_string ()));
+        private ListModel get_all_replies () {
+            return post.thread.filter (_p => {
+                var p = _p as Post;
+                if (p == null || p.com == null) return false;
+                return ((!) p).com.contains (@"&gt;&gt;$(post.no)");
+            });
         }
 
         [GtkCallback] private void show_responses () {
@@ -64,7 +68,7 @@ namespace Vaccine {
             Gtk.Widget next;
             if ((next = children.nth_data (position + 1)) != null)
                 panelView.remove (next);
-            panelView.add (new ThreadPane (replies, true, @"Replies to #$(post.no)"));
+            panelView.add (new ThreadPane (post.thread, get_all_replies (), @"Replies to No. $(post.no)"));
         }
     }
 }

@@ -1,5 +1,5 @@
 namespace Vaccine {
-    class PostTransformer : Object {
+    public class PostTransformer : Object {
         private const string TOP_LEVEL_TAG = "_top_level"; // no one will ever use this
 
         private const MarkupParser parser = {
