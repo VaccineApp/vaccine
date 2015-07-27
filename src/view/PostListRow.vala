@@ -53,7 +53,7 @@ namespace Vaccine {
         }
 
         private ListModel get_all_replies () {
-            return post.thread.filter (_p => {
+            return post.thread.filtered (_p => {
                 var p = _p as Post;
                 if (p == null || p.com == null) return false;
                 return ((!) p).com.contains (@"&gt;&gt;$(post.no)");

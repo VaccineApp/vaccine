@@ -1,8 +1,9 @@
 using Gee;
+using Vaccine.Collections;
 
 namespace Vaccine {
-    public class Thread : Object, ListModel {
-        public ArrayList<Post> posts = new ArrayList<Post> ();
+    public class Thread : ItemStore<Post> {
+        ArrayList<Post> posts = new ArrayList<Post> ();
         public string board { get; construct; }
 
         public ThreadOP op {
@@ -12,26 +13,44 @@ namespace Vaccine {
             }
         }
 
+        public override uint length { get { return (uint) posts.size; } }
+
         public Thread (string board) {
             Object(board: board);
         }
 
-        public Object? get_item (uint pos)
-            requires(0 <= pos < posts.size)
-        {
-            return posts[(int)pos];
+        // why must return type be "Post" and not "Post?"?
+        public override Post @get (int i) {
+            if (i >= posts.size)
+                return (!) null;    // -__-
+            return posts [i];
         }
 
-        public Type get_item_type () {
-            return typeof (Post);
+        public override void @set (int i, Post p) {
+            posts [i] = p;
+            base.@set (i, p);
         }
 
-        public uint get_n_items () {
-            return posts.size;
+        public override void append (Post post) {
+            posts.add (post);
+            base.append (post);
         }
 
-        public FilterListModel filter (FilterListModel.FilterFunc filter) {
-            return new FilterListModel (this, filter);
+        public override void remove (uint pos) {
+            posts.remove_at ((int) pos);
+            base.remove (pos);
+        }
+
+        public override void remove_all () {
+            posts.clear ();
+        }
+
+        public override ItemStore<Post> filtered (owned Predicate<Post> func) {
+            return new FilteredItemStore<Post> (this, func);
+        }
+
+        public override Iterator<Post> iterator () {
+            return posts.iterator ();
         }
 
         public string get_tab_title () {

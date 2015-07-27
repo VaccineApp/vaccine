@@ -6,10 +6,11 @@ vaccine_SOURCES = \
 	FourChan.vala \
 	PostFormatter.vala \
 	Thread.vala \
+	collections/ItemStore.vala \
+	collections/FilteredItemStore.vala \
 	model/Board.vala \
 	model/Page.vala \
 	model/Post.vala \
-	util/FilterListModel.vala \
 	util/StringModifier.vala \
 	util/Stripper.vala \
 	util/Stylizer.vala \

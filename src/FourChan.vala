@@ -74,7 +74,7 @@ namespace Vaccine {
                         else            p = Json.gobject_deserialize (typeof (Post), node) as Post;
                         assert (p != null);
                         p.thread = thread;
-                        thread.posts.add (p);
+                        thread.append (p);
                     });
                 }
             } catch (Error e) {
