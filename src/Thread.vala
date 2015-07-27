@@ -25,10 +25,7 @@ namespace Vaccine {
             Object(board: board);
         }
 
-        // why must return type be "Post" and not "Post?"?
         public override Post @get (int i) {
-            if (i >= posts.size)
-                return (!) null;    // -__-
             return posts [i];
         }
 
