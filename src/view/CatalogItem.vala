@@ -34,7 +34,7 @@ namespace Vaccine {
         }
 
         public override void clicked () {
-            main_window.show_thread(post_no);
+            main_window.show_thread(post_no, post_image.pixbuf);
         }
     }
 }

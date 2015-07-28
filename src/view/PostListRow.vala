@@ -20,7 +20,7 @@ namespace Vaccine {
 
         public ItemStore<Post> replies { get; private set; }
 
-        public PostListRow (Post post) {
+        public PostListRow (Post post, Gdk.Pixbuf? thumbnail = null) {
             Object (post: post);
             replies = get_all_replies ();
 
@@ -31,7 +31,10 @@ namespace Vaccine {
             post_no.label = @"No. $(post.no)";
 
             if (post.filename == null) {
+                assert (!post.isOP);
                 post_thumbnail.destroy ();
+            } else if (thumbnail != null) {
+                post_thumbnail.pixbuf = thumbnail;
             } else {
                 cancel = FourChan.get_thumbnail (post, buf => {
                     cancel = null;
@@ -72,7 +75,7 @@ namespace Vaccine {
             Gtk.Widget? next;
             if ((next = children.nth_data (position + 1)) != null)
                 panelView.remove (next);
-            panelView.add (new ThreadPane (replies, @"Replies to No. $(post.no)"));
+            panelView.add (new ThreadPane.with_title (post.thread, replies, @"Replies to No. $(post.no)"));
         }
     }
 }
