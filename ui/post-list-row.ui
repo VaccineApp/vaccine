@@ -145,9 +145,6 @@ YOU SHOULD NOT SEE THIS
                         <property name="icon_name">user-available-symbolic</property>
                         <property name="use_fallback">True</property>
                       </object>
-                      <packing>
-                        <property name="index">-1</property>
-                      </packing>
                     </child>
                     <child type="overlay">
                       <object class="GtkLabel" id="responses_amount">
