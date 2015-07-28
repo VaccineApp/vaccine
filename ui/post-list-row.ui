@@ -23,11 +23,9 @@
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="hexpand">True</property>
-                <property name="label" translatable="yes">Anonymous</property>
-                <attributes>
-                  <attribute name="weight" value="semibold"/>
-                  <attribute name="foreground" value="#2e2e34343636"/>
-                </attributes>
+                <property name="label" translatable="yes">&lt;b&gt;Anonymous&lt;/b&gt; &lt;span color="#aaa"&gt;!trip&lt;/span&gt;</property>
+                <property name="use_markup">True</property>
+                <property name="max_width_chars">40</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -42,11 +40,11 @@
                 <property name="halign">center</property>
                 <property name="label" translatable="yes">Date</property>
                 <attributes>
-                  <attribute name="foreground" value="#bababdbdb6b6"/>
+                  <attribute name="foreground" value="#8d8d90909191"/>
                 </attributes>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
@@ -60,7 +58,7 @@
                 <property name="hexpand">True</property>
                 <property name="label" translatable="yes">No. 111111</property>
                 <attributes>
-                  <attribute name="foreground" value="#bababdbdb6b6"/>
+                  <attribute name="foreground" value="#8d8d90909191"/>
                 </attributes>
               </object>
               <packing>
