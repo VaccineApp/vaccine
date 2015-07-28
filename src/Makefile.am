@@ -11,7 +11,6 @@ vaccine_SOURCES = \
 	model/Board.vala \
 	model/Page.vala \
 	model/Post.vala \
-	util/StringModifier.vala \
 	util/Stripper.vala \
 	util/Stylizer.vala \
 	view/CatalogItem.vala \
