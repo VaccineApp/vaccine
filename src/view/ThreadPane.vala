@@ -25,7 +25,6 @@ namespace Vaccine {
 
         public ThreadPane.with_title (Thread thread, ListModel model, string title) {
             this (thread, model);
-            name = new StringModifier (thread.title).replace (/\s/, "_").window (0, 32).text;
             if (model != null && !(model.get_item (0) as Post).isOP) {
                 heading_box.visible = true;
                 heading.label = @"<span size=\"large\">$title</span>";
