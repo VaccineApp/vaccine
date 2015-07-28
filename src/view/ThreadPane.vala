@@ -1,7 +1,7 @@
 using Vaccine.Collections, Vaccine.Util;
 
 namespace Vaccine {
-    [GtkTemplate (ui = "/vaccine/thread-pane.ui")]
+    [GtkTemplate (ui = "/org/vaccine/app/thread-pane.ui")]
     public class ThreadPane : Gtk.ScrolledWindow {
         [GtkChild] private Gtk.ListBox list;
         [GtkChild] private Gtk.Box heading_box;
@@ -30,7 +30,7 @@ namespace Vaccine {
             // assert (!model.get_item (0).isOP);
             heading_box.visible = true;
             heading.label = @"<span size=\"large\">$title</span>";
-            Stylizer.set_widget_css (this, "/vaccine/thread-pane.css");
+            Stylizer.set_widget_css (this, "/org/vaccine/app/thread-pane.css");
         }
     }
 }

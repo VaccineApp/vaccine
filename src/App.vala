@@ -3,11 +3,19 @@ namespace Vaccine {
         public FourChan chan = new FourChan ();
 
         public App () {
-            Object (application_id: "popcnt.Vaccine",
-                    flags: ApplicationFlags.FLAGS_NONE);
+            Object (application_id: "org.vaccine.app", flags: ApplicationFlags.FLAGS_NONE);
         }
 
         private MainWindow main_window;
+
+        const ActionEntry[] actions = {
+            { "about", show_about },
+            { "quit", quit }
+        };
+
+        void show_about () {
+            new AboutDialog (main_window).present ();
+        }
 
         protected override void startup () {
             base.startup ();
@@ -16,9 +24,11 @@ namespace Vaccine {
 
         protected override void activate () {
             base.activate ();
+            add_action_entries (actions, this);
             main_window.present ();
         }
     }
+    public const string PROGRAM_VERSION = "v0.1-alpha";
 }
 
 int main (string[] args) {

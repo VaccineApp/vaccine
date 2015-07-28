@@ -1,5 +1,5 @@
 namespace Vaccine {
-    [GtkTemplate (ui = "/vaccine/catalog-item.ui")]
+    [GtkTemplate (ui = "/org/vaccine/app/catalog-item.ui")]
     public class CatalogItem : Gtk.Button {
         private unowned MainWindow main_window;
 
