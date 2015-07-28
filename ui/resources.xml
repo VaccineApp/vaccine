@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/org/vaccine/app">
+        <file>about-dialog.ui</file>
         <file>main-window.ui</file>
         <file>thread-pane.ui</file>
+        <file>thread-pane.css</file>
         <file>post-list-row.ui</file>
+        <file>post-list-row.css</file>
         <file>catalog-widget.ui</file>
         <file>catalog-item.ui</file>
         <file>tab.ui</file>
-        <file>thread-pane.css</file>
-        <file>post-list-row.css</file>
     </gresource>
     <gresource prefix="/org/vaccine/app/gtk">
       <file>menus.ui</file>

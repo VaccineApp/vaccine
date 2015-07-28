@@ -48,7 +48,7 @@ namespace Vaccine {
                 responses_amount.label = nreplies > 99 ? "99+" : nreplies.to_string ();
                 responses_amount.get_style_context ().remove_class ("label");
             }
-            Stylizer.set_widget_css (this, "/vaccine/post-list-row.css");
+            Stylizer.set_widget_css (this, "/org/vaccine/app/post-list-row.css");
         }
 
         ~PostListRow () {

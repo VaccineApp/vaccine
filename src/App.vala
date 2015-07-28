@@ -14,7 +14,7 @@ namespace Vaccine {
         };
 
         void show_about () {
-            debug ("about");
+            new AboutDialog (main_window).present ();
         }
 
         protected override void startup () {
@@ -28,6 +28,7 @@ namespace Vaccine {
             main_window.present ();
         }
     }
+    public const string PROGRAM_VERSION = "v0.1-alpha";
 }
 
 int main (string[] args) {
