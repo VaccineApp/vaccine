@@ -102,7 +102,6 @@ namespace Vaccine {
             base.size_allocate (allocation);
         }
 
-        /*
         public new void get_preferred_size (out Requisition minimum_size, out Requisition natural_size) {
             unowned List<Widget> list = _children.nth (current);
             minimum_size = { 0, 0 };
@@ -119,7 +118,6 @@ namespace Vaccine {
                 natural_size.height += child_natsize.height;
             }
         }
-        */
 
         // What is the point of this method?
         public override bool draw (Cairo.Context cr) {

@@ -18,11 +18,8 @@ namespace Vaccine {
 
         public Post post { get; construct; }
 
-        public ItemStore<Post> replies { get; private set; }
-
         public PostListRow (Post post, Gdk.Pixbuf? thumbnail = null) {
             Object (post: post);
-            replies = get_all_replies ();
 
             content.margin = 15; // glade erases this so just set in code
 
@@ -44,7 +41,7 @@ namespace Vaccine {
 
             post_text.label = FourChan.get_post_text (post.com);
 
-            var nreplies = replies.length;
+            var nreplies = post.responses.length;
             if (nreplies == 0) {
                 responses_button.destroy ();
             } else {
@@ -59,14 +56,6 @@ namespace Vaccine {
                 cancel.cancel ();
         }
 
-        private ItemStore<Post> get_all_replies () {
-            return post.thread.filtered (_p => {
-                var p = _p as Post;
-                if (p == null || p.com == null) return false;
-                return ((!) p).com.contains (@"&gt;&gt;$(post.no)");
-            });
-        }
-
         [GtkCallback] private void show_responses () {
             var panelView = get_ancestor (typeof (PanelView)) as PanelView;
             var tpane = get_ancestor (typeof (ThreadPane)) as ThreadPane;
@@ -75,7 +64,7 @@ namespace Vaccine {
             Gtk.Widget? next;
             if ((next = children.nth_data (position + 1)) != null)
                 panelView.remove (next);
-            panelView.add (new ThreadPane.with_replies (replies, @"Replies to No. $(post.no)"));
+            panelView.add (new ThreadPane.with_replies (post.responses, @"Replies to No. $(post.no)"));
         }
     }
 }

@@ -2,7 +2,7 @@ using Gee;
 
 namespace Vaccine.Collections {
     public class FilteredItemStore<G> : ItemStore<G> {
-        ItemStore<G> store;
+        weak ItemStore<G> store;
         ArrayList<G> list;
         Predicate<G> filterFunc;
 

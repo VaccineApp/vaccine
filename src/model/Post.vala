@@ -1,3 +1,5 @@
+using Vaccine.Collections;
+
 namespace Vaccine {
     public class Post : Object {
         /**
@@ -136,6 +138,18 @@ namespace Vaccine {
         public string board {
             get { return thread != null ? thread.board : _board; }
             set { _board = value; }
+        }
+
+        private ItemStore<Post> _responses;
+
+        public ItemStore<Post> responses {
+            get {
+                return _responses ?? (_responses = thread.filtered (_p => {
+                    var p = _p as Post;
+                    if (p == null || p.com == null) return false;
+                    return ((!) p).com.contains (@"&gt;&gt;$no");
+                }));
+            }
         }
 
         public Gdk.Pixbuf? pixbuf { get; private set; }
