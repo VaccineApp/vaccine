@@ -1,7 +1,7 @@
 using Vaccine.Collections, Vaccine.Util;
 
 namespace Vaccine {
-    [GtkTemplate (ui = "/vaccine/post-list-row.ui")]
+    [GtkTemplate (ui = "/org/vaccine/app/post-list-row.ui")]
     public class PostListRow : Gtk.ListBoxRow {
         [GtkChild] private Gtk.Box content;
 

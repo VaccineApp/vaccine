@@ -1,5 +1,5 @@
 namespace Vaccine {
-    [GtkTemplate (ui = "/vaccine/catalog-widget.ui")]
+    [GtkTemplate (ui = "/org/vaccine/app/catalog-widget.ui")]
     public class CatalogWidget : Gtk.ScrolledWindow {
         [GtkChild] public Gtk.FlowBox layout;
 

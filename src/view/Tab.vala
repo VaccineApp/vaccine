@@ -1,5 +1,5 @@
 namespace Vaccine {
-    [GtkTemplate (ui = "/vaccine/tab.ui")]
+    [GtkTemplate (ui = "/org/vaccine/app/tab.ui")]
     public class Tab : Gtk.Box {
         [GtkChild] private Gtk.Label tablabel;
         [GtkChild] private Gtk.Button closebutton;

@@ -1,7 +1,7 @@
 using Vaccine.Collections, Vaccine.Util;
 
 namespace Vaccine {
-    [GtkTemplate (ui = "/vaccine/thread-pane.ui")]
+    [GtkTemplate (ui = "/org/vaccine/app/thread-pane.ui")]
     public class ThreadPane : Gtk.ScrolledWindow {
         [GtkChild] private Gtk.ListBox list;
         [GtkChild] private Gtk.Box heading_box;

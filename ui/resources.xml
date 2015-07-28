@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-    <gresource prefix="/vaccine">
+    <gresource prefix="/org/vaccine/app">
         <file>main-window.ui</file>
         <file>thread-pane.ui</file>
         <file>post-list-row.ui</file>
@@ -9,6 +9,8 @@
         <file>tab.ui</file>
         <file>thread-pane.css</file>
         <file>post-list-row.css</file>
-        <file>menu.xml</file>
+    </gresource>
+    <gresource prefix="/org/vaccine/app/gtk">
+      <file>menus.ui</file>
     </gresource>
 </gresources>

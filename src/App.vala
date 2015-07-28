@@ -3,14 +3,14 @@ namespace Vaccine {
         public FourChan chan = new FourChan ();
 
         public App () {
-            Object (application_id: "vaccine.Vaccine",
-                    flags: ApplicationFlags.FLAGS_NONE);
+            Object (application_id: "org.vaccine.app", flags: ApplicationFlags.FLAGS_NONE);
         }
 
         private MainWindow main_window;
 
         const ActionEntry[] actions = {
             { "about", show_about },
+            { "quit", quit }
         };
 
         void show_about () {
@@ -20,16 +20,11 @@ namespace Vaccine {
         protected override void startup () {
             base.startup ();
             main_window = new MainWindow (this);
-
-            add_action_entries (actions, this);
-
-            var builder = new Gtk.Builder.from_resource ("/vaccine/menu.xml");
-            var menu = builder.get_object ("menu") as MenuModel;
-            set_app_menu (menu);
         }
 
         protected override void activate () {
             base.activate ();
+            add_action_entries (actions, this);
             main_window.present ();
         }
     }
