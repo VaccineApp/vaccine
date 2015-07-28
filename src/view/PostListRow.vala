@@ -1,4 +1,4 @@
-using Vaccine.Collections;
+using Vaccine.Collections, Vaccine.Util;
 
 namespace Vaccine {
     [GtkTemplate (ui = "/vaccine/post-list-row.ui")]
@@ -51,6 +51,7 @@ namespace Vaccine {
                 responses_amount.label = nreplies > 99 ? "99+" : nreplies.to_string ();
                 responses_amount.get_style_context ().remove_class ("label");
             }
+            Stylizer.set_widget_css (this, "/vaccine/post-list-row.css");
         }
 
         ~PostListRow () {

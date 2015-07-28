@@ -145,6 +145,9 @@ YOU SHOULD NOT SEE THIS
                         <property name="icon_name">user-available-symbolic</property>
                         <property name="use_fallback">True</property>
                       </object>
+                      <packing>
+                        <property name="index">-1</property>
+                      </packing>
                     </child>
                     <child type="overlay">
                       <object class="GtkLabel" id="responses_amount">
@@ -160,9 +163,6 @@ YOU SHOULD NOT SEE THIS
                           <attribute name="size" value="7000"/>
                         </attributes>
                       </object>
-		      <!-- <packing>
-                        <property name="pass_through">True</property>
-		      </packing> -->
                     </child>
                   </object>
                 </child>
