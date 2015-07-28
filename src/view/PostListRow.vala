@@ -36,7 +36,7 @@ namespace Vaccine {
             } else if (thumbnail != null) {
                 post_thumbnail.pixbuf = thumbnail;
             } else {
-                cancel = FourChan.get_thumbnail (post, buf => {
+                cancel = post.get_thumbnail (buf => {
                     cancel = null;
                     post_thumbnail.pixbuf = buf;
                 });

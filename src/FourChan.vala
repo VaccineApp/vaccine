@@ -83,21 +83,6 @@ namespace Vaccine {
             return thread;
         }
 
-        public delegate void UseDownloadedPixbuf (Gdk.Pixbuf buf);
-
-        public static Cancellable get_thumbnail (Post p, UseDownloadedPixbuf cb)
-            requires (p.filename != null)
-        {
-            var url = @"https://i.4cdn.org/$(p.board)/$(p.tim)s.jpg";
-            var cancel = new Cancellable ();
-            download_image.begin (url, cancel, (obj, res) => {
-                Gdk.Pixbuf? buf = download_image.end (res);
-                if (!cancel.is_cancelled () && buf != null)
-                    cb ((!) buf);
-            });
-            return cancel;
-        }
-
         public static async Gdk.Pixbuf? download_image (string url, Cancellable cancel) {
             var msg = new Soup.Message ("GET", url);
             try {

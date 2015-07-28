@@ -16,7 +16,7 @@ namespace Vaccine {
             this.post_no = t.no;
 
             if (t.filename != null) { // deleted files
-                cancel = FourChan.get_thumbnail (t, buf => {
+                cancel = t.get_thumbnail (buf => {
                     cancel = null;
                     post_image.pixbuf = buf;
                 });

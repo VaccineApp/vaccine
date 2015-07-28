@@ -137,6 +137,26 @@ namespace Vaccine {
             get { return thread != null ? thread.board : _board; }
             set { _board = value; }
         }
+
+        public Gdk.Pixbuf? pixbuf { get; private set; }
+
+        public delegate void UseDownloadedPixbuf (Gdk.Pixbuf buf);
+
+        public Cancellable get_thumbnail (UseDownloadedPixbuf cb)
+            requires (filename != null)
+        {
+            var url = @"https://i.4cdn.org/$board/$(tim)s.jpg";
+            var cancel = new Cancellable ();
+            if (pixbuf == null)
+                FourChan.download_image.begin (url, cancel, (obj, res) => {
+                    pixbuf = FourChan.download_image.end (res);
+                    if (!cancel.is_cancelled () && pixbuf != null)
+                        cb ((!) pixbuf);
+                });
+            else
+                cb ((!) pixbuf);
+            return cancel;
+        }
     }
 
     public class ThreadOP : Post {
