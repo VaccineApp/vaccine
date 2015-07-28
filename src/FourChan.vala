@@ -73,8 +73,8 @@ namespace Vaccine {
                         if (index == 0) p = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
                         else            p = Json.gobject_deserialize (typeof (Post), node) as Post;
                         assert (p != null);
-                        p.board = board;
-                        thread.posts.add (p);
+                        p.thread = thread;
+                        thread.append (p);
                     });
                 }
             } catch (Error e) {
@@ -107,12 +107,6 @@ namespace Vaccine {
                 debug (e.message);
                 return null;
             }
-        }
-
-        public static string get_tab_title (Thread thread) {
-            var title = @"/$board/ - ";
-            title += thread.op.sub ?? Stripper.transform_post(thread.op.com) ?? thread.op.no.to_string ();
-            return Util.ellipsize(title, 32);
         }
 
         public static string get_post_text (string? com) {

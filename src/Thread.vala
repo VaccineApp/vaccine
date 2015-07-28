@@ -1,35 +1,59 @@
 using Gee;
+using Vaccine.Collections;
 
 namespace Vaccine {
-    public class Thread : Object, ListModel {
-        public ArrayList<Post> posts = new ArrayList<Post> ();
+    public class Thread : ItemStore<Post> {
+        ArrayList<Post> posts = new ArrayList<Post> ();
         public string board { get; construct; }
-
-        public ThreadOP op {
+        private string _title;
+        public string title {
             get {
-                assert (posts.size > 0);
-                ThreadOP *p = posts[0] as ThreadOP;
-                p->unref(); // TODO: is this truly necessary?
-                return p;
+                return _title ?? (_title = @"/$board/ - $(op.sub ?? Stripper.transform_post(op.com) ?? op.no.to_string ())");
             }
         }
 
-        public Thread(string board_name) {
-            Object(board: board_name);
+        public ThreadOP op {
+            get {
+                ThreadOP *op = posts[0] as ThreadOP;
+                return op;
+            }
         }
 
-        public Object? get_item (uint pos)
-            requires(0 <= pos && pos < posts.size)
-        {
-            return posts[(int)pos];
+        public override uint length { get { return posts.size; } }
+
+        public Thread (string board) {
+            Object(board: board);
         }
 
-        public Type get_item_type () {
-            return typeof (Post);
+        public override Post @get (int i) {
+            return posts [i];
         }
 
-        public uint get_n_items () {
-            return posts.size;
+        public override void @set (int i, Post p) {
+            posts [i] = p;
+            base.@set (i, p);
+        }
+
+        public override void append (Post post) {
+            posts.add (post);
+            base.append (post);
+        }
+
+        public override void remove (uint pos) {
+            posts.remove_at ((int) pos);
+            base.remove (pos);
+        }
+
+        public override void remove_all () {
+            posts.clear ();
+        }
+
+        public override ItemStore<Post> filtered (Predicate<Post> func) {
+            return new FilteredItemStore<Post> (this, func);
+        }
+
+        public override Iterator<Post> iterator () {
+            return posts.iterator ();
         }
     }
 }

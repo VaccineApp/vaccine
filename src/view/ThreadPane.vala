@@ -1,17 +1,36 @@
+using Vaccine.Collections, Vaccine.Util;
+
 namespace Vaccine {
     [GtkTemplate (ui = "/vaccine/thread-pane.ui")]
     public class ThreadPane : Gtk.ScrolledWindow {
         [GtkChild] private Gtk.ListBox list;
+        [GtkChild] private Gtk.Box heading_box;
+        [GtkChild] private Gtk.Label heading;
+
+        public ListModel model { get; construct; }
 
         private void add_separator (Gtk.ListBoxRow row, Gtk.ListBoxRow? before) {
-                if (before != null && row.get_header () == null)
-                    row.set_header (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
+            if (before != null && row.get_header () == null)
+                row.set_header (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
         }
 
-        public ThreadPane (Thread thread) {
-            this.name = FourChan.get_tab_title(thread);
-            this.list.set_header_func (add_separator);
-            this.list.bind_model (thread, item => new PostListRow (item as Post));
+
+        public ThreadPane (ListModel model, Gdk.Pixbuf? op_thumb = null) {
+            Object (model: model);
+            list.set_header_func (add_separator);
+            list.bind_model (model, item => {
+                var post = item as Post;
+                return new PostListRow (post, post.isOP ? op_thumb : null);
+            });
+        }
+
+        public ThreadPane.with_replies (ListModel model, string title) {
+            this (model);
+            // ebin OP sometimes guesses the post number
+            // assert (!model.get_item (0).isOP);
+            heading_box.visible = true;
+            heading.label = @"<span size=\"large\">$title</span>";
+            Stylizer.set_widget_css (this, "/vaccine/thread-pane.css");
         }
     }
 }

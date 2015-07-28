@@ -17,7 +17,8 @@ AM_VALAFLAGS=" \
     --pkg libsoup-2.4 \
     --pkg gee-0.8 \
     --target-glib=2.38 \
-    --gresources=\$(top_srcdir)/ui/resources.xml"
+    --gresources=\$(top_srcdir)/ui/resources.xml \
+    --enable-experimental"
 
 AC_SUBST(AM_VALAFLAGS)
 
