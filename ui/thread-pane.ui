@@ -2,6 +2,7 @@
 <!-- Generated with glade 3.19.0 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
+  <!-- interface-css-provider-path thread-pane.css -->
   <template class="VaccineThreadPane" parent="GtkScrolledWindow">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -41,7 +42,10 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="margin">5</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="margin_bottom">5</property>
                     <signal name="clicked" handler="gtk_widget_destroy" object="VaccineThreadPane" swapped="yes"/>
                     <child>
                       <object class="GtkImage" id="image1">
