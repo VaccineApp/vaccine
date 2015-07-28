@@ -72,7 +72,7 @@ namespace Vaccine {
             Gtk.Widget? next;
             if ((next = children.nth_data (position + 1)) != null)
                 panelView.remove (next);
-            panelView.add (new ThreadPane (post.thread, replies, @"Replies to No. $(post.no)"));
+            panelView.add (new ThreadPane (replies, @"Replies to No. $(post.no)"));
         }
     }
 }
