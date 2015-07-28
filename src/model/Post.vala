@@ -130,7 +130,7 @@ namespace Vaccine {
         // begin vaccine stuff
         public bool isOP { get { return resto == 0; } }
 
-        public weak Thread? thread { get; set; }
+        public weak Thread? thread = null;
 
         private string _board;
         public string board {
