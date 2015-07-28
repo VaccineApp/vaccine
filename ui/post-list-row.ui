@@ -141,6 +141,7 @@ YOU SHOULD NOT SEE THIS
                       <object class="GtkImage" id="responses_image">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="pixel_size">20</property>
                         <property name="icon_name">user-available-symbolic</property>
                         <property name="use_fallback">True</property>
                       </object>
@@ -159,7 +160,7 @@ YOU SHOULD NOT SEE THIS
                         <attributes>
                           <attribute name="weight" value="semibold"/>
                           <attribute name="foreground" value="#ffffffffffff"/>
-                          <attribute name="size" value="4900"/>
+                          <attribute name="size" value="7000"/>
                         </attributes>
                       </object>
                       <packing>
