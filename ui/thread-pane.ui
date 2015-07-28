@@ -19,15 +19,12 @@
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox" id="heading_box">
-                <property name="visible">False</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">15</property>
                 <child>
                   <object class="GtkLabel" id="heading">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xpad">15</property>
-                    <property name="ypad">10</property>
                     <property name="label" translatable="yes">&lt;span size="large"&gt;Title&lt;/span&gt;</property>
                     <property name="use_markup">True</property>
                     <property name="justify">center</property>
@@ -44,11 +41,8 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="margin_left">5</property>
-                    <property name="margin_right">5</property>
-                    <property name="margin_top">5</property>
-                    <property name="margin_bottom">5</property>
-                    <signal name="clicked" handler="close" swapped="no"/>
+                    <property name="margin">5</property>
+                    <signal name="clicked" handler="gtk_widget_destroy" object="VaccineThreadPane" swapped="yes"/>
                     <child>
                       <object class="GtkImage" id="image1">
                         <property name="visible">True</property>
