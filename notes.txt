@@ -1,6 +1,6 @@
 TODO:
-- global css file
 - replies button inline
+- fix PanelView rendering
 - avoid all Gtk warnings
 - post formatting (try every board to test ancient stickies)
 - post generator (markov chain)

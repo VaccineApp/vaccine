@@ -29,7 +29,6 @@ namespace Vaccine {
             // assert (!model.get_item (0).isOP);
             heading_box.visible = true;
             heading.label = @"<span size=\"large\">$title</span>";
-            Stylizer.set_widget_css (this, "/org/vaccine/app/thread-pane.css");
         }
     }
 }

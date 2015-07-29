@@ -20,6 +20,10 @@ namespace Vaccine {
         protected override void startup () {
             base.startup ();
             main_window = new MainWindow (this);
+
+            var provider = new Gtk.CssProvider ();
+            provider.load_from_resource("/org/vaccine/app/style.css");
+            Gtk.StyleContext.add_provider_for_screen (main_window.get_screen (), provider, 0);
         }
 
         protected override void activate () {

@@ -4,11 +4,12 @@
         <file>about-dialog.ui</file>
         <file>main-window.ui</file>
         <file>thread-pane.ui</file>
-        <file>thread-pane.css</file>
         <file>post-list-row.ui</file>
         <file>catalog-widget.ui</file>
         <file>catalog-item.ui</file>
         <file>tab.ui</file>
+
+        <file>style.css</file>
     </gresource>
     <gresource prefix="/org/vaccine/app/gtk">
       <file>menus.ui</file>
