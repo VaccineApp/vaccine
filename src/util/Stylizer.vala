@@ -6,7 +6,7 @@ namespace Vaccine {
             Gtk.StyleContext.add_provider_for_screen (
                 w.get_screen (),
                 provider,
-                0
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             );
         }
     }
