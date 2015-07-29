@@ -6,8 +6,7 @@ vaccine_SOURCES = \
 	FourChan.vala \
 	PostFormatter.vala \
 	Thread.vala \
-	collections/ItemStore.vala \
-	collections/FilteredItemStore.vala \
+	PostReplies.vala \
 	model/Board.vala \
 	model/Page.vala \
 	model/Post.vala \

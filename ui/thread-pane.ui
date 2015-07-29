@@ -3,94 +3,91 @@
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <!-- interface-css-provider-path thread-pane.css -->
-  <template class="VaccineThreadPane" parent="GtkScrolledWindow">
+  <template class="VaccineThreadPane" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="hscrollbar_policy">never</property>
-    <property name="shadow_type">in</property>
+    <property name="orientation">vertical</property>
     <child>
-      <object class="GtkViewport" id="viewport1">
-        <property name="visible">True</property>
+      <object class="GtkBox" id="heading_box">
         <property name="can_focus">False</property>
-        <property name="shadow_type">none</property>
+        <property name="spacing">15</property>
         <child>
-          <object class="GtkBox" id="box1">
+          <object class="GtkLabel" id="heading">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
+            <property name="label">&lt;span size="large"&gt;Title&lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+            <property name="justify">center</property>
+            <property name="lines">1</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="closebutton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="gtk_widget_destroy" object="VaccineThreadPane" swapped="yes"/>
             <child>
-              <object class="GtkBox" id="heading_box">
+              <object class="GtkImage" id="image1">
+                <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="spacing">15</property>
-                <child>
-                  <object class="GtkLabel" id="heading">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;span size="large"&gt;Title&lt;/span&gt;</property>
-                    <property name="use_markup">True</property>
-                    <property name="justify">center</property>
-                    <property name="lines">1</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="closebutton">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="margin_left">5</property>
-                    <property name="margin_right">5</property>
-                    <property name="margin_top">5</property>
-                    <property name="margin_bottom">5</property>
-                    <signal name="clicked" handler="gtk_widget_destroy" object="VaccineThreadPane" swapped="yes"/>
-                    <child>
-                      <object class="GtkImage" id="image1">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="icon_name">window-close-symbolic</property>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="button"/>
-                      <class name="image-button"/>
-                      <class name="flat"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
+                <property name="icon_name">window-close-symbolic</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
             </child>
+            <style>
+              <class name="button"/>
+              <class name="image-button"/>
+              <class name="flat"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkScrolledWindow" id="scrolledwindow1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="hscrollbar_policy">never</property>
+        <property name="shadow_type">in</property>
+        <child>
+          <object class="GtkViewport" id="viewport1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="shadow_type">none</property>
             <child>
               <object class="GtkListBox" id="list">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
         </child>
+        <style>
+          <class name="threadpane"/>
+        </style>
       </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="pack_type">end</property>
+        <property name="position">1</property>
+      </packing>
     </child>
-    <style>
-      <class name="threadpane"/>
-    </style>
   </template>
 </interface>

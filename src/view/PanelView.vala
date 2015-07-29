@@ -66,7 +66,7 @@ namespace Vaccine {
         }
 
         public override void forall_internal (bool include_internal, Gtk.Callback callback) {
-            _children.foreach ((w) => callback (w));
+            _children.foreach (w => callback (w));
         }
 
         public override SizeRequestMode get_request_mode () {
@@ -86,7 +86,7 @@ namespace Vaccine {
             child_allocation.width = (allocation.width - 2*border_width) / (int) uint.min(max_visible, length);
             child_allocation.height = allocation.height - 2*border_width;
             uint nthchild = 0;
-            _children.foreach ((widget) => {
+            _children.foreach (widget => {
                 Allocation widget_allocation = Allocation() {
                     x = child_allocation.x +
                         (nthchild <= current ? 0 : (int)(nthchild - current)*child_allocation.width),

@@ -1,5 +1,3 @@
-using Vaccine.Collections, Vaccine.Util;
-
 namespace Vaccine {
     [GtkTemplate (ui = "/org/vaccine/app/post-list-row.ui")]
     public class PostListRow : Gtk.ListBoxRow {
@@ -41,14 +39,13 @@ namespace Vaccine {
 
             post_text.label = FourChan.get_post_text (post.com);
 
-            var nreplies = post.responses.length;
+            var nreplies = post.nreplies;
             if (nreplies == 0) {
                 responses_button.destroy ();
             } else {
                 responses_amount.label = nreplies > 99 ? "99+" : nreplies.to_string ();
                 responses_amount.get_style_context ().remove_class ("label");
             }
-            Stylizer.set_widget_css (this, "/org/vaccine/app/post-list-row.css");
         }
 
         ~PostListRow () {
@@ -64,7 +61,7 @@ namespace Vaccine {
             Gtk.Widget? next;
             if ((next = children.nth_data (position + 1)) != null)
                 panelView.remove (next);
-            panelView.add (new ThreadPane.with_replies (post.responses, @"Replies to No. $(post.no)"));
+            panelView.add (new ThreadPane.with_replies (new PostReplies (post), @"Replies to No. $(post.no)"));
         }
     }
 }

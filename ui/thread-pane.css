@@ -1,1 +1,3 @@
-.threadpane { background-color: @theme_base_color; }
+.threadpane {
+	background-color: @theme_base_color;
+}

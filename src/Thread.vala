@@ -1,14 +1,12 @@
 using Gee;
-using Vaccine.Collections;
 
 namespace Vaccine {
-    public class Thread : ItemStore<Post> {
-        ArrayList<Post> posts = new ArrayList<Post> ();
-        public string board { get; construct; }
-        private string _title;
+    public class Thread : Object, ListModel {
+        private ArrayList<Post> posts = new ArrayList<Post> ();
+
         public string title {
-            get {
-                return _title ?? (_title = @"/$board/ - $(op.sub ?? Stripper.transform_post(op.com) ?? op.no.to_string ())");
+            owned get {
+                return @"/$board/ - $(op.sub ?? Stripper.transform_post(op.com) ?? op.no.to_string ())";
             }
         }
 
@@ -19,41 +17,36 @@ namespace Vaccine {
             }
         }
 
-        public override uint length { get { return posts.size; } }
+        public string board { get; construct; }
 
         public Thread (string board) {
             Object(board: board);
         }
 
-        public override Post @get (int i) {
-            return posts [i];
+        public void append (Post p) {
+            posts.add (p);
+            items_changed (posts.size-1, 0, 1);
         }
 
-        public override void @set (int i, Post p) {
-            posts [i] = p;
-            base.@set (i, p);
+        public void @foreach (ForallFunc<Post> func) {
+            posts.foreach (func);
         }
 
-        public override void append (Post post) {
-            posts.add (post);
-            base.append (post);
+        public Object? get_item (uint position) {
+            return posts[(int) position] as Object;
         }
 
-        public override void remove (uint pos) {
-            posts.remove_at ((int) pos);
-            base.remove (pos);
+        public Type get_item_type () {
+            return typeof (Post);
         }
 
-        public override void remove_all () {
-            posts.clear ();
+        public uint get_n_items () {
+            return posts.size;
         }
 
-        public override ItemStore<Post> filtered (Predicate<Post> func) {
-            return new FilteredItemStore<Post> (this, func);
-        }
-
-        public override Iterator<Post> iterator () {
-            return posts.iterator ();
-        }
+        /**
+         * When we write the update_thread() method, we will simply emit the
+         * items_changed signal
+         */
     }
 }

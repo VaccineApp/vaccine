@@ -1,4 +1,4 @@
-namespace Vaccine.Util {
+namespace Vaccine {
     public class Stylizer {
         public static void set_widget_css (Gtk.Widget w, string resource) {
             var provider = new Gtk.CssProvider ();

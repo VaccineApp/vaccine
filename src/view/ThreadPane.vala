@@ -1,11 +1,10 @@
-using Vaccine.Collections, Vaccine.Util;
-
 namespace Vaccine {
     [GtkTemplate (ui = "/org/vaccine/app/thread-pane.ui")]
-    public class ThreadPane : Gtk.ScrolledWindow {
+    public class ThreadPane : Gtk.Box {
         [GtkChild] private Gtk.ListBox list;
         [GtkChild] private Gtk.Box heading_box;
         [GtkChild] private Gtk.Label heading;
+        [GtkChild] private Gtk.Button closebutton;
 
         public ListModel model { get; construct; }
 
@@ -14,9 +13,9 @@ namespace Vaccine {
                 row.set_header (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
         }
 
-
         public ThreadPane (ListModel model, Gdk.Pixbuf? op_thumb = null) {
             Object (model: model);
+            closebutton.margin = 5;
             list.set_header_func (add_separator);
             list.bind_model (model, item => {
                 var post = item as Post;
