@@ -2,6 +2,6 @@ VaccineThreadPane {
 	background-color: @theme_base_color;
 }
 
-VaccineThreadPane GtkScrolledWindow {
-	border: none;
+VaccineThreadPane {
+	border-right: none;
 }

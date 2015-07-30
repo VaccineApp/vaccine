@@ -1,4 +1,5 @@
 TODO:
+- nice logging like https://github.com/GNOME/gnome-builder/blob/master/libide/ide-log.c
 - fix PanelView rendering
 - avoid all Gtk warnings
 - post formatting (try every board to test ancient stickies)
