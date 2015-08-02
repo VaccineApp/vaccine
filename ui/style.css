@@ -14,6 +14,18 @@ VaccineCatalogItem {
 	background-color: shade(@theme_bg_color, 0.92);
 }
 
+VaccineCatalogItem .number_left {
+	border-top: 1px solid @border_color;
+	border-right: 1px solid @border_color;
+	background-color: @theme_bg_color;
+}
+
+VaccineCatalogItem .number_right {
+	border-top: 1px solid @border_color;
+	border-left: 1px solid @border_color;
+	background-color: @theme_bg_color;
+}
+
 VaccineCatalogItem .textarea {
 	border: 1px solid @border_color;
 	background-color: @theme_base_color;

@@ -4,11 +4,15 @@ namespace Vaccine {
         private unowned MainWindow main_window;
 
         [GtkChild] private Gtk.Stack image_stack;
-        // [GtkChild] private Gtk.Overlay image_overlay;
+        [GtkChild] private Gtk.Overlay image_overlay;
 
         [GtkChild] private Gtk.Image post_image;
         [GtkChild] private Gtk.Label post_subject;
         [GtkChild] private Gtk.Label post_comment;
+
+        [GtkChild] private Gtk.Revealer post_stats;
+        [GtkChild] private Gtk.Label num_posts;
+        [GtkChild] private Gtk.Label num_images;
 
         private Cancellable? cancel = null;
 
@@ -33,7 +37,12 @@ namespace Vaccine {
                         width = (int) Math.round (height * ratio);
                     }
                     post_image.pixbuf = buf.scale_simple (width, height, Gdk.InterpType.BILINEAR);
-                    image_stack.set_visible_child (post_image);
+                    image_stack.set_visible_child (image_overlay);
+                    num_posts.label = @"$(op.replies)";
+                    num_posts.tooltip_markup = @"<b>$(op.replies)</b> repl$(op.replies != 1 ? "ies" : "y")";
+                    num_images.label = @"$(op.images)";
+                    num_images.tooltip_markup = @"<b>$(op.images)</b> image$(op.images != 1 ? "s" : "")";
+                    post_stats.reveal_child = true;
                 });
             }
             this.post_comment.label = FourChan.get_post_text (t.com);
