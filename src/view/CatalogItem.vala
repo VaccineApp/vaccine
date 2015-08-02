@@ -57,8 +57,8 @@ namespace Vaccine {
                 cancel.cancel ();
         }
 
-        /* public override void clicked () {
+        public void show_thread () {
             main_window.show_thread(post_no, op.pixbuf);
-        } */
+        }
     }
 }

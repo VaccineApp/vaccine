@@ -5,6 +5,10 @@ namespace Vaccine {
 
         public CatalogWidget () {
             name = "Catalog";
+            layout.child_activated.connect (child => {
+                if (!child.is_selected ())
+                    (child.get_child () as CatalogItem).show_thread ();
+            });
         }
 
         public new void add (MainWindow win, ThreadOP t) {
