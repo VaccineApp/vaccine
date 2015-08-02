@@ -16,5 +16,5 @@ Try it
 ---
 ```
 $ ./autogen.sh
-$ make -j4 run
+$ make -j`nproc` run
 ```
