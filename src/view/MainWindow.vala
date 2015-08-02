@@ -9,6 +9,8 @@ namespace Vaccine {
         [GtkChild] private Gtk.SearchEntry searchentry;
         [GtkChild] private Gtk.Label buttonlabel;
 
+        private unowned CatalogWidget catalog;
+
         public MainWindow (Gtk.Application app) {
             Object (application: app);
 
@@ -40,8 +42,9 @@ namespace Vaccine {
                 }
             });
 
-            var catalog = new CatalogWidget ();
-            add_page (catalog, false);
+            var temp_catalog = new CatalogWidget ();
+            add_page (temp_catalog, false);
+            catalog = temp_catalog;
 
             FourChan.catalog.downloaded.connect ((o, board, threads) => {
                 catalog.clear ();
@@ -65,6 +68,10 @@ namespace Vaccine {
         private void add_page (Gtk.Widget w, bool closeable = true) {
             int i = notebook.append_page (w, new Tab (notebook, w, closeable));
             notebook.set_current_page (i);
+        }
+
+        public override bool key_press_event (Gdk.EventKey key) {
+            return catalog.search_bar.handle_event (key);
         }
     }
 }
