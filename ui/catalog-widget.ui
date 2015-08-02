@@ -41,6 +41,7 @@
           <object class="GtkViewport" id="viewport1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="shadow_type">none</property>
             <child>
               <object class="GtkFlowBox" id="layout">
                 <property name="visible">True</property>
@@ -50,13 +51,8 @@
                 <property name="margin_bottom">5</property>
                 <property name="margin_left">5</property>
                 <property name="margin_right">5</property>
-                <!--<property name="selection_mode">GTK_SELECTION_NONE</property>-->
+                <property name="selection_mode">GTK_SELECTION_NONE</property>
               </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
         </child>
