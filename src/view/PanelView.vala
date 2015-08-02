@@ -2,7 +2,7 @@ using Gtk;
 
 namespace Vaccine {
     public class PanelView : Container {
-        private List<weak Widget> _children;
+        private List<Widget> _children;
 
         private uint _current = 0;
         public uint current {
@@ -31,7 +31,7 @@ namespace Vaccine {
             this.set_visible (true);
             // misc
             max_visible = maximum_visible;
-            _children = new List<weak Widget> ();
+            _children = new List<Widget> ();
         }
 
         public PanelView.with_name (string name, uint maximum_visible = 2) {
@@ -108,7 +108,7 @@ namespace Vaccine {
             natural_size = { 0, 0 };
 
             int i = 0;
-            for (unowned List<weak Widget> obj = list; obj.next != null && i < max_visible; obj = obj.next, ++i) {
+            for (unowned List<Widget> obj = list; obj.next != null && i < max_visible; obj = obj.next, ++i) {
                 Widget child = obj.data;
                 Requisition child_minsize, child_natsize;
                 child.get_preferred_size (out child_minsize, out child_natsize);
