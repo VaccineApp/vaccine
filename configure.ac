@@ -18,7 +18,9 @@ AM_VALAFLAGS=" \
     --pkg gee-0.8 \
     --target-glib=2.38 \
     --gresources=\$(top_srcdir)/ui/resources.xml \
-    --enable-experimental"
+    --enable-experimental \
+    --enable-checking \
+    --thread"
 
 AC_SUBST(AM_VALAFLAGS)
 

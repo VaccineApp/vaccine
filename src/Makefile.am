@@ -37,6 +37,7 @@ vaccine_LDADD = \
 	$(GTK3_LIBS) \
 	$(JSON_GLIB_LIBS) \
 	$(SOUP_LIBS) \
-	$(GEE_LIBS)
+	$(GEE_LIBS) \
+	-lm
 
 CLEANFILES = *.h *.c *.o *.stamp resources.c vaccine $(vaccine_SOURCES:.vala=.c) $(vaccine_SOURCES:.vala=.lo)

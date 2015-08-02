@@ -1,7 +1,19 @@
+@define-color border_color shade(@theme_base_color, 0.7);
 VaccineThreadPane {
 	background-color: @theme_base_color;
 }
 
-VaccineThreadPane {
-	border-right: none;
+VaccineCatalogWidget > GtkViewport {
+	border: none;
+	background-color: @theme_bg_color;
+}
+
+VaccineCatalogItem {
+	border: 1px solid @border_color;
+	box-shadow: 0px 0px 2px darker(@theme_bg_color);
+}
+
+VaccineCatalogItem .textarea {
+	border: 1px solid @border_color;
+	background-color: @theme_base_color;
 }

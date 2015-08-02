@@ -14,7 +14,7 @@ Libraries
 
 Try it
 ---
-```
+```Bash
 $ ./autogen.sh
 $ make -j`nproc` run
 ```
