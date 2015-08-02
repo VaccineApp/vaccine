@@ -1,9 +1,9 @@
 namespace Vaccine {
     [GtkTemplate (ui = "/org/vaccine/app/catalog-widget.ui")]
-    public class CatalogWidget : Gtk.ScrolledWindow {
+    public class CatalogWidget : Gtk.Box {
         [GtkChild] public Gtk.FlowBox layout;
         [GtkChild] public Gtk.SearchBar search_bar;
-        [GtkChild] private Gtk.SearchEntry search_entry;
+        [GtkChild] public Gtk.SearchEntry search_entry;
 
         public CatalogWidget () {
             name = "Catalog";
@@ -11,6 +11,7 @@ namespace Vaccine {
                 if (!child.is_selected ())
                     (child.get_child () as CatalogItem).show_thread ();
             });
+            search_bar.connect_entry (search_entry);
             search_entry.search_changed.connect (() => {
                 stdout.printf (@"searching for \"$(search_entry.text)\"...\n");
             });

@@ -71,7 +71,10 @@ namespace Vaccine {
         }
 
         public override bool key_press_event (Gdk.EventKey key) {
-            return catalog.search_bar.handle_event (key);
+            if (catalog.search_bar.search_mode_enabled)
+                return catalog.search_entry.handle_event (key);
+            else
+                return catalog.search_bar.handle_event (key);
         }
     }
 }
