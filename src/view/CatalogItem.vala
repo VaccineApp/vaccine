@@ -38,9 +38,9 @@ namespace Vaccine {
                     }
                     post_image.pixbuf = buf.scale_simple (width, height, Gdk.InterpType.BILINEAR);
                     image_stack.set_visible_child (image_overlay);
-                    num_posts.label = @"$(op.replies)";
+                    num_posts.label = @"<span size=\"small\"><b>R</b>: $(op.replies)</span>";
                     num_posts.tooltip_markup = @"<b>$(op.replies)</b> repl$(op.replies != 1 ? "ies" : "y")";
-                    num_images.label = @"$(op.images)";
+                    num_images.label = @"<span size=\"small\"><b>I</b>: $(op.images)</span>";
                     num_images.tooltip_markup = @"<b>$(op.images)</b> image$(op.images != 1 ? "s" : "")";
                     post_stats.reveal_child = true;
                 });

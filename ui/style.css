@@ -18,12 +18,14 @@ VaccineCatalogItem .number_left {
 	border-top: 1px solid @border_color;
 	border-right: 1px solid @border_color;
 	background-color: @theme_bg_color;
+	box-shadow: 0px 0px 3px shade(@theme_bg_color, 0.67);
 }
 
 VaccineCatalogItem .number_right {
 	border-top: 1px solid @border_color;
 	border-left: 1px solid @border_color;
 	background-color: @theme_bg_color;
+	box-shadow: 0px 0px 3px shade(@theme_bg_color, 0.67);
 }
 
 VaccineCatalogItem .textarea {

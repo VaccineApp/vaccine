@@ -42,6 +42,9 @@
                 <property name="can_focus">False</property>
                 <property name="icon_name">image-x-generic-symbolic</property>
               </object>
+              <packing>
+                <property name="index">-1</property>
+              </packing>
             </child>
             <child type="overlay">
               <object class="GtkAlignment" id="alignment1">
@@ -60,6 +63,7 @@
                       <object class="GtkBox" id="box2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_top">5</property>
                         <property name="spacing">76</property>
                         <child>
                           <object class="GtkBox" id="num_posts_box">
@@ -69,15 +73,16 @@
                             <child>
                               <object class="GtkLabel" id="num_posts">
                                 <property name="width_request">-1</property>
-                                <property name="height_request">30</property>
+                                <property name="height_request">25</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">0</property>
+                                <property name="label" translatable="yes">&lt;span size="small"&gt;&lt;b&gt;R&lt;/b&gt;: 0&lt;/span&gt;</property>
+                                <property name="use_markup">True</property>
                                 <property name="wrap">True</property>
                                 <property name="wrap_mode">word-char</property>
                                 <property name="ellipsize">end</property>
-                                <property name="width_chars">4</property>
-                                <property name="max_width_chars">4</property>
+                                <property name="width_chars">6</property>
+                                <property name="max_width_chars">6</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -102,15 +107,16 @@
                             <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkLabel" id="num_images">
-                                <property name="height_request">30</property>
+                                <property name="height_request">25</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">0</property>
+                                <property name="label" translatable="yes">&lt;span size="small"&gt;&lt;b&gt;I&lt;/b&gt;: 0&lt;/span&gt;</property>
+                                <property name="use_markup">True</property>
                                 <property name="wrap">True</property>
                                 <property name="wrap_mode">word-char</property>
                                 <property name="ellipsize">end</property>
-                                <property name="width_chars">4</property>
-                                <property name="max_width_chars">4</property>
+                                <property name="width_chars">6</property>
+                                <property name="max_width_chars">6</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
