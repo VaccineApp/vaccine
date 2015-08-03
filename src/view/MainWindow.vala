@@ -53,6 +53,9 @@ namespace Vaccine {
                         catalog.add (this, t);
             });
 
+            // set up events
+            key_press_event.connect (catalog.search_bar.handle_event);
+            key_press_event.connect (catalog.search_entry.handle_event);
             this.show_all ();
         }
 
@@ -68,13 +71,6 @@ namespace Vaccine {
         private void add_page (Gtk.Widget w, bool closeable = true) {
             int i = notebook.append_page (w, new Tab (notebook, w, closeable));
             notebook.set_current_page (i);
-        }
-
-        public override bool key_press_event (Gdk.EventKey key) {
-            if (catalog.search_bar.search_mode_enabled)
-                return catalog.search_entry.handle_event (key);
-            else
-                return catalog.search_bar.handle_event (key);
         }
     }
 }
