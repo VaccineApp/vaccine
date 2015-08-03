@@ -11,7 +11,7 @@ namespace Vaccine {
                 if (!child.is_selected ())
                     (child.get_child () as CatalogItem).show_thread ();
             });
-            search_entry.search_changed.connect (() => {
+            search_entry.changed.connect (() => {
                 if (search_entry.text == "")
                     layout.set_filter_func (null);
                 else
