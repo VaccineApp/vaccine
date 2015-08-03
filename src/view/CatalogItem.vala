@@ -7,8 +7,8 @@ namespace Vaccine {
         [GtkChild] private Gtk.Overlay image_overlay;
 
         [GtkChild] private Gtk.Image post_image;
-        [GtkChild] private Gtk.Label post_subject;
-        [GtkChild] private Gtk.Label post_comment;
+        [GtkChild] public Gtk.Label post_subject;
+        [GtkChild] public Gtk.Label post_comment;
 
         [GtkChild] private Gtk.Revealer post_stats;
         [GtkChild] private Gtk.Label num_posts;

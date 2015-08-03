@@ -16,11 +16,11 @@ namespace Vaccine {
                     layout.set_filter_func (null);
                 else
                     layout.set_filter_func (child => {
-                        string query = search_entry.text;
                         var item = child.get_child () as CatalogItem;
-                        string? subject = item.op.sub;
-                        string comment = Stripper.transform_post (item.op.com ?? "") ?? item.op.com;
-                        return (subject != null && query.match_string (subject, true)) || query.match_string (comment, true);
+                        string query = search_entry.text.down ();
+                        string subject = item.post_subject.label.down ();
+                        string comment = item.post_comment.label.down ();
+                        return subject.contains (query) || comment.contains (query);
                     });
             });
         }
