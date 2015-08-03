@@ -1,7 +1,7 @@
 namespace Vaccine {
     [GtkTemplate (ui = "/org/vaccine/app/catalog-item.ui")]
     public class CatalogItem : Gtk.Box {
-        private unowned MainWindow main_window;
+        private weak MainWindow main_window;
 
         [GtkChild] private Gtk.Stack image_stack;
         [GtkChild] private Gtk.Overlay image_overlay;

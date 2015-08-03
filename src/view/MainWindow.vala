@@ -9,7 +9,7 @@ namespace Vaccine {
         [GtkChild] private Gtk.SearchEntry searchentry;
         [GtkChild] private Gtk.Label buttonlabel;
 
-        private unowned CatalogWidget catalog;
+        private CatalogWidget catalog;
 
         public MainWindow (Gtk.Application app) {
             Object (application: app);
@@ -42,9 +42,8 @@ namespace Vaccine {
                 }
             });
 
-            var temp_catalog = new CatalogWidget ();
-            add_page (temp_catalog, false);
-            catalog = temp_catalog;
+            catalog = new CatalogWidget ();
+            add_page (catalog, false);
 
             FourChan.catalog.downloaded.connect ((o, board, threads) => {
                 catalog.clear ();
@@ -55,7 +54,6 @@ namespace Vaccine {
 
             // set up events
             key_press_event.connect (catalog.search_bar.handle_event);
-            key_press_event.connect (catalog.search_entry.handle_event);
             this.show_all ();
         }
 
