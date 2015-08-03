@@ -1,18 +1,14 @@
 namespace Vaccine {
     [GtkTemplate (ui = "/org/vaccine/app/catalog-item.ui")]
     public class CatalogItem : Gtk.Box {
+        // TODO: show # of replies (and make it look good)
         private weak MainWindow main_window;
 
         [GtkChild] private Gtk.Stack image_stack;
-        [GtkChild] private Gtk.Overlay image_overlay;
 
         [GtkChild] private Gtk.Image post_image;
         [GtkChild] public Gtk.Label post_subject;
         [GtkChild] public Gtk.Label post_comment;
-
-        [GtkChild] private Gtk.Revealer post_stats;
-        [GtkChild] private Gtk.Label num_posts;
-        [GtkChild] private Gtk.Label num_images;
 
         private Cancellable? cancel = null;
 
@@ -37,17 +33,12 @@ namespace Vaccine {
                         width = (int) Math.round (height * ratio);
                     }
                     post_image.pixbuf = buf.scale_simple (width, height, Gdk.InterpType.BILINEAR);
-                    image_stack.set_visible_child (image_overlay);
-                    num_posts.label = @"<span size=\"small\"><b>R</b>: $(op.replies)</span>";
-                    num_posts.tooltip_markup = @"<b>$(op.replies)</b> repl$(op.replies != 1 ? "ies" : "y")";
-                    num_images.label = @"<span size=\"small\"><b>I</b>: $(op.images)</span>";
-                    num_images.tooltip_markup = @"<b>$(op.images)</b> image$(op.images != 1 ? "s" : "")";
-                    post_stats.reveal_child = true;
+                    image_stack.set_visible_child (post_image);
                 });
             }
             this.post_comment.label = FourChan.get_post_text (t.com);
             if (t.sub != null)
-                this.post_subject.label = @"<b>$(t.sub)</b>";
+                this.post_subject.label = @"<span weight=\"bold\" size=\"larger\">$(t.sub)</span>";
             else
                 post_subject.destroy ();
         }
