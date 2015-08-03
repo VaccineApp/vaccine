@@ -11,9 +11,17 @@ namespace Vaccine {
                 if (!child.is_selected ())
                     (child.get_child () as CatalogItem).show_thread ();
             });
-            search_bar.connect_entry (search_entry);
             search_entry.search_changed.connect (() => {
-                stdout.printf (@"searching for \"$(search_entry.text)\"...\n");
+                if (search_entry.text == "")
+                    layout.set_filter_func (null);
+                else
+                    layout.set_filter_func (child => {
+                        string query = search_entry.text;
+                        var item = child.get_child () as CatalogItem;
+                        string? subject = item.op.sub;
+                        string comment = Stripper.transform_post (item.op.com ?? "") ?? item.op.com;
+                        return (subject != null && query.match_string (subject, true)) || query.match_string (comment, true);
+                    });
             });
         }
 
