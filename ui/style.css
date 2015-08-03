@@ -10,6 +10,7 @@ VaccineCatalogWidget > GtkViewport {
 
 VaccineCatalogWidget > GtkScrolledWindow {
 	border: none;
+	background-color: @theme_bg_color;
 }
 
 VaccineCatalogItem {
