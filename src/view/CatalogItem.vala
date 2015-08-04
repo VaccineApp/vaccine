@@ -6,7 +6,7 @@ namespace Vaccine {
 
         [GtkChild] private Gtk.Stack image_stack;
 
-        [GtkChild] private Gtk.Image post_image;
+        [GtkChild] private Gtk.DrawingArea post_image;
         [GtkChild] public Gtk.Label post_subject;
         [GtkChild] public Gtk.Label post_comment;
 
@@ -14,25 +14,44 @@ namespace Vaccine {
 
         public ThreadOP op { get; construct; }
 
-        public int64 post_no { get { return op.no; } }
-
         public CatalogItem (MainWindow win, ThreadOP t) {
             Object (op: t);
             this.main_window = win;
 
+            post_image.draw.connect(cr => {
+                if (op.pixbuf == null)
+                    return false;
+                op.get_thumbnail (pixbuf => {
+                    var mat = cr.get_matrix ();
+
+                    Gtk.Allocation alloc;
+                    post_image.get_allocation (out alloc);
+
+                    double scale_x = (double) alloc.width / pixbuf.width;
+                    double scale_y = (double) alloc.height / pixbuf.height;
+
+                    if (scale_x * pixbuf.height >= alloc.height) {
+                        mat.scale (scale_x, scale_x);
+                        double offset = (alloc.height - pixbuf.height * scale_x) / 2;
+                        mat.translate (0, offset);
+                    } else if (scale_y * pixbuf.width >= alloc.width) {
+                        mat.scale (scale_y, scale_y);
+                        double offset = (alloc.width - pixbuf.width * scale_y) / 2;
+                        mat.translate (offset, 0);
+                    } else {
+                        assert_not_reached ();
+                    }
+
+                    cr.set_matrix (mat);
+                    Gdk.cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
+                    cr.paint ();
+                });
+                return true;
+            });
+
             if (t.filename != null) { // deleted files
                 cancel = t.get_thumbnail (buf => {
                     cancel = null;
-                    double ratio = (double) buf.width / buf.height;
-                    int width, height;
-                    if (buf.width > buf.height) {
-                        width = 200;
-                        height = (int) Math.round (width / ratio);
-                    } else {
-                        height = 200;
-                        width = (int) Math.round (height * ratio);
-                    }
-                    post_image.pixbuf = buf.scale_simple (width, height, Gdk.InterpType.BILINEAR);
                     image_stack.set_visible_child (post_image);
                 });
             }
@@ -49,7 +68,7 @@ namespace Vaccine {
         }
 
         public void show_thread () {
-            main_window.show_thread(post_no, op.pixbuf);
+            main_window.show_thread(op.no, op.pixbuf);
         }
     }
 }

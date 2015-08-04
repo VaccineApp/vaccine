@@ -32,10 +32,9 @@
           </packing>
         </child>
         <child>
-          <object class="GtkImage" id="post_image">
+          <object class="GtkDrawingArea" id="post_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="icon_name">image-x-generic-symbolic</property>
           </object>
           <packing>
             <property name="name">page0</property>
