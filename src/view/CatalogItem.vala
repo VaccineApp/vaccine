@@ -69,7 +69,7 @@ namespace Vaccine {
 
         [GtkCallback]
         public void show_thread () {
-            main_window.show_thread(op.no, op.pixbuf);
+            main_window.show_thread (op.no, op.pixbuf);
         }
     }
 }
