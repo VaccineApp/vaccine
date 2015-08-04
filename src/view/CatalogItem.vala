@@ -38,11 +38,14 @@ namespace Vaccine {
                     }
                     post_image.pixbuf = buf.scale_simple (width, height, Gdk.InterpType.BILINEAR);
                     image_stack.set_visible_child (image_overlay);
+                });
+                Gdk.threads_add_timeout (1618, () => {
                     num_posts.label = @"<span size=\"small\"><b>R</b>: $(op.replies)</span>";
                     num_posts.tooltip_markup = @"<b>$(op.replies)</b> repl$(op.replies != 1 ? "ies" : "y")";
                     num_images.label = @"<span size=\"small\"><b>I</b>: $(op.images)</span>";
                     num_images.tooltip_markup = @"<b>$(op.images)</b> image$(op.images != 1 ? "s" : "")";
                     post_stats.reveal_child = true;
+                    return false;
                 });
             }
             this.post_comment.label = FourChan.get_post_text (t.com);
