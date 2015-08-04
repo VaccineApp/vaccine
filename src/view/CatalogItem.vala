@@ -60,7 +60,7 @@ namespace Vaccine {
         }
 
         public void show_thread () {
-            main_window.show_thread(post_no, op.pixbuf);
+            main_window.show_thread (post_no, op.pixbuf);
         }
     }
 }

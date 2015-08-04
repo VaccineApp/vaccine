@@ -17,7 +17,7 @@ namespace Vaccine {
                 else
                     layout.set_filter_func (child => {
                         var item = child.get_child () as CatalogItem;
-                        string query = search_entry.text.down ();
+                        string query = Markup.escape_text (search_entry.text.down ());
                         string subject = item.post_subject.label.down ();
                         string comment = item.post_comment.label.down ();
                         return subject.contains (query) || comment.contains (query);
