@@ -4,7 +4,6 @@ namespace Vaccine {
         private weak MainWindow main_window;
 
         [GtkChild] private Gtk.Stack image_stack;
-        [GtkChild] private Gtk.Overlay image_overlay;
 
         [GtkChild] private Gtk.Image post_image;
         [GtkChild] public Gtk.Label post_subject;
@@ -37,7 +36,7 @@ namespace Vaccine {
                         width = (int) Math.round (height * ratio);
                     }
                     post_image.pixbuf = buf.scale_simple (width, height, Gdk.InterpType.BILINEAR);
-                    image_stack.set_visible_child (image_overlay);
+                    image_stack.set_visible_child (post_image);
                 });
                 Gdk.threads_add_timeout (1618, () => {
                     num_posts.label = @"<span size=\"small\"><b>R</b>: $(op.replies)</span>";
