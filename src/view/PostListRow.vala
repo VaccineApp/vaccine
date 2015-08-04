@@ -19,8 +19,6 @@ namespace Vaccine {
         public PostListRow (Post post, Gdk.Pixbuf? thumbnail = null) {
             Object (post: post);
 
-            content.margin = 15; // glade erases this so just set in code
-
             post_name.label = @"<b>$(post.name)</b> <span color=\"#aaa\">$(post.trip ?? "")</span>";
             post_time.label = FourChan.get_post_time (post.time);
             post_no.label = @"No. $(post.no)";
