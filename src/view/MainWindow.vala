@@ -6,16 +6,33 @@ namespace Vaccine {
 
         [GtkChild] private Gtk.Popover popover;
         [GtkChild] private Gtk.ListBox listbox;
-        [GtkChild] private Gtk.SearchEntry searchentry;
+        [GtkChild] private Gtk.SearchEntry board_search;
         [GtkChild] private Gtk.Label buttonlabel;
 
         private CatalogWidget catalog;
 
+        const ActionEntry[] shortcuts = {
+            { "close_tab", close_tab },
+            { "catalog_find", catalog_find }
+        };
+
+        void close_tab () {
+            if (notebook.page != 0)
+                notebook.remove_page (notebook.page);
+        }
+
+        void catalog_find () {
+            notebook.page = 0; // TODO: thread search
+            catalog.search_bar.set_search_mode (true);
+        }
+
         public MainWindow (Gtk.Application app) {
             Object (application: app);
 
-            listbox.set_filter_func (row => (row.get_child () as Gtk.Label).name.contains (searchentry.text));
-            searchentry.changed.connect (listbox.invalidate_filter);
+            add_action_entries (shortcuts, this);
+
+            listbox.set_filter_func (row => (row.get_child () as Gtk.Label).name.contains (board_search.text));
+            board_search.changed.connect (listbox.invalidate_filter);
 
             FourChan.get_boards.begin ((obj, res) => {
                 var boards = FourChan.get_boards.end (res);
@@ -36,7 +53,7 @@ namespace Vaccine {
                     buttonlabel.label = child.label;
 
                     popover.visible = false;
-                    searchentry.text = "";
+                    board_search.text = "";
 
                     notebook.set_current_page (0);
                 }

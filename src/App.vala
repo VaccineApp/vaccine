@@ -19,6 +19,9 @@ namespace Vaccine {
 
         protected override void startup () {
             base.startup ();
+            add_action_entries (actions, this);
+            set_accels_for_action ("win.close_tab", {"<Control>W"});
+            set_accels_for_action ("win.catalog_find", {"<Control>F"});
             main_window = new MainWindow (this);
 
             var provider = new Gtk.CssProvider ();
@@ -28,7 +31,6 @@ namespace Vaccine {
 
         protected override void activate () {
             base.activate ();
-            add_action_entries (actions, this);
             main_window.present ();
         }
     }
