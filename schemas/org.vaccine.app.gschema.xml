@@ -1,0 +1,8 @@
+<schemalist>
+  <schema id="org.vaccine.app" path="/org/vaccine/app/" gettext-domain="app">
+    <key name="use-dark-theme" type="b">
+      <default>false</default>
+      <summary>Use dark theme</summary>
+    </key>
+  </schema>
+</schemalist>
