@@ -20,10 +20,6 @@ namespace Vaccine {
         protected override void startup () {
             base.startup ();
             add_action_entries (actions, this);
-            set_accels_for_action ("win.close_tab", {"<Control>W"});
-            set_accels_for_action ("win.catalog_find", {"<Control>F"});
-            set_accels_for_action ("win.next_tab", {"<Control>Tab"});
-            set_accels_for_action ("win.prev_tab", {"<Control><Shift>Tab"});
 
             main_window = new MainWindow (this);
 
