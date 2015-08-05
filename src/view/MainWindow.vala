@@ -80,7 +80,12 @@ namespace Vaccine {
             });
 
             // set up events
-            key_press_event.connect (search);
+            key_press_event.connect (key => {
+                if (notebook.page == 0)
+                    return catalog.search_bar.handle_event (key);
+                else // TODO: ThreadPane search
+                    return false;
+            });
             this.show_all ();
         }
 
@@ -96,13 +101,6 @@ namespace Vaccine {
         private void add_page (Gtk.Widget w, bool closeable = true) {
             int i = notebook.append_page (w, new Tab (notebook, w, closeable));
             notebook.set_current_page (i);
-        }
-
-        private bool search (Gdk.EventKey key) {
-            if (catalog.get_visible ())
-                return catalog.search_bar.handle_event (key);
-            else    // TODO: ThreadPane search
-                return false;
         }
     }
 }
