@@ -13,7 +13,9 @@ namespace Vaccine {
 
         const ActionEntry[] shortcuts = {
             { "close_tab", close_tab },
-            { "catalog_find", catalog_find }
+            { "catalog_find", catalog_find },
+            { "next_tab", next_tab },
+            { "prev_tab", prev_tab },
         };
 
         void close_tab () {
@@ -24,6 +26,14 @@ namespace Vaccine {
         void catalog_find () {
             notebook.page = 0; // TODO: thread search
             catalog.search_bar.set_search_mode (true);
+        }
+
+        void next_tab () {
+            notebook.page = (notebook.page+1) % notebook.get_n_pages ();
+        }
+
+        void prev_tab () {
+            notebook.page = (notebook.page-1) % notebook.get_n_pages ();
         }
 
         public MainWindow (Gtk.Application app) {
