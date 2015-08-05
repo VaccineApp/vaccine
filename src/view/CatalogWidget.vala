@@ -7,10 +7,6 @@ namespace Vaccine {
 
         public CatalogWidget () {
             name = "Catalog";
-            layout.child_activated.connect (child => {
-                if (!child.is_selected ())
-                    (child.get_child () as CatalogItem).show_thread ();
-            });
             search_entry.changed.connect (() => {
                 if (search_entry.text == "")
                     layout.set_filter_func (null);

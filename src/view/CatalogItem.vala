@@ -1,6 +1,6 @@
 namespace Vaccine {
     [GtkTemplate (ui = "/org/vaccine/app/catalog-item.ui")]
-    public class CatalogItem : Gtk.Box {
+    public class CatalogItem : Gtk.Button {
         // TODO: show # of replies (and make it look good)
         private weak MainWindow main_window;
 
@@ -67,6 +67,7 @@ namespace Vaccine {
                 cancel.cancel ();
         }
 
+        [GtkCallback]
         public void show_thread () {
             main_window.show_thread(op.no, op.pixbuf);
         }
