@@ -2,6 +2,6 @@ VaccineCatalogItem .textarea GtkLabel:insensitive {
 	color: @theme_text_color;
 }
 
-VaccineCatalogWidget GtkScrolledWindow {
+VaccineCatalogItem GtkScrolledWindow {
 	background: none;
 }
