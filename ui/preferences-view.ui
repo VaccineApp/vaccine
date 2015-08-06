@@ -11,9 +11,8 @@
     </patterns>
   </object>
   <object class="GtkAdjustment" id="image_cache_size_adjustment">
-    <property name="lower">1</property>
     <property name="upper">200</property>
-    <property name="value">1</property>
+    <property name="value">50</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -241,7 +240,7 @@
                   <object class="GtkLabel" id="label6">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;span size="smaller"&gt;Custom filters allow you to choose what content Vaccine shows or hides, based on a series of &lt;a href="https://en.wikipedia.org/Regular_Expression"&gt;regular expressions&lt;/a&gt;. Each filter starts on a new line and is in the format &lt;span font="monospace"&gt;/expression/&lt;/span&gt;.&lt;/span&gt;</property>
+                    <property name="label" translatable="yes">&lt;span size="smaller"&gt;Custom filters allow you to choose what content Vaccine shows or hides, based on a series of &lt;a href="https://en.wikipedia.org/wiki/Regular_Expression"&gt;regular expressions&lt;/a&gt;. Each filter starts on a new line and is in the format &lt;span font="monospace"&gt;/expression/&lt;/span&gt;.&lt;/span&gt;</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
                     <property name="wrap_mode">word-char</property>
@@ -312,42 +311,6 @@
                 <property name="margin_right">25</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">10</property>
-                <child>
-                  <object class="GtkBox" id="box10">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="spacing">10</property>
-                    <child>
-                      <object class="GtkLabel" id="label10">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Cache images</property>
-                        <property name="xalign">0</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSwitch" id="switch5">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
                 <child>
                   <object class="GtkBox" id="box11">
                     <property name="visible">True</property>
