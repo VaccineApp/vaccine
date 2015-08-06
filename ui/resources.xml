@@ -7,8 +7,8 @@
         <file>post-list-row.ui</file>
         <file>catalog-widget.ui</file>
         <file>catalog-item.ui</file>
+        <file>preferences-view.ui</file>
         <file>tab.ui</file>
-
         <file>style.css</file>
     </gresource>
     <gresource prefix="/org/vaccine/app/gtk">
