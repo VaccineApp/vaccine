@@ -17,6 +17,7 @@ vaccine_SOURCES = \
 	view/MainWindow.vala \
 	view/PanelView.vala \
 	view/PostListRow.vala \
+	view/PreferencesView.vala \
 	view/Tab.vala \
 	view/ThreadPane.vala \
 	resources.c

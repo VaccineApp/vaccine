@@ -11,9 +11,14 @@ namespace Vaccine {
         private Settings settings;
 
         const ActionEntry[] actions = {
+            { "preferences", show_preferences },
             { "about", show_about },
             { "quit", quit }
         };
+
+        void show_preferences () {
+            new PreferencesView (main_window, settings).present ();
+        }
 
         void show_about () {
             new AboutDialog (main_window).present ();
@@ -38,7 +43,7 @@ namespace Vaccine {
             if (schema == null) {
                 error ("could not look up schema");
             } else {
-                settings = new Settings.full ((!) schema, null, null);
+                settings = new Settings.full (schema, null, null);
                 bool use_dark_theme = settings.get_boolean ("use-dark-theme");
                 stdout.printf (@"use_dark_theme = $use_dark_theme\n");
             }
