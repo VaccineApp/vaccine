@@ -53,7 +53,7 @@
         <property name="orientation">vertical</property>
         <property name="spacing">8</property>
         <child>
-          <object class="GtkSearchEntry" id="searchentry">
+          <object class="GtkSearchEntry" id="board_search">
             <property name="visible">True</property>
           </object>
           <packing>
