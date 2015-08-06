@@ -34,7 +34,17 @@ namespace Vaccine {
             provider.load_from_resource("/org/vaccine/app/style.css");
             Gtk.StyleContext.add_provider_for_screen (main_window.get_screen (), provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-            // load settings
+            load_settings ();
+        }
+
+        protected override void activate () {
+            base.activate ();
+            add_action_entries (actions, this);
+            main_window.present ();
+        }
+
+        void load_settings () {
+            // load settings from custom directory (for now)
             SettingsSchemaSource? sss;
             try {
                 sss = new SettingsSchemaSource.from_directory ("schemas/", null, true);
@@ -46,14 +56,8 @@ namespace Vaccine {
                 error ("could not look up schema");
             } else {
                 settings = new Settings.full (schema, null, null);
-                bool use_dark_theme = settings.get_boolean ("use-dark-theme");
-                stdout.printf (@"use_dark_theme = $use_dark_theme\n");
+                settings.bind ("use-dark-theme", Gtk.Settings.get_default (), "gtk-application-prefer-dark-theme", SettingsBindFlags.DEFAULT);
             }
-        }
-
-        protected override void activate () {
-            base.activate ();
-            main_window.present ();
         }
     }
     public const string PROGRAM_VERSION = "v0.1-alpha";
