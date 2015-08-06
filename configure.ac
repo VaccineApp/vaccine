@@ -25,6 +25,7 @@ AC_SUBST(AM_VALAFLAGS)
 AC_CONFIG_FILES([
     Makefile
     src/Makefile
+    schemas/Makefile
 ])
 
 AC_OUTPUT
