@@ -26,6 +26,7 @@
       <object class="GtkStack" id="stack1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="transition_duration">500</property>
         <property name="transition_type">slide-left-right</property>
         <child>
           <object class="GtkBox" id="box1">
@@ -79,7 +80,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="switch1">
+                      <object class="GtkSwitch" id="show_greentext">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -115,7 +116,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="switch2">
+                      <object class="GtkSwitch" id="code_syntax_highlighting">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -151,7 +152,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="switch3">
+                      <object class="GtkSwitch" id="show_tripcodes">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -219,7 +220,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="switch4">
+                      <object class="GtkSwitch" id="filter_nsfw_content">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -330,7 +331,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSpinButton" id="spinbutton1">
+                      <object class="GtkSpinButton" id="image_cache_size_mb">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="adjustment">image_cache_size_adjustment</property>
@@ -402,7 +403,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="switch6">
+                      <object class="GtkSwitch" id="use_dark_theme">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -438,7 +439,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="switch7">
+                      <object class="GtkSwitch" id="use_custom_css">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -456,7 +457,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="box15">
+                  <object class="GtkBox" id="custom_css_box">
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">False</property>
@@ -477,7 +478,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkFileChooserButton" id="filechooserbutton1">
+                      <object class="GtkFileChooserButton" id="custom_css_file">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="create_folders">False</property>
