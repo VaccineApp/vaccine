@@ -9,6 +9,7 @@ namespace Vaccine {
         [GtkChild] private Gtk.DrawingArea post_image;
         [GtkChild] public Gtk.Label post_subject;
         [GtkChild] public Gtk.Label post_comment;
+        [GtkChild] public Gtk.Label post_n_replies;
 
         private Cancellable? cancel = null;
 
@@ -56,6 +57,7 @@ namespace Vaccine {
                 });
             }
             this.post_comment.label = FourChan.get_post_text (t.com);
+            this.post_n_replies.label = @"$(t.replies) replies";
             if (t.sub != null)
                 this.post_subject.label = @"<span weight=\"bold\" size=\"larger\">$(t.sub)</span>";
             else
