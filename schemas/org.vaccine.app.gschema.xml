@@ -1,6 +1,10 @@
 <schemalist>
   <schema id="org.vaccine.app" path="/org/vaccine/app/" gettext-domain="app">
     <!-- general -->
+    <key name="show-names" type="b">
+      <default>true</default>
+      <summary>Show names</summary>
+    </key>
     <key name="show-tripcodes" type="b">
       <default>true</default>
       <summary>Show tripcodes</summary>

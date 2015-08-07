@@ -19,7 +19,11 @@ namespace Vaccine {
         public PostListRow (Post post, Gdk.Pixbuf? thumbnail = null) {
             Object (post: post);
 
-            post_name.label = @"<b>$(post.name)</b> <span color=\"#aaa\">$(post.trip ?? "")</span>";
+            Settings prefs = (Application.get_default () as App).settings;
+            bool show_names = prefs.get_boolean ("show-names");
+            bool show_tripcodes = prefs.get_boolean ("show-tripcodes");
+
+            post_name.label = @"<b>$(show_names ? post.name : "Anonymous")</b> <span color=\"#aaa\">$(show_tripcodes ? (post.trip ?? "") : "")</span>";
             post_time.label = FourChan.get_post_time (post.time);
             post_no.label = @"No. $(post.no)";
 
