@@ -76,6 +76,7 @@
                       <object class="GtkSwitch" id="show_names">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">When turned off, every poster will be displayed as "Anonymous"</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -180,6 +181,7 @@
                       <object class="GtkSwitch" id="filter_nsfw_content">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="tooltip_markup" translatable="yes">This feature is currently unimplemented.</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -280,6 +282,7 @@
                       <object class="GtkSpinButton" id="image_cache_size_mb">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">This feature is currently unimplemented.</property>
                         <property name="adjustment">image_cache_size_adjustment</property>
                         <property name="digits">1</property>
                         <property name="snap_to_ticks">True</property>
@@ -352,6 +355,7 @@
                       <object class="GtkSwitch" id="use_dark_theme">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">If your GTK+ theme has a dark variant, Vaccine will request to use it.</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
