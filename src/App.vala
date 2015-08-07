@@ -3,14 +3,16 @@ namespace Vaccine {
 
     public class App : Gtk.Application {
         public FourChan chan = new FourChan ();
+        public string progpath { get; construct; }
+        public string progdir { get; construct; }
 
-        public App () {
+        public App (string path) {
             Object (application_id: "org.vaccine.app",
-                    flags: ApplicationFlags.FLAGS_NONE);
+                    flags: ApplicationFlags.FLAGS_NONE,
+                    progpath: path, progdir: Path.get_dirname (path));
         }
 
         private MainWindow main_window;
-
 
         const ActionEntry[] actions = {
             { "preferences", show_preferences },
@@ -34,8 +36,9 @@ namespace Vaccine {
             main_window = new MainWindow (this);
 
             var provider = new Gtk.CssProvider ();
-            provider.load_from_resource("/org/vaccine/app/style.css");
-            Gtk.StyleContext.add_provider_for_screen (main_window.get_screen (), provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            provider.load_from_resource(@"$resource_base_path/style.css");
+            Gtk.StyleContext.add_provider_for_screen (main_window.get_screen (),
+                provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
         }
 
         protected override void activate () {
@@ -49,16 +52,19 @@ namespace Vaccine {
         Settings load_settings () {
             Settings prefs;
 
+            if (progdir == "/usr/bin")
+                return new Settings (application_id);
+            string dir = Environment.get_current_dir ();
             // load settings from custom directory (for now)
             try {
-                SettingsSchemaSource sss = new SettingsSchemaSource.from_directory ("schemas/", null, true);
-                SettingsSchema schema = sss.lookup ("org.vaccine.app", false);
+                SettingsSchemaSource sss = new SettingsSchemaSource.from_directory (@"$(dir)/schemas/", null, true);
+                SettingsSchema schema = sss.lookup (application_id, false);
                 prefs = new Settings.full (schema, null, null);
                 prefs.bind ("use-dark-theme", Gtk.Settings.get_default (),
                                "gtk-application-prefer-dark-theme", SettingsBindFlags.DEFAULT);
             } catch (Error e) {
                 debug (e.message);
-                return new Settings ("org.vaccine.app");
+                return new Settings (application_id);
             }
             return prefs;
         }
@@ -66,6 +72,6 @@ namespace Vaccine {
 }
 
 int main (string[] args) {
-    var app = new Vaccine.App ();
+    var app = new Vaccine.App (args [0]);
     return app.run (args);
 }
