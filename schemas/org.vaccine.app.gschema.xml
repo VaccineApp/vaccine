@@ -1,14 +1,6 @@
 <schemalist>
   <schema id="org.vaccine.app" path="/org/vaccine/app/" gettext-domain="app">
     <!-- general -->
-    <key name="show-greentext" type="b">
-      <default>true</default>
-      <summary>Show greentext</summary>
-    </key>
-    <key name="code-syntax-highlighting" type="b">
-      <default>true</default>
-      <summary>Code syntax highlighting</summary>
-    </key>
     <key name="show-tripcodes" type="b">
       <default>true</default>
       <summary>Show tripcodes</summary>
@@ -27,14 +19,6 @@
     <key name="use-dark-theme" type="b">
       <default>false</default>
       <summary>Use dark theme</summary>
-    </key>
-    <key name="use-custom-css" type="b">
-      <default>false</default>
-      <summary>Use custom CSS</summary>
-    </key>
-    <key name="custom-css-file" type="s">
-      <default>""</default>
-      <summary>Custom CSS file</summary>
     </key>
   </schema>
 </schemalist>

@@ -1,4 +1,6 @@
 namespace Vaccine {
+    public const string PROGRAM_VERSION = "v0.1-alpha";
+
     public class App : Gtk.Application {
         public FourChan chan = new FourChan ();
 
@@ -8,7 +10,6 @@ namespace Vaccine {
 
         private MainWindow main_window;
 
-        private Settings settings;
 
         const ActionEntry[] actions = {
             { "preferences", show_preferences },
@@ -43,24 +44,21 @@ namespace Vaccine {
             main_window.present ();
         }
 
+        private Settings settings;
+
         void load_settings () {
             // load settings from custom directory (for now)
-            SettingsSchemaSource? sss;
             try {
-                sss = new SettingsSchemaSource.from_directory ("schemas/", null, true);
-            } catch (Error e) {
-                error ("could not create SSS: "+e.message);
-            }
-            SettingsSchema? schema = ((!) sss).lookup ("org.vaccine.app", false);
-            if (schema == null) {
-                error ("could not look up schema");
-            } else {
+                SettingsSchemaSource sss = new SettingsSchemaSource.from_directory ("schemas/", null, true);
+                SettingsSchema schema = sss.lookup ("org.vaccine.app", false);
                 settings = new Settings.full (schema, null, null);
-                settings.bind ("use-dark-theme", Gtk.Settings.get_default (), "gtk-application-prefer-dark-theme", SettingsBindFlags.DEFAULT);
+                settings.bind ("use-dark-theme", Gtk.Settings.get_default (),
+                               "gtk-application-prefer-dark-theme", SettingsBindFlags.DEFAULT);
+            } catch (Error e) {
+                debug (e.message);
             }
         }
     }
-    public const string PROGRAM_VERSION = "v0.1-alpha";
 }
 
 int main (string[] args) {
