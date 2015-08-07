@@ -5,7 +5,8 @@ namespace Vaccine {
         public FourChan chan = new FourChan ();
 
         public App () {
-            Object (application_id: "org.vaccine.app", flags: ApplicationFlags.FLAGS_NONE);
+            Object (application_id: "org.vaccine.app",
+                    flags: ApplicationFlags.FLAGS_NONE);
         }
 
         private MainWindow main_window;
@@ -28,14 +29,13 @@ namespace Vaccine {
         protected override void startup () {
             base.startup ();
             add_action_entries (actions, this);
+            settings = load_settings ();
 
             main_window = new MainWindow (this);
 
             var provider = new Gtk.CssProvider ();
             provider.load_from_resource("/org/vaccine/app/style.css");
             Gtk.StyleContext.add_provider_for_screen (main_window.get_screen (), provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-            load_settings ();
         }
 
         protected override void activate () {
@@ -44,19 +44,23 @@ namespace Vaccine {
             main_window.present ();
         }
 
-        private Settings settings;
+        public Settings settings { get; private set; }
 
-        void load_settings () {
+        Settings load_settings () {
+            Settings prefs;
+
             // load settings from custom directory (for now)
             try {
                 SettingsSchemaSource sss = new SettingsSchemaSource.from_directory ("schemas/", null, true);
                 SettingsSchema schema = sss.lookup ("org.vaccine.app", false);
-                settings = new Settings.full (schema, null, null);
-                settings.bind ("use-dark-theme", Gtk.Settings.get_default (),
+                prefs = new Settings.full (schema, null, null);
+                prefs.bind ("use-dark-theme", Gtk.Settings.get_default (),
                                "gtk-application-prefer-dark-theme", SettingsBindFlags.DEFAULT);
             } catch (Error e) {
                 debug (e.message);
+                return new Settings ("org.vaccine.app");
             }
+            return prefs;
         }
     }
 }
