@@ -59,3 +59,4 @@ Makefile
 vaccine
 .gdb_history
 peda-session-*
+gschemas.compiled
