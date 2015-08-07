@@ -26,6 +26,8 @@ namespace Vaccine {
 
         protected override void startup () {
             base.startup ();
+            add_action_entries (actions, this);
+
             main_window = new MainWindow (this);
 
             var provider = new Gtk.CssProvider ();
@@ -37,7 +39,6 @@ namespace Vaccine {
 
         protected override void activate () {
             base.activate ();
-            add_action_entries (actions, this);
             main_window.present ();
         }
 
