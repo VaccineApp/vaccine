@@ -1,7 +1,7 @@
-VaccineThreadPane {
-	background-color: @theme_base_color;
+VaccineCatalogItem .textarea GtkLabel:insensitive {
+	color: @theme_text_color;
 }
 
-VaccineThreadPane {
-	border-right: none;
+VaccineCatalogItem GtkScrolledWindow {
+	background: none;
 }
