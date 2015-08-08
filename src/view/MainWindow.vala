@@ -18,6 +18,8 @@ namespace Vaccine {
             { "prev_tab", prev_tab },
         };
 
+        public int dialogs = 0;
+
         void close_tab () {
             if (notebook.page != 0)
                 notebook.remove_page (notebook.page);
