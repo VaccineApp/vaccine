@@ -4,7 +4,7 @@ vaccine_SOURCES = \
 	App.vala \
 	Catalog.vala \
 	FourChan.vala \
-	PostFormatter.vala \
+	PostTransformer.vala \
 	Thread.vala \
 	PostReplies.vala \
 	model/Board.vala \
