@@ -1,7 +1,21 @@
+VaccineCatalogWidget GtkScrolledWindow,
+VaccineCatalogWidget GtkViewport {
+	border: none;
+}
+
 VaccineCatalogItem .textarea GtkLabel:insensitive {
 	color: @theme_text_color;
 }
 
 VaccineCatalogItem GtkScrolledWindow {
 	background: none;
+}
+
+VaccineThreadPane > GtkBox.heading-box {
+	background-color: @theme_base_color;
+}
+
+VaccineThreadPane > GtkScrolledWindow {
+	border: none;
+	border-top: 1px solid @theme_bg_color;
 }
