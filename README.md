@@ -1,6 +1,8 @@
 Vaccine
 =======
 
+![hero](res/hero.png)
+
 This is a 4chan browser for Linux that is written in Vala and uses GTK.
 Please contribute and report bugs.
 
