@@ -1,12 +1,18 @@
 <interface>
 <menu id="app-menu">
   <item>
-    <attribute name="label">About</attribute>
-    <attribute name="action">app.about</attribute>
+    <attribute name="label">Preferences</attribute>
+    <attribute name="action">app.preferences</attribute>
   </item>
-  <item>
-    <attribute name="label">Quit</attribute>
-    <attribute name="action">app.quit</attribute>
-  </item>
+  <section>
+    <item>
+      <attribute name="label">About</attribute>
+      <attribute name="action">app.about</attribute>
+    </item>
+    <item>
+      <attribute name="label">Quit</attribute>
+      <attribute name="action">app.quit</attribute>
+    </item>
+  </section>
 </menu>
 </interface>

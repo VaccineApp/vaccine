@@ -1,0 +1,24 @@
+<schemalist>
+  <schema id="org.vaccine.app" path="/org/vaccine/app/" gettext-domain="app">
+    <!-- general -->
+    <key name="show-trips" type="b">
+      <default>true</default>
+      <summary>Show names and tripcodes</summary>
+    </key>
+    <key name="filter-nsfw-content" type="b">
+      <default>false</default>
+      <summary>Filter NSFW content</summary>
+    </key>
+    <!-- TODO: add filtering value -->
+    <!-- data -->
+    <key name="image-cache-size-mb" type="d">
+      <default>50.0</default>
+      <summary>Image cache size (MB)</summary>
+    </key>
+    <!-- view -->
+    <key name="use-dark-theme" type="b">
+      <default>false</default>
+      <summary>Use dark theme</summary>
+    </key>
+  </schema>
+</schemalist>
