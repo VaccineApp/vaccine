@@ -1,10 +1,15 @@
-AC_INIT([vaccine], [0.1])
+AC_INIT([vaccine], [0.0.1])
 
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 AM_SILENT_RULES([yes])
 
 AC_PROG_CC
 AM_PROG_VALAC
+
+GLIB_GSETTINGS
+
+AC_ARG_ENABLE(debug,
+	AS_HELP_STRING([--enable-debug], [enable or disable debugging, default: yes]))
 
 PKG_CHECK_MODULES([GTK3], [gtk+-3.0])
 PKG_CHECK_MODULES([JSON_GLIB], [json-glib-1.0])
@@ -22,6 +27,7 @@ AM_VALAFLAGS=" \
     --enable-checking \
     --thread"
 
+AS_IF([test "x$enable_debug" != "xno"], [AM_VALAFLAGS="$AM_VALAFLAGS -D DEBUG"], [])
 AC_SUBST(AM_VALAFLAGS)
 
 AC_CONFIG_FILES([
@@ -38,4 +44,3 @@ echo "
     C compiler: ${CC}
     Vala compiler: ${VALAC}
 "
-

@@ -1,8 +1,6 @@
 namespace Vaccine {
     [GtkTemplate (ui = "/org/vaccine/app/post-list-row.ui")]
     public class PostListRow : Gtk.ListBoxRow {
-        [GtkChild] private Gtk.Box content;
-
         [GtkChild] private Gtk.Label post_name;
         [GtkChild] private Gtk.Label post_time;
         [GtkChild] private Gtk.Label post_no;
@@ -20,10 +18,11 @@ namespace Vaccine {
             Object (post: post);
 
             Settings prefs = (Application.get_default () as App).settings;
-            bool show_names = prefs.get_boolean ("show-names");
-            bool show_tripcodes = prefs.get_boolean ("show-tripcodes");
 
-            post_name.label = @"<b>$(show_names ? post.name : "Anonymous")</b> <span color=\"#aaa\">$(show_tripcodes ? (post.trip ?? "") : "")</span>";
+            post_name.visible = prefs.get_boolean ("show-trips");
+            prefs.bind ("show-trips", post_name, "visible", SettingsBindFlags.GET);
+
+            post_name.label = @"<b>$(post.name)</b> <span color=\"#aaa\">$(post.trip ?? "")</span>";
             post_time.label = FourChan.get_post_time (post.time);
             post_no.label = @"No. $(post.no)";
 

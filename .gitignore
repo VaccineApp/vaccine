@@ -60,3 +60,4 @@ vaccine
 .gdb_history
 peda-session-*
 gschemas.compiled
+*.gschema.valid
