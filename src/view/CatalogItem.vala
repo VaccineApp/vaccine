@@ -1,5 +1,5 @@
 namespace Vaccine {
-    [GtkTemplate (ui = "/org/vaccine/app/catalog-item.ui")]
+    [GtkTemplate (ui = "/org/gnome/vaccine/catalog-item.ui")]
     public class CatalogItem : Gtk.Button {
         // TODO: show # of replies (and make it look good)
         private weak MainWindow main_window;

@@ -1,5 +1,5 @@
 namespace Vaccine {
-    [GtkTemplate (ui = "/org/vaccine/app/post-list-row.ui")]
+    [GtkTemplate (ui = "/org/gnome/vaccine/post-list-row.ui")]
     public class PostListRow : Gtk.ListBoxRow {
         [GtkChild] private Gtk.Label post_name;
         [GtkChild] private Gtk.Label post_time;

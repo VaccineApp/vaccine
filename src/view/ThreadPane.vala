@@ -1,5 +1,5 @@
 namespace Vaccine {
-    [GtkTemplate (ui = "/org/vaccine/app/thread-pane.ui")]
+    [GtkTemplate (ui = "/org/gnome/vaccine/thread-pane.ui")]
     public class ThreadPane : Gtk.Box {
         [GtkChild] private Gtk.ListBox list;
         [GtkChild] private Gtk.Box heading_box;

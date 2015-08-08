@@ -1,4 +1,4 @@
-gsettings_SCHEMAS = org.vaccine.app.gschema.xml
+gsettings_SCHEMAS = org.gnome.vaccine.gschema.xml
 @GSETTINGS_RULES@
 
 gschemas.compiled: $(gsettings_SCHEMAS:.xml=.valid)

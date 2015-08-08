@@ -1,5 +1,5 @@
 namespace Vaccine {
-    [GtkTemplate (ui = "/org/vaccine/app/about-dialog.ui")]
+    [GtkTemplate (ui = "/org/gnome/vaccine/about-dialog.ui")]
     public class AboutDialog : Gtk.AboutDialog {
         private MainWindow parent_win;
 
