@@ -19,7 +19,10 @@ public class Vaccine.Stripper : Object {
 
     public static string? transform_post (string com) {
         var xfm = new Stripper ();
-        var post = PostTransformer.common_clean (com).replace ("\n", " ");
+        var post = PostTransformer.common_clean (com)
+            .split ("\n")[0]
+            .replace ("&gt;", ">")
+            .replace ("&#039;", "'");
         try {
             xfm.ctx.parse (@"<$TOP_LEVEL_TAG>$post</$TOP_LEVEL_TAG>", -1); // requires a top-level element
         } catch (MarkupError e) {

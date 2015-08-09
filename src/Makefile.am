@@ -4,12 +4,12 @@ vaccine_SOURCES = \
 	App.vala \
 	Catalog.vala \
 	FourChan.vala \
-	PostTransformer.vala \
 	Thread.vala \
 	PostReplies.vala \
 	model/Board.vala \
 	model/Page.vala \
 	model/Post.vala \
+	util/PostTransformer.vala \
 	util/Stripper.vala \
 	view/AboutDialog.vala \
 	view/CatalogItem.vala \

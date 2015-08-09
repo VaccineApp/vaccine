@@ -92,6 +92,14 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             else // TODO: ThreadPane search
                 return false;
         });
+
+        notebook.bind_property ("page", this, "title", BindingFlags.SYNC_CREATE, (bind, src, ref target) => {
+            var page = notebook.get_nth_page ((int) src);
+            assert (page != null);
+            target = page.name;
+            return true;
+        });
+
         this.show_all ();
     }
 

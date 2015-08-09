@@ -81,7 +81,7 @@ public class Vaccine.PostTransformer : Object {
 
     public static string transform_post (string com) throws MarkupError {
         var xfm = new PostTransformer ();
-        var post = common_clean (com);
+        var post = common_clean (com).replace ("&", "&amp;");
         xfm.ctx.parse (@"<$TOP_LEVEL_TAG>$post</$TOP_LEVEL_TAG>", -1); // requires a top-level element
         // TODO: remove when it all works
         // print (@"\n\x1b[35m==========================================\x1b[0m\n$com\n\t\t\t\t\x1b[44mv\x1b[0m\n$(xfm.dest)\n\n");
@@ -91,7 +91,6 @@ public class Vaccine.PostTransformer : Object {
     public static string common_clean (string com) {
         return com
             .compress ()
-            .replace ("&", "&amp;")
             .replace ("\n", "\\n") // in code tags
             .replace ("\t", "\\t")
             .replace ("<br></br>", "\n")

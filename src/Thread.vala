@@ -5,7 +5,10 @@ public class Vaccine.Thread : Object, ListModel {
 
     public string title {
         owned get {
-            return @"/$board/ - $(op.sub ?? Stripper.transform_post(op.com) ?? op.no.to_string ())";
+            var sub = Stripper.transform_post (op.sub);
+            var com = Stripper.transform_post (op.com);
+            var no = op.no.to_string ();
+            return @"/$board/ — $(sub ?? com ?? no)";
         }
     }
 
