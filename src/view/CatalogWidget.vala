@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/org/gnome/vaccine/catalog-widget.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/catalog-widget.ui")]
 public class Vaccine.CatalogWidget : Gtk.Box {
     [GtkChild] public Gtk.FlowBox layout;
     [GtkChild] public Gtk.SearchBar search_bar;

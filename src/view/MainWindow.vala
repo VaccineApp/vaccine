@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/org/gnome/vaccine/main-window.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/main-window.ui")]
 public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     /*unused*/ // [GtkChild] private Gtk.HeaderBar headerbar;
     [GtkChild] private Gtk.Notebook notebook;

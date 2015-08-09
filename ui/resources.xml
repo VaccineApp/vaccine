@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-    <gresource prefix="/org/gnome/vaccine">
+    <gresource prefix="/org/vaccine/app">
         <file>about-dialog.ui</file>
         <file>main-window.ui</file>
         <file>thread-pane.ui</file>
@@ -11,7 +11,7 @@
         <file>tab.ui</file>
         <file>style.css</file>
     </gresource>
-    <gresource prefix="/org/gnome/vaccine/gtk">
+    <gresource prefix="/org/vaccine/app/gtk">
       <file>menus.ui</file>
     </gresource>
 </gresources>

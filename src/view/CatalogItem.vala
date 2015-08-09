@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/org/gnome/vaccine/catalog-item.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/catalog-item.ui")]
 public class Vaccine.CatalogItem : Gtk.Button {
     // TODO: show # of replies (and make it look good)
     private weak MainWindow main_window;

@@ -5,7 +5,7 @@ namespace Vaccine {
         public FourChan chan = new FourChan ();
 
         public App () {
-            Object (application_id: "org.gnome.vaccine",
+            Object (application_id: "org.vaccine.app",
                     flags: ApplicationFlags.FLAGS_NONE);
         }
 

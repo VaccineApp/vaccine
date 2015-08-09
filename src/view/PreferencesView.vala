@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/org/gnome/vaccine/preferences-view.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/preferences-view.ui")]
 class Vaccine.PreferencesView : Gtk.Window {
     private MainWindow parent_win;
 

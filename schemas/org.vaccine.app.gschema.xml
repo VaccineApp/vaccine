@@ -1,5 +1,5 @@
 <schemalist>
-  <schema id="org.gnome.vaccine" path="/org/gnome/vaccine/" gettext-domain="vaccine">
+  <schema id="org.vaccine.app" path="/org/vaccine/app/" gettext-domain="app">
     <!-- general -->
     <key name="show-trips" type="b">
       <default>true</default>
