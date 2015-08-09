@@ -119,6 +119,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
     private void add_page (Gtk.Widget w, bool closeable = true) {
         int i = notebook.append_page (w, new Tab (notebook, w, closeable));
+        notebook.child_set (w, "reorderable", true);
         notebook.set_current_page (i);
     }
 }
