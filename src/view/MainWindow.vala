@@ -50,6 +50,11 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         listbox.set_filter_func (row => (row.get_child () as Gtk.Label).name.contains (board_search.text));
         board_search.changed.connect (listbox.invalidate_filter);
 
+        notebook.page_added.connect ((w, p) =>
+            notebook.show_tabs = (notebook.get_n_pages() != 1));
+        notebook.page_removed.connect ((w, p) =>
+            notebook.show_tabs = (notebook.get_n_pages() != 1));
+
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
             foreach (Board b in boards) {
