@@ -14,8 +14,8 @@
       <object class="GtkNotebook" id="notebook">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="show_border">False</property>
         <property name="show_tabs">False</property>
+        <property name="show_border">False</property>
         <property name="scrollable">True</property>
       </object>
     </child>
@@ -23,7 +23,6 @@
       <object class="GtkHeaderBar" id="headerbar">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="title">Vaccine</property>
         <property name="show_close_button">True</property>
         <child>
           <object class="GtkMenuButton" id="menubutton">
@@ -37,6 +36,44 @@
                 <property name="can_focus">False</property>
                 <property name="label">Board</property>
               </object>
+            </child>
+          </object>
+        </child>
+        <child type="title">
+          <object class="GtkStack" id="headerbar_stack">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="transition_type">crossfade</property>
+            <child>
+              <object class="GtkLabel" id="window_title">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Vaccine</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="name">page0</property>
+                <property name="title" translatable="yes">page0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSearchEntry" id="window_searchentry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="width_chars">40</property>
+                <property name="truncate_multiline">True</property>
+                <property name="caps_lock_warning">False</property>
+                <property name="primary_icon_name">edit-find-symbolic</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">False</property>
+              </object>
+              <packing>
+                <property name="name">page1</property>
+                <property name="title" translatable="yes">page1</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
         </child>

@@ -1,6 +1,10 @@
 [GtkTemplate (ui = "/org/vaccine/app/main-window.ui")]
 public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     /*unused*/ // [GtkChild] private Gtk.HeaderBar headerbar;
+    [GtkChild] private Gtk.Label window_title;
+    [GtkChild] private Gtk.SearchEntry window_searchentry;
+    [GtkChild] private Gtk.Stack headerbar_stack;
+
     [GtkChild] private Gtk.Notebook notebook;
 
     [GtkChild] private Gtk.Popover popover;
@@ -26,7 +30,8 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
     void catalog_find () {
         notebook.page = 0; // TODO: thread search
-        catalog.search_bar.set_search_mode (true);
+        window_searchentry.grab_focus_without_selecting ();
+        headerbar_stack.set_visible_child (window_searchentry);
     }
 
     void next_tab () {
@@ -67,6 +72,25 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             listbox.show_all ();
         });
 
+        window_title.event.connect (event => {
+            catalog_find ();
+            return true;
+        });
+
+        window_searchentry.changed.connect (() => {
+            // TODO: thread search
+            if (window_searchentry.text == "")
+                catalog.layout.set_filter_func (null);
+            else
+                catalog.layout.set_filter_func (child => {
+                    var item = child.get_child () as CatalogItem;
+                    string query = Markup.escape_text (window_searchentry.text.down ());
+                    string subject = item.post_subject.label.down ();
+                    string comment = item.post_comment.label.down ();
+                    return subject.contains (query) || comment.contains (query);
+                });
+        });
+
         listbox.row_selected.connect (row => {
             if (row != null) { // why is it null?
                 var child = row.get_child () as Gtk.Label;
@@ -81,7 +105,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         });
 
         catalog = new CatalogWidget ();
-        add_page (catalog, false);
+        add_page (catalog, false, false);
 
         FourChan.catalog.downloaded.connect ((o, board, threads) => {
             catalog.clear ();
@@ -92,13 +116,21 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         // set up events
         key_press_event.connect (key => {
-            if (notebook.page == 0)
-                return catalog.search_bar.handle_event (key);
-            else // TODO: ThreadPane search
+            if (notebook.page == 0) {
+                headerbar_stack.set_visible_child (window_searchentry);
+                window_searchentry.grab_focus_without_selecting ();
+                return window_searchentry.handle_event (key);
+            } else // TODO: ThreadPane search
                 return false;
         });
 
-        notebook.bind_property ("page", this, "title", BindingFlags.SYNC_CREATE, (bind, src, ref target) => {
+        window_searchentry.focus_out_event.connect (event => {
+            headerbar_stack.set_visible_child (window_title);
+            return false;
+        });
+
+        notebook.bind_property ("page", window_title, "label", BindingFlags.SYNC_CREATE,
+        (bind, src, ref target) => {
             var page = notebook.get_nth_page ((int) src);
             assert (page != null);
             target = page.name;
@@ -117,9 +149,13 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         });
     }
 
-    private void add_page (Gtk.Widget w, bool closeable = true) {
-        int i = notebook.append_page (w, new Tab (notebook, w, closeable));
-        notebook.child_set (w, "reorderable", true);
+    private void add_page (Gtk.Widget w, bool closeable = true, bool reorderable = true) {
+        var tab = new Tab (notebook, w, closeable);
+        int i = notebook.append_page (w, tab);
+        notebook.set_tab_reorderable (tab, reorderable);
+        notebook.child_set (w, "reorderable", reorderable);
         notebook.set_current_page (i);
     }
+
+    private bool change_title ()
 }
