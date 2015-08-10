@@ -20,12 +20,12 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     public int dialogs = 0;
 
     void close_tab () {
-        if (notebook.page != 0)
+        if (notebook.get_nth_page (notebook.page) != catalog)
             notebook.remove_page (notebook.page);
     }
 
     void catalog_find () {
-        notebook.page = 0; // TODO: thread search
+        notebook.page = notebook.page_num (catalog); // TODO: thread search
         catalog.search_bar.set_search_mode (true);
     }
 
@@ -51,9 +51,9 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         board_search.changed.connect (listbox.invalidate_filter);
 
         notebook.page_added.connect ((w, p) =>
-            notebook.show_tabs = (notebook.get_n_pages() != 1));
+            notebook.show_tabs = (notebook.get_n_pages() > 1));
         notebook.page_removed.connect ((w, p) =>
-            notebook.show_tabs = (notebook.get_n_pages() != 1));
+            notebook.show_tabs = (notebook.get_n_pages() > 1));
 
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
@@ -92,16 +92,14 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         // set up events
         key_press_event.connect (key => {
-            if (notebook.page == 0)
+            if (notebook.get_nth_page (notebook.page) == catalog)
                 return catalog.search_bar.handle_event (key);
             else // TODO: ThreadPane search
                 return false;
         });
 
         notebook.bind_property ("page", this, "title", BindingFlags.SYNC_CREATE, (bind, src, ref target) => {
-            var page = notebook.get_nth_page ((int) src);
-            assert (page != null);
-            target = page.name;
+            target = notebook.get_nth_page ((int) src).name;
             return true;
         });
 
