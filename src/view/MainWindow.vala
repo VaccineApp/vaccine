@@ -18,20 +18,20 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         { "close_tab", close_tab },
         { "catalog_find", catalog_find },
         { "next_tab", next_tab },
-        { "prev_tab", prev_tab },
+        { "prev_tab", prev_tab }
     };
 
     public int dialogs = 0;
 
     void close_tab () {
-        if (notebook.page != 0)
+        if (notebook.get_nth_page (notebook.page) != catalog)
             notebook.remove_page (notebook.page);
     }
 
     void catalog_find () {
-        notebook.page = 0; // TODO: thread search
         window_searchentry.grab_focus_without_selecting ();
         headerbar_stack.set_visible_child (window_searchentry);
+        notebook.page = notebook.page_num (catalog); // TODO: thread search
     }
 
     void next_tab () {
@@ -56,9 +56,9 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         board_search.changed.connect (listbox.invalidate_filter);
 
         notebook.page_added.connect ((w, p) =>
-            notebook.show_tabs = (notebook.get_n_pages() != 1));
+            notebook.show_tabs = (notebook.get_n_pages() > 1));
         notebook.page_removed.connect ((w, p) =>
-            notebook.show_tabs = (notebook.get_n_pages() != 1));
+            notebook.show_tabs = (notebook.get_n_pages() > 1));
 
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
@@ -156,6 +156,4 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         notebook.child_set (w, "reorderable", reorderable);
         notebook.set_current_page (i);
     }
-
-    private bool change_title ()
 }
