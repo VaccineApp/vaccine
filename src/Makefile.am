@@ -6,6 +6,7 @@ vaccine_SOURCES = \
 	FourChan.vala \
 	Thread.vala \
 	PostReplies.vala \
+	ErrorDialog.vala \
 	model/Board.vala \
 	model/Page.vala \
 	model/Post.vala \

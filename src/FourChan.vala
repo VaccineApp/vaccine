@@ -31,7 +31,8 @@ public class Vaccine.FourChan : Object {
                     });
             }
         } catch (Error e) {
-            debug (e.message);
+            new ErrorDialog (e.message);
+            error (e.message);
         }
         return list;
     }
@@ -77,7 +78,8 @@ public class Vaccine.FourChan : Object {
                 });
             }
         } catch (Error e) {
-            debug (e.message);
+            new ErrorDialog (e.message);
+            error (e.message);
         }
         return thread;
     }
