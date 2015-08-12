@@ -26,7 +26,6 @@ public class Vaccine.Thread : Object, ListModel {
 
     public Thread (string board) {
         Object(board: board);
-        debug ("thread ctor");
         // TODO make pref, min 10 sec per API rules
         timeout_id = Timeout.add_seconds (10, () => {
             debug (@"updating thread $(op.no)");
