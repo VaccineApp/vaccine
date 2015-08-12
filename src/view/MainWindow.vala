@@ -133,7 +133,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         (bind, src, ref target) => {
             var page = notebook.get_nth_page ((int) src);
             assert (page != null);
-            target = page.name;
+            target = @"$(page.name) — Vaccine";
             return true;
         });
 
