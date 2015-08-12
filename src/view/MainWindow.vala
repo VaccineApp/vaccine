@@ -24,8 +24,12 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     public int dialogs = 0;
 
     void close_tab () {
-        if (notebook.get_nth_page (notebook.page) != catalog)
-            notebook.remove_page (notebook.page);
+        if (notebook.get_nth_page (notebook.page) != catalog) {
+            //var pane = ntebook.notebook.page;
+            //notebook.remove_page (pane);
+            notebook.get_nth_page (notebook.page).destroy ();
+            //pane.destroy ();
+        }
     }
 
     void catalog_find () {

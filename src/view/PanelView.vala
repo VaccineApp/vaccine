@@ -38,6 +38,11 @@ public class Vaccine.PanelView : Container {
         this.name = name;
     }
 
+    ~PanelView () {
+        debug ("PanelView dtor");
+        _children.foreach (w => w.destroy ());
+    }
+
     public override void add (Widget widget) {
         _children.append (widget);
         widget.set_parent (this);
