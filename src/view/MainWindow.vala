@@ -24,12 +24,9 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     public int dialogs = 0;
 
     void close_tab () {
-        if (notebook.get_nth_page (notebook.page) != catalog) {
-            //var pane = ntebook.notebook.page;
-            //notebook.remove_page (pane);
-            notebook.get_nth_page (notebook.page).destroy ();
-            //pane.destroy ();
-        }
+        var page = notebook.get_nth_page (notebook.page);
+        if (page != catalog)
+            page.destroy ();
     }
 
     void catalog_find () {
@@ -116,7 +113,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
                 popover.visible = false;
                 board_search.text = "";
 
-                notebook.set_current_page (0);
+                notebook.set_current_page (0); // TODO: use catalog object
             }
         });
 
@@ -136,8 +133,9 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
                 headerbar_stack.set_visible_child (window_searchentry);
                 window_searchentry.grab_focus_without_selecting ();
                 return window_searchentry.handle_event (key);
-            } else // TODO: ThreadPane search
+            } else { // TODO: ThreadPane search
                 return false;
+            }
         });
 
         window_searchentry.focus_out_event.connect (event => {
