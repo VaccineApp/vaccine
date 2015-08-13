@@ -13,10 +13,9 @@ public class Vaccine.Thread : Object, ListModel {
     }
 
     public ThreadOP op {
-        get {
+        owned get {
             assert (posts.size > 0);
-            ThreadOP *op = posts[0] as ThreadOP;
-            return op;
+            return posts[0] as ThreadOP;
         }
     }
 
