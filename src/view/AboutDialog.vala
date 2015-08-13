@@ -11,5 +11,6 @@ public class Vaccine.AboutDialog : Gtk.AboutDialog {
 
     public override void destroy () {
         --parent_win.dialogs;
+        base.destroy ();
     }
 }

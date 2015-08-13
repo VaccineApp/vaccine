@@ -22,5 +22,6 @@ class Vaccine.PreferencesView : Gtk.Window {
 
     public override void destroy () {
         --parent_win.dialogs;
+        base.destroy ();
     }
 }
