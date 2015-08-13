@@ -7,10 +7,10 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
     [GtkChild] private Gtk.Notebook notebook;
 
+    [GtkChild] private Gtk.Button choose_board_button;
     [GtkChild] private Gtk.Popover popover;
     [GtkChild] private Gtk.ListBox listbox;
     [GtkChild] private Gtk.SearchEntry board_search;
-    [GtkChild] private Gtk.Label buttonlabel;
 
     private CatalogWidget catalog;
 
@@ -95,7 +95,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             if (row != null) { // why is it null?
                 var child = row.get_child () as Gtk.Label;
                 FourChan.board = child.name;
-                buttonlabel.label = child.label;
+                choose_board_button.label = child.label;
 
                 popover.visible = false;
                 board_search.text = "";
