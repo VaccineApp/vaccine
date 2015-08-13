@@ -12,6 +12,8 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.ListBox listbox;
     [GtkChild] private Gtk.SearchEntry board_search;
 
+    [GtkChild] private Gtk.Button prefs_button;
+
     private CatalogWidget catalog;
 
     const ActionEntry[] shortcuts = {
@@ -59,6 +61,8 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             notebook.show_tabs = (notebook.get_n_pages() > 1));
         notebook.page_removed.connect ((w, p) =>
             notebook.show_tabs = (notebook.get_n_pages() > 1));
+
+        prefs_button.clicked.connect (w => app.activate_action ("about", null));
 
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);

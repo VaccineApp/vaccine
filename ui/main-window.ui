@@ -33,6 +33,27 @@
             <property name="label">Board</property>
           </object>
         </child>
+        <child>
+          <object class="GtkButton" id="prefs_button">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <child>
+              <object class="GtkImage" id="prefs_button_image">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">emblem-system-symbolic</property>
+              </object>
+            </child>
+            <style>
+              <class name="image-button"/>
+            </style>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
         <child type="title">
           <object class="GtkStack" id="headerbar_stack">
             <property name="visible">True</property>
