@@ -30,7 +30,7 @@ public class Vaccine.PanelView : Container {
         this.set_visible (true);
         // misc
         max_visible = maximum_visible;
-        _children = new List<Widget> ();
+        _children = new List<weak Widget> ();
     }
 
     public PanelView.with_name (string name, uint maximum_visible = 2) {
@@ -107,7 +107,7 @@ public class Vaccine.PanelView : Container {
         natural_size = { 0, 0 };
 
         int i = 0;
-        for (unowned List<Widget> obj = list; obj.next != null && i < max_visible; obj = obj.next, ++i) {
+        for (unowned List<weak Widget> obj = list; obj.next != null && i < max_visible; obj = obj.next, ++i) {
             Widget child = obj.data;
             Requisition child_minsize, child_natsize;
             child.get_preferred_size (out child_minsize, out child_natsize);
