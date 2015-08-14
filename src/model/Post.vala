@@ -137,7 +137,7 @@ namespace Vaccine {
             set { _board = value; }
         }
 
-        public Gdk.Pixbuf? pixbuf { get; private set; }
+        public Gdk.Pixbuf? pixbuf { get; private set; default = null; }
 
         public delegate void UseDownloadedPixbuf (Gdk.Pixbuf buf);
 
@@ -156,6 +156,25 @@ namespace Vaccine {
                 cb ((!) pixbuf);
             return cancel;
         }
+
+        public Gdk.Pixbuf? full_pixbuf { get; private set; default = null; }
+
+        public Cancellable get_full_image (UseDownloadedPixbuf cb)
+            requires (filename != null && ext != null)
+        {
+            var url = @"https://i.4cdn.org/$board/$tim$ext";
+            var cancel = new Cancellable ();
+            if (full_pixbuf == null)
+                FourChan.download_image.begin (url, cancel, (obj, res) => {
+                    full_pixbuf = FourChan.download_image.end (res);
+                    if (!cancel.is_cancelled () && full_pixbuf != null)
+                        cb ((!) full_pixbuf);
+                });
+            else
+                cb ((!) full_pixbuf);
+            return cancel;
+        }
+
 
         public uint nreplies {
             get {

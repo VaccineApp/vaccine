@@ -8,6 +8,7 @@
         <file>catalog-widget.ui</file>
         <file>catalog-item.ui</file>
         <file>preferences-view.ui</file>
+        <file>media-view.ui</file>
         <file>error-dialog.ui</file>
         <file>tab.ui</file>
         <file>style.css</file>
