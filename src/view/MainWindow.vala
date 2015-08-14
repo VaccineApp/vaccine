@@ -62,7 +62,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         notebook.page_removed.connect ((w, p) =>
             notebook.show_tabs = (notebook.get_n_pages() > 1));
 
-        prefs_button.clicked.connect (w => app.activate_action ("about", null));
+        prefs_button.clicked.connect (w => app.activate_action ("preferences", null));
 
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
