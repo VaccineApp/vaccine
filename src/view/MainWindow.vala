@@ -67,7 +67,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             return true;
         });
 
-        notebook.bind_property ("page", window_title, "label", BindingFlags.SYNC_CREATE, (bind, src, ref target) => {
+        notebook.bind_property ("page", window_title, "label", BindingFlags.DEFAULT, (bind, src, ref target) => {
             var page = notebook.get_nth_page ((int) src);
             assert (page != null);
             target = @"$(page.name)";
