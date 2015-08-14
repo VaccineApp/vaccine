@@ -4,8 +4,8 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
   <name xml:lang="en">Vaccine</name>
-  <shortdesc xml:lang="en">A 4chan browser for GNOME</shortdesc>
-  <description>A 4chan browser for GNOME</description>
+  <shortdesc xml:lang="en">A 4chan browser using GTK+</shortdesc>
+  <description>A 4chan browser, in Vala, using GTK+</description>
   <homepage rdf:resource="https://vaccineapp.github.io" />
   <download-page rdf:resource="https://github.com/VaccineApp/vaccine/releases" />
   <bug-database rdf:resource="https://github.com/VaccineApp/vaccine/issues" />
