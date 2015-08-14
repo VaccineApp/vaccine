@@ -23,14 +23,24 @@ public class Vaccine.Thread : Object, ListModel {
 
     private uint timeout_id = -1;
 
+    /**
+     * This function creates a SourceFunc that calls
+     * update_thread without storing a strong reference
+     * to the Thread.
+     */
+    private static SourceFunc create_nonowning_callback (Thread thread) {
+        weak Thread weakref = thread;
+        return () => {
+            debug (@"updating thread $(weakref.op.no)");
+            weakref.update_thread ();
+            return Source.CONTINUE;
+        };
+    }
+
     public Thread (string board) {
         Object(board: board);
         // TODO make pref, min 10 sec per API rules
-        timeout_id = Timeout.add_seconds (10, () => {
-            debug (@"updating thread $(op.no)");
-            update_thread ();
-            return Source.CONTINUE;
-        });
+        timeout_id = Timeout.add_seconds (10, create_nonowning_callback (this));
     }
 
     ~Thread () {
