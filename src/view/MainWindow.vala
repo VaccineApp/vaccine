@@ -62,6 +62,18 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         notebook.page_removed.connect ((w, p) =>
             notebook.show_tabs = (notebook.get_n_pages() > 1));
 
+        window_title.bind_property ("label", this, "title", BindingFlags.SYNC_CREATE, (bind, src, ref target) => {
+            target = @"$(src.get_string ()) \u2015 Vaccine";
+            return true;
+        });
+
+        notebook.bind_property ("page", window_title, "label", BindingFlags.SYNC_CREATE, (bind, src, ref target) => {
+            var page = notebook.get_nth_page ((int) src);
+            assert (page != null);
+            target = @"$(page.name)";
+            return true;
+        });
+
         prefs_button.clicked.connect (w => app.activate_action ("preferences", null));
 
         FourChan.get_boards.begin ((obj, res) => {
@@ -131,20 +143,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         window_searchentry.focus_out_event.connect (event => {
             headerbar_stack.set_visible_child (window_title);
             return false;
-        });
-
-        notebook.bind_property ("page", window_title, "label", BindingFlags.SYNC_CREATE,
-        (bind, src, ref target) => {
-            var page = notebook.get_nth_page ((int) src);
-            assert (page != null);
-            target = @"$(page.name)";
-            return true;
-        });
-
-        window_title.bind_property ("label", this, "title", BindingFlags.SYNC_CREATE,
-        (bind, src, ref target) => {
-            target = @"$(src.get_string ()) \u2015 Vaccine";
-            return true;
         });
 
         this.show_all ();
