@@ -5,6 +5,7 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
     [GtkChild] private Gtk.Label post_no;
 
     [GtkChild] private Gtk.TextView post_textview;
+    [GtkChild] private Gtk.Button image_button;
     [GtkChild] private Gtk.Image post_thumbnail;
     [GtkChild] private Gtk.Button responses_button;
     [GtkChild] private Gtk.Label responses_amount;
@@ -57,7 +58,7 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
 
         if (post.filename == null) {
             assert (!post.isOP);
-            post_thumbnail.destroy ();
+            image_button.destroy ();
         } else if (thumbnail != null) {
             post_thumbnail.pixbuf = thumbnail;
         } else {
@@ -166,5 +167,10 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         var threadpane = new ThreadPane.with_title ("Replies to No. %lld".printf (post.no));
         panelView.add (threadpane);
         threadpane.set_model (new PostReplies (post));
+    }
+
+    [GtkCallback] private void show_media_view () {
+        var win = (Application.get_default () as App).main_window;
+        new MediaView (win, post).present ();
     }
 }

@@ -89,4 +89,12 @@ public class Vaccine.Thread : Object, ListModel {
                 this.items_changed (old_n_posts, 0, this.posts.size - old_n_posts);
         });
     }
+
+    public int index_of (Post post) {
+        return posts.index_of (post);
+    }
+
+    public new Post @get (int n) {
+        return get_item (n) as Post;
+    }
 }

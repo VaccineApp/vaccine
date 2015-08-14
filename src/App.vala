@@ -9,7 +9,7 @@ namespace Vaccine {
                     flags: ApplicationFlags.FLAGS_NONE);
         }
 
-        private MainWindow main_window;
+        public MainWindow main_window { get; private set; }
 
         const ActionEntry[] actions = {
             { "preferences", show_preferences },
