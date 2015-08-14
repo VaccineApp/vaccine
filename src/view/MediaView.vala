@@ -21,6 +21,9 @@ public class Vaccine.MediaView : Gtk.Window {
     public int current_post { private set; get; default = 0; }
     private Cancellable? loading_cancellable = null;
 
+    // image view
+    Gdk.PixbufAnimationIter gif_iter = null;
+
     public MediaView (Gtk.ApplicationWindow window, Post post) {
         Object (thread: post.thread);
         current_post = post.thread.index_of (post);
@@ -45,24 +48,50 @@ public class Vaccine.MediaView : Gtk.Window {
             debug (@"target = $(target.get_string ())");
             return true;
         });
+
+        show_image (current_post);
     }
 
     public override void destroy () {
         base.destroy ();
     }
 
+    private void show_image (int num) {
+        gif_iter = null;
+        current_post = num;
+        stack.visible_child = image_view;
+    }
+
+    private bool update_animated_image () {
+        if (gif_iter != null) {
+            gif_iter.advance (null);
+            image_view.queue_draw ();
+            return Source.CONTINUE;
+        }
+        return Source.REMOVE;
+    }
+
     [GtkCallback] private bool render_image (Cairo.Context ctx) {
         Post p = thread [current_post];
-        if (p.full_pixbuf == null && loading_cancellable == null) {
+        Gdk.Pixbuf? frame = null;
+        if (gif_iter != null)
+            frame = gif_iter.get_pixbuf ();
+        else if (p.full_pixbuf != null)
+            frame = p.full_pixbuf.get_static_image ();
+        if (frame == null && loading_cancellable == null) {
             loading_cancellable = p.get_full_image (pixbuf => {
+                if (!pixbuf.is_static_image ()) {
+                    gif_iter = pixbuf.get_iter (null);
+                    Gdk.threads_add_timeout (gif_iter.get_delay_time (), update_animated_image);
+                }
                 if (loading_cancellable != null)
                     loading_cancellable = null;
             });
             debug (@"downloading $(p.filename)$(p.ext)");
             return true;
-        } else if (p.full_pixbuf.width <= 0 || p.full_pixbuf.height <= 0)
+        } else if (frame.width <= 0 || frame.height <= 0)
             return true;
-        double i_ratio = (double) p.full_pixbuf.width / p.full_pixbuf.height;
+        double i_ratio = (double) p.full_pixbuf.get_width () / p.full_pixbuf.get_height ();
         int w_width, w_height;  // widget dimensions
         w_width = image_view.get_allocated_width ();
         w_height = image_view.get_allocated_height ();
@@ -80,16 +109,12 @@ public class Vaccine.MediaView : Gtk.Window {
             r_padding_x = 0;
             r_padding_y = (double)(w_height - r_height) / 2;
         }
-        debug (@"dim = $(r_width)x$r_height");
-        debug (@"pixbuf_dim = $(p.full_pixbuf.width)x$(p.full_pixbuf.height)");
-
-        double scale_x = (double) r_width / p.full_pixbuf.width;
-        double scale_y = (double) r_height / p.full_pixbuf.height;
-        debug (@"scale = {$scale_x, $scale_y");
+        double scale_x = (double) r_width / frame.width;
+        double scale_y = (double) r_height / frame.height;
         ctx.translate (r_padding_x, r_padding_y);
         ctx.scale (scale_x, scale_y);
-        Gdk.cairo_set_source_pixbuf (ctx, p.full_pixbuf, 0, 0);
-        ctx.rectangle (0, 0, p.full_pixbuf.width, p.full_pixbuf.height);
+        Gdk.cairo_set_source_pixbuf (ctx, frame, 0, 0);
+        ctx.rectangle (0, 0, frame.width, frame.height);
         ctx.fill ();
         return true;
     }

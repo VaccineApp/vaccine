@@ -148,7 +148,7 @@ namespace Vaccine {
             var cancel = new Cancellable ();
             if (pixbuf == null)
                 FourChan.download_image.begin (url, cancel, (obj, res) => {
-                    pixbuf = FourChan.download_image.end (res);
+                    pixbuf = FourChan.download_image.end (res).get_static_image ();
                     if (!cancel.is_cancelled () && pixbuf != null)
                         cb ((!) pixbuf);
                 });
@@ -157,9 +157,11 @@ namespace Vaccine {
             return cancel;
         }
 
-        public Gdk.Pixbuf? full_pixbuf { get; private set; default = null; }
+        public Gdk.PixbufAnimation? full_pixbuf { get; private set; default = null; }
 
-        public Cancellable get_full_image (UseDownloadedPixbuf cb)
+        public delegate void UseDownloadedPixbufAnimation (Gdk.PixbufAnimation buf);
+
+        public Cancellable get_full_image (UseDownloadedPixbufAnimation cb)
             requires (filename != null && ext != null)
         {
             var url = @"https://i.4cdn.org/$board/$tim$ext";
