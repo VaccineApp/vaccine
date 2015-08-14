@@ -18,14 +18,10 @@ namespace Vaccine {
         };
 
         void show_preferences () {
-            if (main_window.dialogs > 0)
-                return;
             new PreferencesView (main_window, settings).present ();
         }
 
         void show_about () {
-            if (main_window.dialogs > 0)
-                return;
             new AboutDialog (main_window).present ();
         }
 
