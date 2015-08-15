@@ -49,8 +49,15 @@ public class Vaccine.MediaView : Gtk.Window {
         set_transient_for (window);
 
         current_media = media.first ();
+        while (current_media.next != null && current_media.data.post != post)
+            current_media = current_media.next;
         current_media.data.init_with_widget (image_view);
         stack.visible_child = image_view;
+    }
+
+    ~MediaView () {
+        if (current_media != null)
+            current_media.data.stop_with_widget ();
     }
 
     private void show_image (int num) {
