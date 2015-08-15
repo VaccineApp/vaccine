@@ -19,3 +19,7 @@ VaccineThreadPane > GtkScrolledWindow {
 	border: none;
 	border-top: 1px solid @theme_bg_color;
 }
+
+GtkLabel.n_replies_label {
+        color: @theme_base_color;
+}
