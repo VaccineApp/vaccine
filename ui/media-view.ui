@@ -220,6 +220,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Download</property>
+                <signal name="clicked" handler="download_file" swapped="no"/>
                 <child>
                   <object class="GtkImage" id="image4">
                     <property name="visible">True</property>

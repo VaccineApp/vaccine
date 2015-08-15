@@ -23,6 +23,11 @@ public abstract class Vaccine.MediaPreview : Object {
     public string filename { get; construct; }
 
     /**
+     * A file type (like "GIF images")
+     */
+    public abstract string filetype { owned get; }
+
+    /**
      * The post containing the data for this preview.
      */
     public Post post { get; construct; }
