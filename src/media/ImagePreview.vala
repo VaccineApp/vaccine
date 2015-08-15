@@ -52,7 +52,7 @@ public class Vaccine.ImagePreview : MediaPreview {
         if (loaded) // reset frame_iter on init
             frame_iter = image_data.get_iter (null);
         canvas.draw.connect (draw_image);
-        timeout_id = Timeout.add (30, update_animated_image);
+        timeout_id = Idle.add (update_animated_image);
     }
 
     public override void stop_with_widget ()

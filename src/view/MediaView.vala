@@ -12,6 +12,7 @@ public class Vaccine.MediaView : Gtk.Window {
     // view and containers
     [GtkChild] private Gtk.Stack stack;
     [GtkChild] private Gtk.Alignment loading_view;
+    [GtkChild] private Gtk.ProgressBar download_progress;
     [GtkChild] private Gtk.Box gallery_view;
     [GtkChild] private Gtk.IconView gallery_icons;
     [GtkChild] private Gtk.DrawingArea image_view;
@@ -23,6 +24,9 @@ public class Vaccine.MediaView : Gtk.Window {
     private unowned List<MediaPreview> current_media;
 
     private bool is_fullscreen = false;
+
+    private uint? pulse_id = null;
+    private uint? image_onready_id = null;
 
     public MediaView (Gtk.ApplicationWindow window, Post post) {
         Object (thread: post.thread);
@@ -55,20 +59,57 @@ public class Vaccine.MediaView : Gtk.Window {
         current_media = media.first ();
         while (current_media.next != null && current_media.data.post != post)
             current_media = current_media.next;
+        stack.visible_child = loading_view;
+        pulse_id = Timeout.add (300, () => {
+            download_progress.pulse ();
+            return Source.CONTINUE;
+        });
         current_media.data.init_with_widget (image_view);
-        stack.visible_child = image_view;
+        Idle.add (() => {
+            if (!current_media.data.loaded)
+                return Source.CONTINUE;
+            Source.remove (pulse_id);
+            download_progress.set_fraction (1);
+            stack.visible_child = image_view;
+            return Source.REMOVE;
+        });
     }
 
     ~MediaView () {
         if (current_media != null)
             current_media.data.stop_with_widget ();
+        if (pulse_id != null)
+            Source.remove ((!) pulse_id);
+        if (image_onready_id != null)
+            Source.remove ((!) image_onready_id);
     }
 
     private void show_media (List<MediaPreview> next_media) {
         current_media.data.stop_with_widget ();
         current_media = next_media;
         current_media.data.init_with_widget (image_view);
-        stack.visible_child = image_view;
+        if (pulse_id != null) {
+            Source.remove ((!) pulse_id);
+            pulse_id = null;
+        }
+        if (image_onready_id != null) {
+            Source.remove ((!) image_onready_id);
+            image_onready_id = null;
+        }
+        pulse_id = Timeout.add (300, () => {
+            download_progress.pulse ();
+            return Source.CONTINUE;
+        });
+        image_onready_id = Idle.add (() => {
+            if (!current_media.data.loaded)
+                return Source.CONTINUE;
+            Source.remove (pulse_id);
+            pulse_id = null;
+            download_progress.set_fraction (1);
+            stack.visible_child = image_view;
+            image_onready_id = null;
+            return Source.REMOVE;
+        });
     }
 
     [GtkCallback] private void show_prev_media () {
