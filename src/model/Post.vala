@@ -157,27 +157,6 @@ namespace Vaccine {
             return cancel;
         }
 
-        public Gdk.PixbufAnimation? full_pixbuf { get; private set; default = null; }
-
-        public delegate void UseDownloadedPixbufAnimation (Gdk.PixbufAnimation buf);
-
-        public Cancellable get_full_image (UseDownloadedPixbufAnimation cb)
-            requires (filename != null && ext != null)
-        {
-            var url = @"https://i.4cdn.org/$board/$tim$ext";
-            var cancel = new Cancellable ();
-            if (full_pixbuf == null)
-                FourChan.download_image.begin (url, cancel, (obj, res) => {
-                    full_pixbuf = FourChan.download_image.end (res);
-                    if (!cancel.is_cancelled () && full_pixbuf != null)
-                        cb ((!) full_pixbuf);
-                });
-            else
-                cb ((!) full_pixbuf);
-            return cancel;
-        }
-
-
         public uint nreplies {
             get {
                 var quote = "&gt;&gt;%lld".printf (no);
