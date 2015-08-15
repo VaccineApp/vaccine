@@ -243,10 +243,10 @@
             <child>
               <object class="GtkButton" id="btn_present">
                 <property name="visible">True</property>
-                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Fullscreen</property>
+                <signal name="clicked" handler="toggle_fullscreen" swapped="no"/>
                 <child>
                   <object class="GtkImage" id="image3">
                     <property name="visible">True</property>
