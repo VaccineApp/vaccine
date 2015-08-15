@@ -3,8 +3,8 @@ public class Vaccine.MediaView : Gtk.Window {
     // [GtkChild] private Gtk.HeaderBar headerbar;
 
     // headerbar buttons
-    [GtkChild] private Gtk.Button btn_prev;
-    [GtkChild] private Gtk.Button btn_next;
+    // [GtkChild] private Gtk.Button btn_prev;
+    // [GtkChild] private Gtk.Button btn_next;
     [GtkChild] private Gtk.ToggleButton btn_gallery;
     // [GtkChild] private Gtk.Button btn_download;
     [GtkChild] private Gtk.Button btn_present;
@@ -26,7 +26,7 @@ public class Vaccine.MediaView : Gtk.Window {
     private bool is_fullscreen = false;
 
     private uint? pulse_id = null;
-    private uint? image_onready_id = null;
+    private uint? media_onready_id = null;
 
     public MediaView (Gtk.ApplicationWindow window, Post post) {
         Object (thread: post.thread);
@@ -59,20 +59,7 @@ public class Vaccine.MediaView : Gtk.Window {
         current_media = media.first ();
         while (current_media.next != null && current_media.data.post != post)
             current_media = current_media.next;
-        stack.visible_child = loading_view;
-        pulse_id = Timeout.add (300, () => {
-            download_progress.pulse ();
-            return Source.CONTINUE;
-        });
-        current_media.data.init_with_widget (image_view);
-        Idle.add (() => {
-            if (!current_media.data.loaded)
-                return Source.CONTINUE;
-            Source.remove (pulse_id);
-            download_progress.set_fraction (1);
-            stack.visible_child = image_view;
-            return Source.REMOVE;
-        });
+        show_media (current_media);
     }
 
     ~MediaView () {
@@ -80,34 +67,37 @@ public class Vaccine.MediaView : Gtk.Window {
             current_media.data.stop_with_widget ();
         if (pulse_id != null)
             Source.remove ((!) pulse_id);
-        if (image_onready_id != null)
-            Source.remove ((!) image_onready_id);
+        if (media_onready_id != null)
+            Source.remove ((!) media_onready_id);
     }
 
-    private void show_media (List<MediaPreview> next_media) {
-        current_media.data.stop_with_widget ();
+    private void show_media (List<MediaPreview> next_media, bool initial = false) {
+        if (!initial)
+            current_media.data.stop_with_widget ();
+        if (!current_media.data.loaded)
+            stack.visible_child = loading_view;
         current_media = next_media;
-        current_media.data.init_with_widget (image_view);
         if (pulse_id != null) {
             Source.remove ((!) pulse_id);
             pulse_id = null;
         }
-        if (image_onready_id != null) {
-            Source.remove ((!) image_onready_id);
-            image_onready_id = null;
+        if (media_onready_id != null) {
+            Source.remove ((!) media_onready_id);
+            media_onready_id = null;
         }
         pulse_id = Timeout.add (300, () => {
             download_progress.pulse ();
             return Source.CONTINUE;
         });
-        image_onready_id = Idle.add (() => {
+        current_media.data.init_with_widget (image_view);
+        media_onready_id = Idle.add (() => {
             if (!current_media.data.loaded)
                 return Source.CONTINUE;
             Source.remove (pulse_id);
             pulse_id = null;
             download_progress.set_fraction (1);
             stack.visible_child = image_view;
-            image_onready_id = null;
+            media_onready_id = null;
             return Source.REMOVE;
         });
     }
