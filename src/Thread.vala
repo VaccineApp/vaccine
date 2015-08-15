@@ -44,7 +44,6 @@ public class Vaccine.Thread : Object, ListModel {
     }
 
     ~Thread () {
-        debug (@"thread dtor $(op.no)");
         stop_updating ();
     }
 

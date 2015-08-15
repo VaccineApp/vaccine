@@ -33,11 +33,6 @@ public class Vaccine.PanelView : Container {
         _children = new List<weak Widget> ();
     }
 
-    public PanelView.with_name (string name, uint maximum_visible = 2) {
-        this (maximum_visible);
-        this.name = name;
-    }
-
     public override void add (Widget widget) {
         _children.append (widget);
         widget.set_parent (this);

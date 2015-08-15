@@ -10,17 +10,24 @@ public class Vaccine.ThreadPane : Gtk.Box {
             row.set_header (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
     }
 
-    public ThreadPane (ListModel model, Gdk.Pixbuf? op_thumb = null) {
-        closebutton.margin = 5;
-        list.set_header_func (add_separator);
+    // we already have it from the catalog
+    public Gdk.Pixbuf? op_thumb { private get; construct; }
+
+    // UI is prioritized, call set_model later when you have data
+    public void set_model (ListModel model) {
         list.bind_model (model, item => {
             var post = item as Post;
             return new PostListRow (post, post.isOP ? op_thumb : null);
         });
     }
 
-    public ThreadPane.with_replies (ListModel model, string title) {
-        this (model);
+    public ThreadPane (Gdk.Pixbuf? op_thumb = null) {
+        Object (op_thumb: op_thumb);
+        list.set_header_func (add_separator);
+    }
+
+    public ThreadPane.with_title (string title) {
+        this ();
         // ebin OP sometimes guesses the post number
         // assert (!model.get_item (0).isOP);
         heading_box.visible = true;

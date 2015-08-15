@@ -61,6 +61,8 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         Gtk.Widget? next;
         if ((next = children.nth_data (position + 1)) != null)
             panelView.remove (next);
-        panelView.add (new ThreadPane.with_replies (new PostReplies (post), @"Replies to No. $(post.no)"));
+        var threadpane = new ThreadPane.with_title (@"Replies to No. $(post.no)");
+        panelView.add (threadpane);
+        threadpane.set_model (new PostReplies (post));
     }
 }
