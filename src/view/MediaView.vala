@@ -135,8 +135,23 @@ public class Vaccine.MediaView : Gtk.Window {
         filter.set_filter_name (current_media.data.filetype);
         filter.add_pattern ("*" + current_media.data.post.ext);
         chooser.add_filter (filter);
-        if (chooser.run () == Gtk.ResponseType.ACCEPT)
-            current_media.data.save_as.begin (chooser.get_filename ());
+        if (chooser.run () == Gtk.ResponseType.ACCEPT) {
+            string fname = chooser.get_filename ();
+            current_media.data.save_as.begin (fname,
+            (obj, res) => {
+                Notification notif;
+                try {
+                    current_media.data.save_as.end (res);
+                    notif = new Notification ("Finished downloading");
+                    notif.set_body (@"Saved file to $fname");
+                } catch (Error e) {
+                    debug (@"error: $(e.message)");
+                    notif = new Notification ("Error saving file");
+                    notif.set_body (e.message);
+                }
+                Application.get_default ().send_notification (null, notif);
+            });
+        }
         chooser.destroy ();
     }
 
