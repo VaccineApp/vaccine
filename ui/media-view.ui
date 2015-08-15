@@ -115,7 +115,6 @@
           <object class="GtkDrawingArea" id="image_view">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <signal name="draw" handler="render_image" swapped="no"/>
           </object>
           <packing>
             <property name="name">ImageView</property>

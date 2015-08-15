@@ -7,6 +7,8 @@ vaccine_SOURCES = \
 	src/Thread.vala \
 	src/PostReplies.vala \
 	src/ErrorDialog.vala \
+	src/media/MediaPreview.vala \
+	src/media/ImagePreview.vala \
 	src/model/Board.vala \
 	src/model/Page.vala \
 	src/model/Post.vala \
