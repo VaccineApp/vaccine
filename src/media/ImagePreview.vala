@@ -37,6 +37,7 @@ public class Vaccine.ImagePreview : MediaPreview {
             image_data_load_cancel.cancel ();
         if (canvas != null)
             stop_with_widget ();
+        debug ("ImagePreview dtor");
     }
 
     public override void init_with_widget (Gtk.Widget widget)
