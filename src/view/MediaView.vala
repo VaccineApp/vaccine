@@ -1,12 +1,12 @@
 [GtkTemplate (ui = "/org/vaccine/app/media-view.ui")]
 public class Vaccine.MediaView : Gtk.Window {
-    [GtkChild] private Gtk.HeaderBar headerbar;
+    // [GtkChild] private Gtk.HeaderBar headerbar;
 
     // headerbar buttons
     [GtkChild] private Gtk.Button btn_prev;
     [GtkChild] private Gtk.Button btn_next;
     [GtkChild] private Gtk.ToggleButton btn_gallery;
-    [GtkChild] private Gtk.Button btn_download;
+    // [GtkChild] private Gtk.Button btn_download;
     [GtkChild] private Gtk.Button btn_present;
 
     // view and containers
@@ -62,11 +62,25 @@ public class Vaccine.MediaView : Gtk.Window {
             current_media.data.stop_with_widget ();
     }
 
-    private void show_image (int num) {
+    private void show_media (List<MediaPreview> next_media) {
         current_media.data.stop_with_widget ();
-        current_media = media.nth (num);
+        current_media = next_media;
         current_media.data.init_with_widget (image_view);
         stack.visible_child = image_view;
+    }
+
+    [GtkCallback] private void show_prev_media () {
+        if (current_media.prev == null)
+            show_media (media.last ());
+        else
+            show_media (current_media.prev);
+    }
+
+    [GtkCallback] private void show_next_media () {
+        if (current_media.next == null)
+            show_media (media.first ());
+        else
+            show_media (current_media.next);
     }
 
     [GtkCallback] private void download_file () {

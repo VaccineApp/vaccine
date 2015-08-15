@@ -141,6 +141,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Previous</property>
+                <signal name="clicked" handler="show_prev_media" swapped="no"/>
                 <child>
                   <object class="GtkImage" id="image1">
                     <property name="visible">True</property>
@@ -164,6 +165,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Next</property>
+                <signal name="clicked" handler="show_next_media" swapped="no"/>
                 <child>
                   <object class="GtkImage" id="image2">
                     <property name="visible">True</property>
@@ -241,6 +243,7 @@
             <child>
               <object class="GtkButton" id="btn_present">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Fullscreen</property>
