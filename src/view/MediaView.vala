@@ -30,6 +30,10 @@ public class Vaccine.MediaView : Gtk.Window {
         post.thread.foreach (p => {
             if (p.filename != null) {
                 var item = MediaPreview.from_post (p);
+                if (item == null) {
+                    debug (@"file extension \"$(p.ext)\" unsupported");
+                    return true;
+                }
                 store.insert_with_values (null, -1,
                     0, p.pixbuf,
                     1, p.filename + p.ext,
