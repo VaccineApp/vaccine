@@ -5,15 +5,12 @@ public class Vaccine.ThreadPane : Gtk.Box {
     [GtkChild] private Gtk.Label heading;
     [GtkChild] private Gtk.Button closebutton;
 
-    public ListModel model { get; construct; }
-
     private void add_separator (Gtk.ListBoxRow row, Gtk.ListBoxRow? before) {
         if (before != null && row.get_header () == null)
             row.set_header (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
     }
 
     public ThreadPane (ListModel model, Gdk.Pixbuf? op_thumb = null) {
-        Object (model: model);
         closebutton.margin = 5;
         list.set_header_func (add_separator);
         list.bind_model (model, item => {

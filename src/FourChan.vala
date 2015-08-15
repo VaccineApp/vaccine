@@ -37,30 +37,6 @@ public class Vaccine.FourChan : Object {
         return list;
     }
 
-    /*
-    public static async void update_thread (Thread thread) {
-        try {
-            var json = new Json.Parser ();
-            var thread_no = thread.posts[0].no;
-            var stream = yield soup.send_async (new Soup.Message ("GET", @"https://a.4cdn.org/$board/thread/$thread_no.json"));
-            if (yield json.load_from_stream_async (stream, null)) {
-                var posts_arr = json.get_root ().get_object ().get_array_member ("posts");
-                int i = 0;
-                posts_arr.foreach_element ((arr, index, node) => {
-                    int64 no = node.get_object ().get_int_member ("no");
-                    if (i >= thread.posts.size || thread.posts[i].no != no) {
-                        var p = Json.gobject_deserialize (typeof (Post), node) as Post;
-                        thread.posts.add (p);
-                    }
-                    ++i;
-                });
-            }
-        } catch (Error e) {
-            debug (e.message);
-        }
-    }
-    */
-
     public static async Thread get_thread (string board, int64 no) {
         var thread = new Thread (board);
         try {
