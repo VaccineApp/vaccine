@@ -92,8 +92,8 @@ public class Vaccine.MediaView : Gtk.Window {
         filter.set_filter_name (current_media.data.filetype);
         filter.add_pattern ("*" + current_media.data.post.ext);
         chooser.add_filter (filter);
-        chooser.run ();
-        current_media.data.save_as.begin (chooser.get_filename ());
+        if (chooser.run () == Gtk.ResponseType.ACCEPT)
+            current_media.data.save_as.begin (chooser.get_filename ());
         chooser.destroy ();
     }
 
