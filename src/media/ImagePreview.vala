@@ -17,6 +17,10 @@ public class Vaccine.ImagePreview : MediaPreview {
 
     public override bool loaded { get { return image_data != null; } }
 
+    public override string filetype {
+        owned get { return post.ext[1:4].up () + " image"; }
+    }
+
     public ImagePreview (Post post)
         requires (post.filename != null && post.ext != null)
     {

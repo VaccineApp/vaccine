@@ -17,12 +17,14 @@ public class Vaccine.MediaView : Gtk.Window {
     [GtkChild] private Gtk.DrawingArea image_view;
 
     // custom data
+    private Gtk.ApplicationWindow parent_window;
     public Thread thread { construct; get; }
     private List<MediaPreview> media;
     private unowned List<MediaPreview> current_media;
 
     public MediaView (Gtk.ApplicationWindow window, Post post) {
         Object (thread: post.thread);
+        parent_window = window;
         var store = new Gtk.ListStore (3, typeof (Gdk.Pixbuf), typeof (string), typeof (MediaPreview));
         gallery_icons.pixbuf_column = 0;
         gallery_icons.text_column = 1;
@@ -65,6 +67,20 @@ public class Vaccine.MediaView : Gtk.Window {
         current_media = media.nth (num);
         current_media.data.init_with_widget (image_view);
         stack.visible_child = image_view;
+    }
+
+    [GtkCallback] private void download_file () {
+        var chooser = new Gtk.FileChooserDialog ("Save As...", this,
+            Gtk.FileChooserAction.SAVE,
+            "_Cancel", Gtk.ResponseType.CANCEL,
+            "_Save As", Gtk.ResponseType.ACCEPT);
+        var filter = new Gtk.FileFilter ();
+        filter.set_filter_name (current_media.data.filetype);
+        filter.add_pattern ("*" + current_media.data.post.ext);
+        chooser.add_filter (filter);
+        chooser.run ();
+        current_media.data.save_as.begin (chooser.get_filename ());
+        chooser.destroy ();
     }
 
     [GtkCallback] private void toggle_gallery () {
