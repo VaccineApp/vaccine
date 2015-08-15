@@ -49,10 +49,10 @@ public class Vaccine.ImagePreview : MediaPreview {
         requires (widget is Gtk.DrawingArea)
     {
         canvas = widget as Gtk.DrawingArea;
-        canvas.draw.connect (draw_image);
         if (loaded) // reset frame_iter on init
             frame_iter = image_data.get_iter (null);
-        timeout_id = Timeout.add (3000, update_animated_image);
+        canvas.draw.connect (draw_image);
+        timeout_id = Timeout.add (30, update_animated_image);
     }
 
     public override void stop_with_widget ()
@@ -63,15 +63,18 @@ public class Vaccine.ImagePreview : MediaPreview {
             Source.remove ((!) timeout_id);
             timeout_id = null;
         }
+        frame_iter = null;
+        canvas = null;
     }
 
     private bool update_animated_image () {
+        if (!loaded)    // wait until we have finished loading
+            return Source.CONTINUE;
         if (!is_animated) {
+            canvas.queue_draw ();
             timeout_id = null;
             return Source.REMOVE;
         }
-        if (!loaded)    // wait until we have finished loading
-            return Source.CONTINUE;
         frame_iter.advance (null);
         canvas.queue_draw ();
         timeout_id = Timeout.add (frame_iter.get_delay_time (), update_animated_image);
