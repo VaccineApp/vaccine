@@ -15,6 +15,8 @@ public class Vaccine.ThreadPane : Gtk.Box, NotebookPage {
         this.model = model;
         list.bind_model (model, item => {
             var post = item as Post;
+            if (post.isOP && post.pixbuf == null)
+                post.get_thumbnail (() => {});
             return new PostListRow (post, post.isOP ? op_thumb : null);
         });
     }
