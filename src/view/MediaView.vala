@@ -22,6 +22,8 @@ public class Vaccine.MediaView : Gtk.Window {
     private List<MediaPreview> media;
     private unowned List<MediaPreview> current_media;
 
+    private bool is_fullscreen = false;
+
     public MediaView (Gtk.ApplicationWindow window, Post post) {
         Object (thread: post.thread);
         parent_window = window;
@@ -102,5 +104,16 @@ public class Vaccine.MediaView : Gtk.Window {
             stack.visible_child = gallery_view;
         else
             stack.visible_child = image_view;
+    }
+
+    [GtkCallback] private void toggle_fullscreen () {
+        if (is_fullscreen) {
+            this.unfullscreen ();
+            this.modal = true;
+        } else {
+            this.modal = false;
+            this.fullscreen ();
+        }
+        is_fullscreen = !is_fullscreen;
     }
 }
