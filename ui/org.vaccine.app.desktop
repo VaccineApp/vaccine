@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Vaccine
+Exec=vaccine
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=web-browser
+Categories=Internet;
+DBusActivatable=true
+X-GNOME-UsesNotifications=true
