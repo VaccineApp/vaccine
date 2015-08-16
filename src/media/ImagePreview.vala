@@ -28,8 +28,7 @@ public class Vaccine.ImagePreview : MediaPreview {
                 filename: @"$(post.filename)$(post.ext)",
                 post: post);
         image_data_load_cancel = new Cancellable ();
-        FourChan.download_image.begin (url, image_data_load_cancel,
-        (obj, res) => {
+        FourChan.download_image.begin (url, image_data_load_cancel, (obj, res) => {
             image_data = FourChan.download_image.end (res);
             image_data_load_cancel = null;
             frame_iter = image_data.get_iter (null);

@@ -20,7 +20,7 @@ public class Vaccine.MediaView : Gtk.Window {
     // custom data
     private Gtk.ApplicationWindow parent_window;
     public Thread thread { construct; get; }
-    private List<MediaPreview> media;
+    private List<MediaPreview> media = new List<MediaPreview> ();
     private unowned List<MediaPreview> current_media;
 
     private bool is_fullscreen = false;
@@ -34,7 +34,6 @@ public class Vaccine.MediaView : Gtk.Window {
         var store = new Gtk.ListStore (3, typeof (Gdk.Pixbuf), typeof (string), typeof (MediaPreview));
         gallery_icons.pixbuf_column = 0;
         gallery_icons.text_column = 1;
-        media = new List<MediaPreview> ();
         post.thread.foreach (p => {
             if (p.filename != null) {
                 var item = MediaPreview.from_post (p);
@@ -127,8 +126,7 @@ public class Vaccine.MediaView : Gtk.Window {
         chooser.add_filter (filter);
         if (chooser.run () == Gtk.ResponseType.ACCEPT) {
             string fname = chooser.get_filename ();
-            current_media.data.save_as.begin (fname,
-            (obj, res) => {
+            current_media.data.save_as.begin (fname, (obj, res) => {
                 Notification notif;
                 try {
                     current_media.data.save_as.end (res);
