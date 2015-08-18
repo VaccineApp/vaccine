@@ -10,9 +10,9 @@ public abstract class Vaccine.MediaPreview : Object {
         foreach (var ext in supported_images)
             if (post.ext == ext)
                 return new ImagePreview (post);
-        /* foreach (var ext in supported_videos)
+        foreach (var ext in supported_videos)
             if (post.ext == ext)
-                return new VideoPreview (post); */
+                return new VideoPreview (post);
         return null;    /* TODO: add support for more files */
     }
 

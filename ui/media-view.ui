@@ -135,6 +135,9 @@
                   <placeholder/>
                 </child>
               </object>
+              <packing>
+                <property name="index">-1</property>
+              </packing>
             </child>
             <child type="overlay">
               <object class="GtkAlignment" id="alignment1">
@@ -177,6 +180,7 @@
                                 </child>
                                 <style>
                                   <class name="image-button"/>
+                                  <class name="flat"/>
                                 </style>
                               </object>
                             </child>
@@ -264,6 +268,7 @@
                                 </child>
                                 <style>
                                   <class name="image-button"/>
+                                  <class name="flat"/>
                                 </style>
                               </object>
                             </child>
