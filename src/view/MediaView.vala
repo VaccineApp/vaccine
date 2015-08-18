@@ -58,7 +58,7 @@ public class Vaccine.MediaView : Gtk.Window {
         current_media = media.first ();
         while (current_media.next != null && current_media.data.post != post)
             current_media = current_media.next;
-        show_media (current_media);
+        show_media (current_media, true);
     }
 
     ~MediaView () {
