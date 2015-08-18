@@ -1,0 +1,3 @@
+[submodule "gtkgst"]
+	path = gtkgst
+	url = https://github.com/ystreet/gtkgst.git
