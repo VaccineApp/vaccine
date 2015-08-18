@@ -28,6 +28,7 @@ vaccine_SOURCES = \
 	src/view/PreferencesView.vala \
 	src/view/Tab.vala \
 	src/view/ThreadPane.vala \
+	src/view/widgets/VideoPreviewWidget.vala \
 	resources.c
 
 vaccine_resources = $(shell glib-compile-resources --sourcedir=ui --generate-dependencies ui/resources.xml)

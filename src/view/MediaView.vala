@@ -16,8 +16,7 @@ public class Vaccine.MediaView : Gtk.Window {
     [GtkChild] private Gtk.Box gallery_view;
     [GtkChild] private Gtk.IconView gallery_icons;
     [GtkChild] private Gtk.DrawingArea image_view;
-    [GtkChild] private Gtk.Overlay video_view;
-    [GtkChild] private Gtk.Box video_area_holder;
+    [GtkChild] private Gtk.Box video_view;
 
     // custom data
     private Gtk.ApplicationWindow parent_window;
@@ -60,7 +59,6 @@ public class Vaccine.MediaView : Gtk.Window {
         current_media = media.first ();
         while (current_media.next != null && current_media.data.post != post)
             current_media = current_media.next;
-        // initialize gstreamer
         show_media (current_media, true);
     }
 
@@ -94,7 +92,7 @@ public class Vaccine.MediaView : Gtk.Window {
         if (current_media.data is ImagePreview)
             current_media.data.init_with_widget (image_view);
         else if (current_media.data is VideoPreview)
-            current_media.data.init_with_widget (video_area_holder);
+            current_media.data.init_with_widget (video_view);
         media_onready_id = Idle.add (() => {
             if (!current_media.data.loaded)
                 return Source.CONTINUE;
