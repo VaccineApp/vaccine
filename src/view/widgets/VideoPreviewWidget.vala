@@ -13,7 +13,7 @@ public class Vaccine.VideoPreviewWidget : Gtk.Overlay {
 
     private Gst.Pipeline pipeline;
 
-    public VideoPreviewWidget (GtkGst.Widget sink, Gst.Pipeline pipeline) {
+    public VideoPreviewWidget (Gtk.Widget sink, Gst.Pipeline pipeline) {
         this.pipeline = pipeline;
         sink_holder.pack_start (sink);
     }
