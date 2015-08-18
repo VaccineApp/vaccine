@@ -8,14 +8,15 @@ public class Vaccine.VideoPreview : MediaPreview {
     private string conv_plugin { set; public get; default = "videoconvert"; }
     private string sink_plugin { set; public get; default = "gtksink"; }
 
-    public override bool loaded { get { return true; /* TODO */ } }
+    private bool _loaded = false;
+    public override bool loaded { get { return _loaded; } }
 
     public override string filetype {
         owned get { return "WebM video"; }
     }
 
     // widget info
-    private Gtk.Box? box = null;
+    private Gtk.Box? box;
     private GtkGst.Widget? area;
 
     public VideoPreview (Post post)
@@ -28,13 +29,28 @@ public class Vaccine.VideoPreview : MediaPreview {
         video_convert = Gst.ElementFactory.make (conv_plugin, "video_convert");
         video_sink = Gst.ElementFactory.make (sink_plugin, "video_sink");
         video_pipeline = new Gst.Pipeline ("video_pipeline");
-        if (video_source == null || video_sink == null || video_pipeline == null) {
-            debug ("gstreamer: could not create all elements");
+        if (video_source == null || video_convert == null
+         || video_sink == null || video_pipeline == null) {
+            debug ("gstreamer: could not create all elements:");
+            if (video_source == null)
+                debug (@"\tcould not create plugin $src_plugin");
+            if (video_convert == null)
+                debug (@"\tcould not create plugin $conv_plugin");
+            if (video_sink == null)
+                debug (@"\tcould not create plugin $sink_plugin");
+            if (video_pipeline == null)
+                debug ("\tcould not create video pipeline");
             return;
         }
         if (!(video_sink is Gst.Base.Sink)) {
             debug (@"gstreamer: video_sink ($sink_plugin) is not a sink element");
         }
+    }
+
+    ~VideoPreview () {
+        if (box != null)
+            stop_with_widget ();
+        debug ("VideoPreview dtor");
     }
 
     public override void init_with_widget (Gtk.Widget widget)
@@ -54,7 +70,6 @@ public class Vaccine.VideoPreview : MediaPreview {
             return;
         }
         video_source.set ("uri", url);
-        // video_source.set ("is-live", true);
         video_source.pad_added.connect (pad_added_handler);
 
         debug (@"downloading from $url");
@@ -73,10 +88,13 @@ public class Vaccine.VideoPreview : MediaPreview {
         else
             debug ("gstreamer: stopped video");
         video_source.pad_added.disconnect (pad_added_handler);
+        box.remove (area);
         box = null;
     }
 
-    // shamefully taken from valadoc's tutorial on Gst.Element
+    /* connects the video_source's src pad to the video_convert's sink pad
+     * shamefully taken from valadoc's tutorial on Gst.Element
+     */
     private void pad_added_handler (Gst.Element src, Gst.Pad new_pad) {
         Gst.Pad sink_pad = video_convert.get_static_pad ("sink");
         debug (@"received new pad $(new_pad.name) from $(src.name)");
@@ -86,13 +104,15 @@ public class Vaccine.VideoPreview : MediaPreview {
 
         // check new pad's type
         Gst.Caps new_pad_caps = new_pad.query_caps (null);
-        weak Gst.Structure new_pad_struct = new_pad_caps.get_structure (0);
+        unowned Gst.Structure new_pad_struct = new_pad_caps.get_structure (0);
         string new_pad_type = new_pad_struct.get_name ();
 
         // attempt the link
         if (new_pad.link (sink_pad) != Gst.PadLinkReturn.OK)
             debug (@"link failed with type $new_pad_type");
-        else
+        else {
             debug (@"successfully linked with type $new_pad_type");
+            _loaded = true;
+        }
     }
 }
