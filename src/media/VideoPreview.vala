@@ -17,7 +17,8 @@ public class Vaccine.VideoPreview : MediaPreview {
 
     // widget info
     private Gtk.Box? box;
-    private GtkGst.Widget? area;
+    private VideoPreviewWidget preview_area;
+    private GtkGst.Widget area;
 
     public VideoPreview (Post post)
         requires (post.filename != null && post.ext != null)
@@ -45,6 +46,8 @@ public class Vaccine.VideoPreview : MediaPreview {
         if (!(video_sink is Gst.Base.Sink)) {
             debug (@"gstreamer: video_sink ($sink_plugin) is not a sink element");
         }
+        video_sink.get ("widget", out area);
+        preview_area = new VideoPreviewWidget (area, video_pipeline);
     }
 
     ~VideoPreview () {
@@ -55,13 +58,9 @@ public class Vaccine.VideoPreview : MediaPreview {
 
     public override void init_with_widget (Gtk.Widget widget)
         requires (widget is Gtk.Box)
-        requires (box == null)
-        ensures (area != null && area is GtkGst.Widget)
     {
         box = widget as Gtk.Box;
-
-        video_sink.get ("widget", out area);
-        box.pack_start (area);
+        box.pack_start (preview_area);
         box.show_all ();
 
         video_pipeline.add_many (video_source, video_convert, video_sink);
@@ -83,13 +82,13 @@ public class Vaccine.VideoPreview : MediaPreview {
     public override void stop_with_widget ()
         requires (box != null)
     {
+        box.remove (preview_area);
+        box = null;
         if (video_pipeline.set_state (Gst.State.NULL) == Gst.StateChangeReturn.FAILURE)
             debug ("gstreamer: failed to stop video");
         else
             debug ("gstreamer: stopped video");
         video_source.pad_added.disconnect (pad_added_handler);
-        box.remove (area);
-        box = null;
     }
 
     /* connects the video_source's src pad to the video_convert's sink pad

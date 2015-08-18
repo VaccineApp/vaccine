@@ -9,6 +9,7 @@
         <file>catalog-item.ui</file>
         <file>preferences-view.ui</file>
         <file>media-view.ui</file>
+        <file>video-preview-widget.ui</file>
         <file>error-dialog.ui</file>
         <file>tab.ui</file>
         <file>style.css</file>
