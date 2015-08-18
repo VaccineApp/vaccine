@@ -69,5 +69,8 @@ namespace Vaccine {
 
 int main (string[] args) {
     var app = new Vaccine.App ();
-    return app.run (args);
+    Gst.init (ref args);
+    int res = app.run (args);
+    Gst.deinit ();
+    return res;
 }

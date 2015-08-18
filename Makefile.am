@@ -40,13 +40,17 @@ vaccine_CFLAGS = \
 	$(GTK3_CFLAGS) \
 	$(JSON_GLIB_CFLAGS) \
 	$(SOUP_CFLAGS) \
-	$(GEE_CFLAGS)
+	$(GEE_CFLAGS) \
+	$(GSTREAMER_CFLAGS) \
+	$(GTKGST_CFLAGS)
 
 vaccine_LDADD = \
 	$(GTK3_LIBS) \
 	$(JSON_GLIB_LIBS) \
 	$(SOUP_LIBS) \
 	$(GEE_LIBS) \
+	$(GSTREAMER_LIBS) \
+	$(GTKGST_LIBS) \
 	-lm
 
 run: vaccine
