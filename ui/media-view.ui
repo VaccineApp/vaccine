@@ -92,6 +92,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="margin">6</property>
+                    <property name="columns">3</property>
                     <property name="item_width">128</property>
                     <property name="reorderable">True</property>
                     <property name="activate_on_single_click">True</property>
