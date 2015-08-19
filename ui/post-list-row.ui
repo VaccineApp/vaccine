@@ -98,17 +98,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="post_text">
+              <object class="GtkTextView" id="post_textview">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">start</property>
+                <property name="can_focus">True</property>
                 <property name="valign">start</property>
-                <property name="label" translatable="yes">&lt;span background="red" foreground="white" size="12000"&gt;/!\ ERROR /!\
-YOU SHOULD NOT SEE THIS
-&lt;a href="http://github.com/VaccineApp/vaccine/issues"&gt;tell a programmer (with the post no.)&lt;/a&gt;&lt;/span&gt;</property>
-                <property name="use_markup">True</property>
-                <property name="wrap">True</property>
+                <property name="editable">False</property>
                 <property name="wrap_mode">word-char</property>
+                <property name="cursor_visible">False</property>
+                <property name="accepts_tab">False</property>
               </object>
               <packing>
                 <property name="expand">True</property>

@@ -55,7 +55,9 @@ public class Vaccine.CatalogItem : Gtk.Button {
                 image_stack.set_visible_child (post_image);
             });
         }
-        this.post_comment.label = FourChan.get_post_text (t.com);
+        if (t.com != null) {
+            this.post_comment.label = PostTransformer.transform_post (t.com);
+        }
         this.post_n_replies.label = @"$(t.replies) replies";
         if (t.sub != null)
             this.post_subject.label = @"<span weight=\"bold\" size=\"larger\">$(t.sub)</span>";

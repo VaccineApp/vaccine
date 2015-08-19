@@ -4,7 +4,7 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
     [GtkChild] private Gtk.Label post_time;
     [GtkChild] private Gtk.Label post_no;
 
-    [GtkChild] private Gtk.Label post_text;
+    [GtkChild] private Gtk.TextView post_textview;
     [GtkChild] private Gtk.Image post_thumbnail;
     [GtkChild] private Gtk.Button responses_button;
     [GtkChild] private Gtk.Label responses_amount;
@@ -12,6 +12,25 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
     private Cancellable? cancel = null;
 
     public Post post { get; construct; }
+
+    static Gtk.TextTagTable tags = new Gtk.TextTagTable ();
+
+    static construct {
+        var greentext = new Gtk.TextTag ("greentext");
+        greentext.foreground = "green";
+        tags.add (greentext);
+
+        var link = new Gtk.TextTag ("link");
+        link.foreground = "blue";
+        link.underline = Pango.Underline.SINGLE;
+        tags.add (link);
+
+        var code = new Gtk.TextTag ("code");
+        code.font = "Monospace";
+        tags.add (code);
+
+        // TODO spoiler
+    }
 
     public PostListRow (Post post, Gdk.Pixbuf? thumbnail = null) {
         Object (post: post);
@@ -37,7 +56,14 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
             });
         }
 
-        post_text.label = FourChan.get_post_text (post.com);
+        post_textview.buffer = new Gtk.TextBuffer (tags);
+        if (post.com != null) {
+            try {
+                new PostTextBuffer (post.com).fill_text_buffer (post_textview.buffer);
+            } catch (Error e) {
+                debug (e.message);
+            }
+        }
 
         var nreplies = post.nreplies;
         if (nreplies == 0) {
