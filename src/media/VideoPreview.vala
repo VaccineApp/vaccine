@@ -20,6 +20,11 @@ public class Vaccine.VideoPreview : MediaPreview {
     private VideoPreviewWidget preview_area;
     private GtkGst.Widget area;
 
+    private int? width = null;
+    private int? height = null;
+    public float ratio { get; set; }
+    private Gst.Structure video_info;
+
     public VideoPreview (Post post)
         requires (post.filename != null && post.ext != null)
     {
@@ -47,7 +52,7 @@ public class Vaccine.VideoPreview : MediaPreview {
             debug (@"gstreamer: video_sink ($sink_plugin) is not a sink element");
         }
         video_sink.get ("widget", out area);
-        preview_area = new VideoPreviewWidget (area, video_pipeline);
+        preview_area = new VideoPreviewWidget (this, area, video_pipeline);
     }
 
     ~VideoPreview () {
@@ -63,15 +68,16 @@ public class Vaccine.VideoPreview : MediaPreview {
         box.pack_start (preview_area);
         box.show_all ();
 
-        video_pipeline.add_many (video_source, video_convert, video_sink);
-        if (!video_convert.link (video_sink)) {
-            debug ("gstreamer: failed to link convert -> sink");
-            return;
+        if (!loaded) {
+            video_pipeline.add_many (video_source, video_convert, video_sink);
+            if (!video_convert.link (video_sink)) {
+                debug ("gstreamer: failed to link convert -> sink");
+                return;
+            }
+            video_source.set ("uri", url);
+            debug (@"downloading from $url");
+            video_source.pad_added.connect (pad_added_handler);
         }
-        video_source.set ("uri", url);
-        video_source.pad_added.connect (pad_added_handler);
-
-        debug (@"downloading from $url");
 
         if (video_pipeline.set_state (Gst.State.PLAYING) == Gst.StateChangeReturn.FAILURE) {
             debug ("gstreamer: failed to set state to playing");
@@ -82,12 +88,12 @@ public class Vaccine.VideoPreview : MediaPreview {
     public override void stop_with_widget ()
         requires (box != null)
     {
-        box.remove (preview_area);
-        box = null;
         if (video_pipeline.set_state (Gst.State.NULL) == Gst.StateChangeReturn.FAILURE)
             debug ("gstreamer: failed to stop video");
         else
             debug ("gstreamer: stopped video");
+        box.remove (preview_area);
+        box = null;
         video_source.pad_added.disconnect (pad_added_handler);
     }
 
@@ -105,6 +111,17 @@ public class Vaccine.VideoPreview : MediaPreview {
         Gst.Caps new_pad_caps = new_pad.query_caps (null);
         unowned Gst.Structure new_pad_struct = new_pad_caps.get_structure (0);
         string new_pad_type = new_pad_struct.get_name ();
+        video_info = new_pad_struct.copy ();
+        // FIXME: (possibly use Gst.Query?)
+        video_info.fixate ();
+        if (!video_info.get_int ("width", out width))
+            debug ("failed to get width");
+        if (!video_info.get_int ("height", out height))
+            debug ("failed to get height");
+        if (width != null && height != null) {
+            ratio = (float) width / height;
+            debug (@"width = $width, height = $height, ratio is $ratio");
+        }
 
         // attempt the link
         if (new_pad.link (sink_pad) != Gst.PadLinkReturn.OK)
