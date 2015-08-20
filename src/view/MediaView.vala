@@ -23,6 +23,7 @@ public class Vaccine.MediaView : Gtk.Window {
     public Thread thread { construct; get; }
     private List<MediaPreview> media = new List<MediaPreview> ();
     private unowned List<MediaPreview> current_media;
+    private unowned Gtk.Widget last_widget;
 
     private bool is_fullscreen = false;
 
@@ -59,6 +60,7 @@ public class Vaccine.MediaView : Gtk.Window {
         current_media = media.first ();
         while (current_media.next != null && current_media.data.post != post)
             current_media = current_media.next;
+        last_widget = loading_view;
         show_media (current_media, true);
     }
 
@@ -103,6 +105,7 @@ public class Vaccine.MediaView : Gtk.Window {
                 stack.visible_child = image_view;
             else if (current_media.data is VideoPreview)
                 stack.visible_child = video_view;
+            last_widget = stack.visible_child;
             media_onready_id = null;
             return Source.REMOVE;
         });
@@ -154,7 +157,7 @@ public class Vaccine.MediaView : Gtk.Window {
         if (btn_gallery.active)
             stack.visible_child = gallery_view;
         else
-            stack.visible_child = image_view;
+            stack.visible_child = last_widget;
     }
 
     [GtkCallback] private void toggle_fullscreen () {

@@ -47,6 +47,7 @@
                       <object class="GtkBox" id="box5">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_right">15</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkButton" id="btn_play">
@@ -142,6 +143,7 @@
                       <object class="GtkBox" id="box6">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">15</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkToggleButton" id="toggle_repeat">
