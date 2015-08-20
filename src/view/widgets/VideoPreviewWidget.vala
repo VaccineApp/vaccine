@@ -16,7 +16,7 @@ public class Vaccine.VideoPreviewWidget : Gtk.Overlay {
 
     public bool repeat { set; get; }
 
-    private VideoPreview preview;
+    private weak VideoPreview preview;
 
     public VideoPreviewWidget (VideoPreview preview, Gtk.Widget sink, Gst.Pipeline pipeline) {
         this.preview = preview;
