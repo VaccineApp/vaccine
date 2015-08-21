@@ -15,7 +15,6 @@ public class Vaccine.PostTextBuffer : Object {
     private Gtk.TextIter iter;
 
     private string current_tag = null;
-    private string current_text = "";
 
     void visit_start (MarkupParseContext context, string elem, string[] attrs, string[] vals) throws MarkupError {
         if (elem == "a") a_tag_level++;
@@ -37,24 +36,18 @@ public class Vaccine.PostTextBuffer : Object {
     }
 
     void visit_text (MarkupParseContext context, string text, size_t text_len) throws MarkupError {
-        debug (@"visit_text, text=$text");
-        //if (a_tag_level == 0) { // we are not inside an <a> tag, so wrap links
+        //if (a_tag_level == 0) // we are not inside an <a> tag, so wrap links
             //current_text = /(\w+:\/\/\S*)/.replace(text, -1, 0, "<a href=\"\\1\">\\1</a>");
-        //} else {
-            current_text = text;
-        //}
+        if (current_tag != null) {
+            buffer.insert_with_tags_by_name (ref iter, text, -1, current_tag);
+        } else {
+            buffer.insert (ref iter, text, -1);
+        }
+        current_tag = null;
     }
 
     void visit_end (MarkupParseContext context, string elem) throws MarkupError {
         if (elem == "a") a_tag_level--;
-
-        if (current_tag != null) {
-            buffer.insert_with_tags_by_name (ref iter, current_text, -1, current_tag);
-        } else {
-            buffer.insert (ref iter, current_text, -1);
-        }
-        current_tag = null;
-        current_text = "";
     }
 
     void visit_passthrough (MarkupParseContext context, string passthrough_text, size_t text_len) throws MarkupError {
@@ -86,6 +79,7 @@ public class Vaccine.PostTextBuffer : Object {
             .replace ("<br>", "\n") // unclosed tag
             .replace ("<wbr>", "") // suggested break location
             .replace ("&gt;", ">")
+            .replace ("&lt;", "<")
             .replace ("&quot;", "\"")
             .replace ("&", "&amp;");
     }
