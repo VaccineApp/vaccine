@@ -66,21 +66,14 @@ public class Vaccine.PostTextBuffer : Object {
     public void fill_text_buffer (Gtk.TextBuffer buffer) throws MarkupError {
         this.buffer = buffer;
         buffer.get_iter_at_offset (out this.iter, 0);
-        var post = common_clean (src);
-        this.ctx.parse (@"<$TOP_LEVEL_TAG>$post</$TOP_LEVEL_TAG>", -1); // requires a top-level element
-        print (@"\n\x1b[35m==========================================\x1b[0m\n$post\n\t\t\t\t\x1b[44mv\x1b[0m\n$(buffer.text)\n\n");
-    }
-
-    string common_clean (string com) {
-        return com
+        var post = src
             .compress ()
+            .replace ("\\", "\\\\") // backslashes, don't think about it too hard
             .replace ("\n", "\\n") // in code tags
             .replace ("\t", "\\t")
             .replace ("<br>", "\n") // unclosed tag
-            .replace ("<wbr>", "") // suggested break location
-            .replace ("&gt;", ">")
-            .replace ("&lt;", "<")
-            .replace ("&quot;", "\"")
-            .replace ("&", "&amp;");
+            .replace ("<wbr>", ""); // suggested break location
+        this.ctx.parse (@"<$TOP_LEVEL_TAG>$post</$TOP_LEVEL_TAG>", -1); // requires a top-level element
+        // print (@"\n\x1b[35m==========================================\x1b[0m\n$post\n\t\t\t\t\x1b[44mv\x1b[0m\n$(buffer.text)\n\n");
     }
 }
