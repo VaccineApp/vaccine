@@ -17,20 +17,31 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
 
     static construct {
         var greentext = new Gtk.TextTag ("greentext");
-        greentext.foreground = "green";
+        greentext.foreground = "#789922";
         tags.add (greentext);
 
         var link = new Gtk.TextTag ("link");
-        link.foreground = "blue";
+        link.foreground = "#2a76c6";
         link.underline = Pango.Underline.SINGLE;
         tags.add (link);
 
         var code = new Gtk.TextTag ("code");
-        code.font = "Monospace";
+        code.font = "monospace";
         tags.add (code);
+
+        var bold = new Gtk.TextTag ("bold");
+        bold.weight = Pango.Weight.BOLD;
+        tags.add (bold);
+
+        var underline = new Gtk.TextTag ("underline");
+        underline.underline = Pango.Underline.SINGLE;
+        tags.add (underline);
 
         // TODO spoiler
     }
+
+    private Gdk.Cursor cursor_text;
+    private Gdk.Cursor cursor_pointer;
 
     public PostListRow (Post post, Gdk.Pixbuf? thumbnail = null) {
         Object (post: post);
@@ -64,6 +75,27 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
                 debug (e.message);
             }
         }
+
+        cursor_text = new Gdk.Cursor.for_display (post_textview.get_display (), Gdk.CursorType.XTERM);
+        cursor_pointer = new Gdk.Cursor.for_display (post_textview.get_display (), Gdk.CursorType.HAND2);
+
+        post_textview.motion_notify_event.connect (event => {
+            int x, y;
+            post_textview.window_to_buffer_coords (Gtk.TextWindowType.WIDGET, (int) event.x, (int) event.y, out x, out y);
+
+            Gtk.TextIter mouse;
+            post_textview.get_iter_at_location (out mouse, x, y);
+
+            var cursor = cursor_text;
+            foreach (var tag in mouse.get_tags ()) {
+                if (tag.name == "link") {
+                    cursor = cursor_pointer;
+                    break;
+                }
+            }
+            post_textview.get_window (Gtk.TextWindowType.TEXT).cursor = cursor;
+            return false;
+        });
 
         var nreplies = post.nreplies;
         if (nreplies == 0) {

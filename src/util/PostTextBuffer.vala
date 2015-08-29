@@ -36,7 +36,6 @@ public class Vaccine.PostTextBuffer : Object {
         var link_regex = /(\w+:\/\/\S*)/;
         var tokens = link_regex.split (text);
         foreach (var elem in tokens) {
-            debug (elem);
             if (link_regex.match (elem))
                 buffer.insert_with_tags_by_name (ref iter, elem, -1, "link", current_tag);
             else
