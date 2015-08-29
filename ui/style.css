@@ -23,3 +23,11 @@ VaccineThreadPane > GtkScrolledWindow {
 GtkLabel.n_replies_label {
         color: @theme_base_color;
 }
+
+GtkTextView {
+	background: none;
+}
+
+GtkTextView:selected {
+	background: @theme_selected_bg_color;
+}

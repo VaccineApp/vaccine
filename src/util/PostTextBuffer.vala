@@ -8,7 +8,7 @@ public class Vaccine.PostTextBuffer : Object {
         error
     };
 
-    private uint a_tag_level = 0; // handles nested <a> tags...thanks mods
+    //private uint a_tag_level = 0; // handles nested <a> tags...thanks mods
     private MarkupParseContext ctx;
     private string src;
     private Gtk.TextBuffer buffer;
@@ -17,37 +17,35 @@ public class Vaccine.PostTextBuffer : Object {
     private string current_tag = null;
 
     void visit_start (MarkupParseContext context, string elem, string[] attrs, string[] vals) throws MarkupError {
-        if (elem == "a") a_tag_level++;
-        else if (elem == "pre") current_tag = "code";
-        else if (elem == TOP_LEVEL_TAG) return; // our dummy top-level XML element
-        // 4chan oddly puts <font class="unkfunc"></font> around some quotelinks
-        // I think this was used for greentext in the past and the ancient stickies have never been change
-        else if (elem == "font") return;
+        if (elem == "pre")
+            current_tag = "code";
+        if (elem == "b")
+            current_tag = "bold";
+        if (elem == "u")
+            current_tag = "underline";
 
-        else {
-            for (int i = 0; i < attrs.length; ++i) {
-                if (attrs[i] == "class" && vals[i] == "quote") {
-                    current_tag = "greentext";
-                } else if (attrs[i] == "class" && vals[i] == "quotelink") {
-                    current_tag = "link";
-                }
-            }
+        for (int i = 0; i < attrs.length; ++i) {
+            if (elem == "span" && attrs[i] == "class" && vals[i] == "quote")
+                current_tag = "greentext";
+            if (elem == "a" && attrs[i] == "class" && vals[i] == "quotelink")
+                current_tag = "link";
         }
     }
 
     void visit_text (MarkupParseContext context, string text, size_t text_len) throws MarkupError {
-        //if (a_tag_level == 0) // we are not inside an <a> tag, so wrap links
-            //current_text = /(\w+:\/\/\S*)/.replace(text, -1, 0, "<a href=\"\\1\">\\1</a>");
-        if (current_tag != null) {
-            buffer.insert_with_tags_by_name (ref iter, text, -1, current_tag);
-        } else {
-            buffer.insert (ref iter, text, -1);
+        var link_regex = /(\w+:\/\/\S*)/;
+        var tokens = link_regex.split (text);
+        foreach (var elem in tokens) {
+            debug (elem);
+            if (link_regex.match (elem))
+                buffer.insert_with_tags_by_name (ref iter, elem, -1, "link", current_tag);
+            else
+                buffer.insert_with_tags_by_name (ref iter, elem, -1, current_tag);
         }
-        current_tag = null;
     }
 
     void visit_end (MarkupParseContext context, string elem) throws MarkupError {
-        if (elem == "a") a_tag_level--;
+        current_tag = null;
     }
 
     void visit_passthrough (MarkupParseContext context, string passthrough_text, size_t text_len) throws MarkupError {
