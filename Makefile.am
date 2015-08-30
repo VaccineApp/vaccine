@@ -1,4 +1,6 @@
 SUBDIRS = src schemas
 
 run: all
-	env G_MESSAGES_DEBUG=all gdb -ex run src/vaccine
+		G_MESSAGES_DEBUG=all \
+		GOBJECT_DEBUG=instance-count \
+		gdb -ex run src/vaccine
