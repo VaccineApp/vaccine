@@ -71,17 +71,6 @@ public class Vaccine.FourChan : Object {
         }
     }
 
-    public static string get_post_text (string? com) {
-        if (com == null)
-            return "";
-        try {
-            return PostTransformer.transform_post ((!) com);
-        } catch (MarkupError e) {
-            debug (e.message);
-            return "";
-        }
-    }
-
     public static string get_post_time (uint time) {
         return new DateTime.from_unix_local (time).format ("%a, %b %e, %Y @ %l:%M %P");
     }

@@ -10,6 +10,7 @@ vaccine_SOURCES = \
 	model/Board.vala \
 	model/Page.vala \
 	model/Post.vala \
+	util/PostTextBuffer.vala \
 	util/PostTransformer.vala \
 	util/Stripper.vala \
 	view/AboutDialog.vala \

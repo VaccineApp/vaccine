@@ -4,7 +4,7 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
     [GtkChild] private Gtk.Label post_time;
     [GtkChild] private Gtk.Label post_no;
 
-    [GtkChild] private Gtk.Label post_text;
+    [GtkChild] private Gtk.TextView post_textview;
     [GtkChild] private Gtk.Image post_thumbnail;
     [GtkChild] private Gtk.Button responses_button;
     [GtkChild] private Gtk.Label responses_amount;
@@ -12,6 +12,36 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
     private Cancellable? cancel = null;
 
     public Post post { get; construct; }
+
+    static Gtk.TextTagTable tags = new Gtk.TextTagTable ();
+
+    static construct {
+        var greentext = new Gtk.TextTag ("greentext");
+        greentext.foreground = "#789922";
+        tags.add (greentext);
+
+        var link = new Gtk.TextTag ("link");
+        link.foreground = "#2a76c6";
+        link.underline = Pango.Underline.SINGLE;
+        tags.add (link);
+
+        var code = new Gtk.TextTag ("code");
+        code.font = "monospace";
+        tags.add (code);
+
+        var bold = new Gtk.TextTag ("bold");
+        bold.weight = Pango.Weight.BOLD;
+        tags.add (bold);
+
+        var underline = new Gtk.TextTag ("underline");
+        underline.underline = Pango.Underline.SINGLE;
+        tags.add (underline);
+
+        // TODO spoiler
+    }
+
+    private Gdk.Cursor cursor_text;
+    private Gdk.Cursor cursor_pointer;
 
     public PostListRow (Post post, Gdk.Pixbuf? thumbnail = null) {
         Object (post: post);
@@ -37,7 +67,79 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
             });
         }
 
-        post_text.label = FourChan.get_post_text (post.com);
+        post_textview.buffer = new Gtk.TextBuffer (tags);
+        if (post.com != null) {
+            try {
+                new PostTextBuffer (post.com).fill_text_buffer (post_textview.buffer);
+            } catch (Error e) {
+                debug (e.message);
+            }
+        }
+
+        cursor_text = new Gdk.Cursor.for_display (post_textview.get_display (), Gdk.CursorType.XTERM);
+        cursor_pointer = new Gdk.Cursor.for_display (post_textview.get_display (), Gdk.CursorType.HAND2);
+
+        post_textview.motion_notify_event.connect (event => {
+            int x, y;
+            post_textview.window_to_buffer_coords (Gtk.TextWindowType.WIDGET, (int) event.x, (int) event.y, out x, out y);
+
+            Gtk.TextIter mouse;
+            post_textview.get_iter_at_location (out mouse, x, y);
+
+            var cursor = cursor_text;
+            foreach (var tag in mouse.get_tags ()) {
+                if (tag.name == "link") {
+                    cursor = cursor_pointer;
+                    break;
+                }
+            }
+            post_textview.get_window (Gtk.TextWindowType.TEXT).cursor = cursor;
+            return false;
+        });
+
+        /**
+         * The example in gtk3-demo creates link tags on the fly and does g_object_set_data (tag, url).
+         * Should we be doing this? check memory & performance
+         */
+        post_textview.event_after.connect (event => {
+            // if left button up
+            if (event.type == Gdk.EventType.BUTTON_RELEASE && event.button.button == Gdk.BUTTON_PRIMARY) {
+                Gtk.TextIter select_start, select_end;
+                post_textview.buffer.get_selection_bounds (out select_start, out select_end);
+                // if text is selected, don't open any links
+                if (select_start.get_offset () != select_end.get_offset ())
+                    return;
+
+                // get buffer coords
+                int x, y;
+                post_textview.window_to_buffer_coords (Gtk.TextWindowType.WIDGET, (int) event.button.x, (int) event.button.y, out x, out y);
+
+                // get TextIter
+                Gtk.TextIter link;
+                post_textview.get_iter_at_location (out link, x, y);
+                foreach (var tag in link.get_tags ()) {
+                    // find 'link' tag
+                    if (tag.name == "link") {
+                        // go to start of link
+                        link.backward_to_tag_toggle (tags.lookup ("link"));
+                        // go to end of link
+                        Gtk.TextIter link_end = link;
+                        link_end.forward_to_tag_toggle (tags.lookup ("link"));
+                        // text between TextIters
+                        var url = link.get_text (link_end);
+                        // TODO handle quote links (>>1234)
+                        try {
+                            // try open
+                            AppInfo.launch_default_for_uri (url, null);
+                        } catch (Error e) {
+                            warning (url + ": " + e.message);
+                        }
+                        break;
+                    }
+                }
+            }
+            // TODO handle touch up event
+        });
 
         var nreplies = post.nreplies;
         if (nreplies == 0) {
