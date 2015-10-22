@@ -31,3 +31,7 @@ GtkTextView {
 GtkTextView:selected {
 	background: @theme_selected_bg_color;
 }
+
+GtkScrolledWindow.text-view-wrapper {
+	border: none;
+}
