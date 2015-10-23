@@ -18,7 +18,7 @@ public class Vaccine.VideoPreview : MediaPreview {
     // widget info
     private Gtk.Box? box;
     private VideoPreviewWidget preview_area;
-    private GtkGst.Widget area;
+    private Gtk.Widget area;
 
     private int? width = null;
     private int? height = null;
