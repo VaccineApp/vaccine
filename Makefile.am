@@ -43,7 +43,7 @@ vaccine_CFLAGS = \
 	$(SOUP_CFLAGS) \
 	$(GEE_CFLAGS) \
 	$(GSTREAMER_CFLAGS) \
-	$(GTKGST_CFLAGS)
+	$(GSTREAMER_BASE_CFLAGS)
 
 vaccine_LDADD = \
 	$(GTK3_LIBS) \
@@ -51,7 +51,7 @@ vaccine_LDADD = \
 	$(SOUP_LIBS) \
 	$(GEE_LIBS) \
 	$(GSTREAMER_LIBS) \
-	$(GTKGST_LIBS) \
+	$(GSTREAMER_BASE_LIBS) \
 	-lm
 
 run: vaccine
