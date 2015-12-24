@@ -46,7 +46,7 @@ vaccine_LDADD = \
 run: vaccine
 	G_MESSAGES_DEBUG=all \
 	GOBJECT_DEBUG=instance-count \
-	gdb -ex run src/vaccine
+	gdb -ex run vaccine
 
 
 gsettings_SCHEMAS = schemas/org.vaccine.app.gschema.xml
