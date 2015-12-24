@@ -32,11 +32,7 @@ AM_VALAFLAGS=" \
 AS_IF([test "x$enable_debug" != "xno"], [AM_VALAFLAGS="$AM_VALAFLAGS -D DEBUG"], [])
 AC_SUBST(AM_VALAFLAGS)
 
-AC_CONFIG_FILES([
-    Makefile
-    src/Makefile
-    schemas/Makefile
-])
+AC_CONFIG_FILES([Makefile])
 
 AC_OUTPUT
 

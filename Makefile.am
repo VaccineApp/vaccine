@@ -1,6 +1,64 @@
-SUBDIRS = src schemas
+bin_PROGRAMS = vaccine
 
-run: all
-		G_MESSAGES_DEBUG=all \
-		GOBJECT_DEBUG=instance-count \
-		gdb -ex run src/vaccine
+vaccine_SOURCES = \
+	src/App.vala \
+	src/Catalog.vala \
+	src/FourChan.vala \
+	src/Thread.vala \
+	src/PostReplies.vala \
+	src/ErrorDialog.vala \
+	src/model/Board.vala \
+	src/model/Page.vala \
+	src/model/Post.vala \
+	src/util/PostTextBuffer.vala \
+	src/util/PostTransformer.vala \
+	src/util/Stripper.vala \
+	src/view/AboutDialog.vala \
+	src/view/CatalogItem.vala \
+	src/view/CatalogWidget.vala \
+	src/view/MainWindow.vala \
+	src/view/PanelView.vala \
+	src/view/PostListRow.vala \
+	src/view/PreferencesView.vala \
+	src/view/Tab.vala \
+	src/view/ThreadPane.vala \
+	resources.c
+
+vaccine_resources = $(shell glib-compile-resources --sourcedir=ui --generate-dependencies ui/resources.xml)
+resources.c: ui/resources.xml $(vaccine_resources)
+	glib-compile-resources --sourcedir=ui --generate-source --target $@ $<
+
+vaccine_CFLAGS = \
+	-g \
+	-Wno-incompatible-pointer-types \
+	$(GTK3_CFLAGS) \
+	$(JSON_GLIB_CFLAGS) \
+	$(SOUP_CFLAGS) \
+	$(GEE_CFLAGS)
+
+vaccine_LDADD = \
+	$(GTK3_LIBS) \
+	$(JSON_GLIB_LIBS) \
+	$(SOUP_LIBS) \
+	$(GEE_LIBS) \
+	-lm
+
+run: vaccine
+	G_MESSAGES_DEBUG=all \
+	GOBJECT_DEBUG=instance-count \
+	gdb -ex run src/vaccine
+
+
+gsettings_SCHEMAS = schemas/org.vaccine.app.gschema.xml
+@GSETTINGS_RULES@
+
+gschemas.compiled: $(gsettings_SCHEMAS:.xml=.valid)
+	$(AM_V_GEN) $(GLIB_COMPILE_SCHEMAS) .
+
+all-local: gschemas.compiled
+
+EXTRA_DIST = $(gsettings_SCHEMAS)
+
+CLEANFILES = *.h *.c *.o *.stamp \
+	vaccine $(vaccine_SOURCES:.vala=.c) \
+	$(vaccine_SOURCES:.vala=.lo) gschemas.compiled
