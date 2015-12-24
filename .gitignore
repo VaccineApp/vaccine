@@ -52,6 +52,7 @@ Makefile
 .deps/
 .dirstamp
 .libs/
+build-aux
 
 # this is a vala proj
 *.c

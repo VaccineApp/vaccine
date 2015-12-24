@@ -1,15 +1,17 @@
 AC_INIT([vaccine], [0.0.1])
 
-AM_INIT_AUTOMAKE([foreign subdir-objects])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux])
+
+AM_INIT_AUTOMAKE([foreign subdir-objects no-dist-gzip dist-xz])
 AM_SILENT_RULES([yes])
+
+AX_CHECK_ENABLE_DEBUG([yes])
 
 AC_PROG_CC
 AM_PROG_VALAC
 
 GLIB_GSETTINGS
-
-AC_ARG_ENABLE(debug,
-	AS_HELP_STRING([--enable-debug], [enable or disable debugging, default: yes]))
 
 PKG_CHECK_MODULES([GTK3], [gtk+-3.0])
 PKG_CHECK_MODULES([JSON_GLIB], [json-glib-1.0])
