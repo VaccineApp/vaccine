@@ -28,7 +28,7 @@ public class Vaccine.ThreadPane : Gtk.Box {
 
     public ThreadPane.with_title (string title) {
         this ();
-        // ebin OP sometimes guesses the post number
+        // OP could theoretically guess the post number
         // assert (!model.get_item (0).isOP);
         heading_box.visible = true;
         heading.label = @"<span size=\"large\">$title</span>";

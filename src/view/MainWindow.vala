@@ -48,10 +48,11 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         add_action_entries (shortcuts, this);
 
-        app.set_accels_for_action ("win.close_tab", {"<Control>W"});
-        app.set_accels_for_action ("win.catalog_find", {"<Control>F"});
-        app.set_accels_for_action ("win.next_tab", {"<Control>Tab"});
-        app.set_accels_for_action ("win.prev_tab", {"<Control><Shift>Tab"});
+        app.set_accels_for_action ("app.quit", {"<Primary>Q"});
+        app.set_accels_for_action ("win.close_tab", {"<Primary>W"});
+        app.set_accels_for_action ("win.catalog_find", {"<Primary>F"});
+        app.set_accels_for_action ("win.next_tab", {"<Primary>Tab"});
+        app.set_accels_for_action ("win.prev_tab", {"<Primary><Shift>Tab"});
 
         listbox.set_filter_func (row => (row.get_child () as Gtk.Label).name.contains (board_search.text));
         board_search.changed.connect (listbox.invalidate_filter);
