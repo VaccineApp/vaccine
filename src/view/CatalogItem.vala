@@ -18,35 +18,31 @@ public class Vaccine.CatalogItem : Gtk.Button {
         Object (op: t);
         this.main_window = win;
 
-        post_image.draw.connect(cr => {
+        post_image.draw.connect (cr => {
             if (op.pixbuf == null)
                 return false;
-            op.get_thumbnail (pixbuf => {
-                var mat = cr.get_matrix ();
 
-                Gtk.Allocation alloc;
-                post_image.get_allocation (out alloc);
+            Gtk.Allocation alloc;
+            post_image.get_allocation (out alloc);
 
-                double scale_x = (double) alloc.width / pixbuf.width;
-                double scale_y = (double) alloc.height / pixbuf.height;
+            double scale_x = (double) alloc.width / op.pixbuf.width;
+            double scale_y = (double) alloc.height / op.pixbuf.height;
 
-                if (scale_x * pixbuf.height >= alloc.height) {
-                    mat.scale (scale_x, scale_x);
-                    double offset = (alloc.height - pixbuf.height * scale_x) / 2;
-                    mat.translate (0, offset);
-                } else if (scale_y * pixbuf.width >= alloc.width) {
-                    mat.scale (scale_y, scale_y);
-                    double offset = (alloc.width - pixbuf.width * scale_y) / 2;
-                    mat.translate (offset, 0);
-                } else {
-                    assert_not_reached ();
-                }
+            if (scale_x * op.pixbuf.height >= alloc.height) {
+                double offset = (alloc.height - op.pixbuf.height * scale_x) / 2;
+                cr.translate (0, offset);
+                cr.scale (scale_x, scale_x);
+            } else if (scale_y * op.pixbuf.width >= alloc.width) {
+                double offset = (alloc.width - op.pixbuf.width * scale_y) / 2;
+                cr.translate (offset, 0);
+                cr.scale (scale_y, scale_y);
+            } else {
+                assert_not_reached ();
+            }
 
-                cr.set_matrix (mat);
-                Gdk.cairo_set_source_pixbuf (cr, pixbuf, 0, 0);
-                cr.paint ();
-            });
-            return true;
+            Gdk.cairo_set_source_pixbuf (cr, op.pixbuf, 0, 0);
+            cr.paint ();
+            return Gdk.EVENT_STOP;
         });
 
         if (t.filename != null) { // deleted files
