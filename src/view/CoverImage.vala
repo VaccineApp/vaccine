@@ -6,7 +6,7 @@ public class Vaccine.CoverImage : Gtk.Widget {
     }
 
     public CoverImage (Gdk.Pixbuf pixbuf) {
-        this.image = (Cairo.ImageSurface) Gdk.cairo_surface_create_from_pixbuf (pixbuf, 0, null);
+        this.image = (Cairo.ImageSurface) Gdk.cairo_surface_create_from_pixbuf (pixbuf, 1, null);
         this.visible = true;
     }
 
