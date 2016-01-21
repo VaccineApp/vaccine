@@ -76,8 +76,8 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
             }
         }
 
-        cursor_text = new Gdk.Cursor.for_display (post_textview.get_display (), Gdk.CursorType.XTERM);
-        cursor_pointer = new Gdk.Cursor.for_display (post_textview.get_display (), Gdk.CursorType.HAND2);
+        cursor_text = new Gdk.Cursor.from_name (post_textview.get_display (), "text");
+        cursor_pointer = new Gdk.Cursor.from_name (post_textview.get_display (), "pointer");
 
         post_textview.motion_notify_event.connect (event => {
             int x, y;
