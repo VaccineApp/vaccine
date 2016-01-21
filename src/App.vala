@@ -33,7 +33,7 @@ namespace Vaccine {
             main_window = new MainWindow (this);
 
             var provider = new Gtk.CssProvider ();
-            provider.load_from_resource(@"$resource_base_path/style.css");
+            provider.load_from_resource (resource_base_path + "/style.css");
             Gtk.StyleContext.add_provider_for_screen (main_window.get_screen (),
                 provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
         }

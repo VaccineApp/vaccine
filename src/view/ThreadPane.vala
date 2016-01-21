@@ -31,6 +31,6 @@ public class Vaccine.ThreadPane : Gtk.Box {
         // OP could theoretically guess the post number
         // assert (!model.get_item (0).isOP);
         heading_box.visible = true;
-        heading.label = @"<span size=\"large\">$title</span>";
+        heading.label = "<span size=\"large\">" + title + "</span>";
     }
 }

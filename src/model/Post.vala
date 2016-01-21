@@ -144,7 +144,7 @@ namespace Vaccine {
         public Cancellable get_thumbnail (UseDownloadedPixbuf cb)
             requires (filename != null)
         {
-            var url = @"https://i.4cdn.org/$board/$(tim)s.jpg";
+            var url = "https://i.4cdn.org/%s/%llds.jpg".printf (board, tim);
             var cancel = new Cancellable ();
             if (pixbuf == null)
                 FourChan.download_image.begin (url, cancel, (obj, res) => {

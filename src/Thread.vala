@@ -8,7 +8,7 @@ public class Vaccine.Thread : Object, ListModel {
             var sub = Stripper.transform_post (op.sub);
             var com = Stripper.transform_post (op.com);
             var no = op.no.to_string ();
-            return @"/$board/ — $(sub ?? com ?? no)";
+            return "/%s/ — %s".printf (board, sub ?? com ?? no);
         }
     }
 
@@ -27,7 +27,7 @@ public class Vaccine.Thread : Object, ListModel {
         Object(board: board);
         // TODO make pref, min 10 sec per API rules
         unowned SourceFunc update_cb = () => {
-            debug (@"updating thread $(op.no)");
+            debug ("updating thread %lld".printf (op.no));
             this.update_thread ();
             return Source.CONTINUE;
         };

@@ -1,5 +1,4 @@
 public class Vaccine.PostTextBuffer : Object {
-    private const string TOP_LEVEL_TAG = "_top_level"; // no one will ever use this
     private const MarkupParser parser = {
         visit_start,
         visit_end,
@@ -70,7 +69,7 @@ public class Vaccine.PostTextBuffer : Object {
             .replace ("\t", "\\t")
             .replace ("<br>", "\n") // unclosed tag
             .replace ("<wbr>", ""); // suggested break location
-        this.ctx.parse (@"<$TOP_LEVEL_TAG>$post</$TOP_LEVEL_TAG>", -1); // requires a top-level element
+        this.ctx.parse ("<_top_level>" + post + "</_top_level>", -1); // requires a top-level element
         // print (@"\n\x1b[35m==========================================\x1b[0m\n$post\n\t\t\t\t\x1b[44mv\x1b[0m\n$(buffer.text)\n\n");
     }
 }

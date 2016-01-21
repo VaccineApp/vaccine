@@ -27,9 +27,9 @@ public class Vaccine.CatalogItem : Gtk.Button {
         }
         if (t.com != null)
             this.post_comment.label = PostTransformer.transform_post (t.com);
-        this.post_n_replies.label = @"$(t.replies) replies";
+        this.post_n_replies.label = "%u replies".printf (t.replies);
         if (t.sub != null)
-            this.post_subject.label = @"<span weight=\"bold\" size=\"larger\">$(t.sub)</span>";
+            this.post_subject.label = "<span weight=\"bold\" size=\"larger\">%s</span>".printf (t.sub);
         else
             post_subject.destroy ();
     }

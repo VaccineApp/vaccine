@@ -51,9 +51,9 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         post_name.visible = prefs.get_boolean ("show-trips");
         prefs.bind ("show-trips", post_name, "visible", SettingsBindFlags.GET);
 
-        post_name.label = @"<b>$(post.name)</b> <span color=\"#aaa\">$(post.trip ?? "")</span>";
+        post_name.label = "<b>%s</b> <span color=\"#aaa\">%s</span>".printf (post.name, post.trip ?? "");
         post_time.label = FourChan.get_post_time (post.time);
-        post_no.label = @"No. $(post.no)";
+        post_no.label = "No. %lld".printf (post.no);
 
         if (post.filename == null) {
             assert (!post.isOP);
@@ -163,7 +163,7 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         Gtk.Widget? next;
         if ((next = children.nth_data (position + 1)) != null)
             panelView.remove (next);
-        var threadpane = new ThreadPane.with_title (@"Replies to No. $(post.no)");
+        var threadpane = new ThreadPane.with_title ("Replies to No. %lld".printf (post.no));
         panelView.add (threadpane);
         threadpane.set_model (new PostReplies (post));
     }

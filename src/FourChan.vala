@@ -41,7 +41,7 @@ public class Vaccine.FourChan : Object {
         var thread = new Thread (board);
         try {
             var json = new Json.Parser ();
-            InputStream stream = yield soup.send_async (new Soup.Message ("GET", @"https://a.4cdn.org/$board/thread/$no.json"));
+            InputStream stream = yield soup.send_async (new Soup.Message ("GET", "https://a.4cdn.org/%s/thread/%lld.json".printf (board, no)));
             if (yield json.load_from_stream_async (stream, null)) {
                 var posts_arr = json.get_root ().get_object ().get_array_member ("posts");
                 posts_arr.foreach_element ((arr, index, node) => {

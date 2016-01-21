@@ -10,7 +10,7 @@ public class Vaccine.Catalog : Object {
         var catalog = new ArrayList<Page> ();
         try {
             var json = new Json.Parser ();
-            var stream = yield FourChan.soup.send_async (new Soup.Message ("GET", @"https://a.4cdn.org/$board/catalog.json"));
+            var stream = yield FourChan.soup.send_async (new Soup.Message ("GET", "https://a.4cdn.org/" + board + "/catalog.json"));
             if (yield json.load_from_stream_async (stream, null)) {
                 json.get_root ()
                     .get_array ()

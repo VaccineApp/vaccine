@@ -1,7 +1,5 @@
 // pango markup
 public class Vaccine.PostTransformer : Object {
-    private const string TOP_LEVEL_TAG = "_top_level"; // no one will ever use this
-
     private const MarkupParser parser = {
         visit_start,
         visit_end,
@@ -43,7 +41,7 @@ public class Vaccine.PostTransformer : Object {
         else if (elem == "pre") elem = "tt";
 
         // our dummy top-level XML element
-        else if (elem == TOP_LEVEL_TAG) return;
+        else if (elem == "_top_level") return;
 
         // 4chan oddly puts <font class="unkfunc"></font> around some quotelinks
         // I think this was used for greentext in the past and the ancient stickies have never been change
@@ -57,7 +55,7 @@ public class Vaccine.PostTransformer : Object {
                 if (vals[i] == "quote")
                     dest += " foreground=\"#789922\"";
             } else {
-                dest += @" $(attrs[i])=\"$(vals[i])\"";
+                dest += " %s=\"%s\"".printf (attrs[i], vals[i]);
             }
         }
         dest += ">";
@@ -66,10 +64,10 @@ public class Vaccine.PostTransformer : Object {
     void visit_end (MarkupParseContext context, string elem) throws MarkupError {
         if (elem == "a") a_tag_level--;
         else if (elem == "pre") elem = "tt";
-        else if (elem == TOP_LEVEL_TAG) return;
+        else if (elem == "_top_level") return;
         else if (elem == "font") return;
 
-        dest += @"</$elem>";
+        dest += "</" + elem + ">";
     }
 
     void visit_passthrough (MarkupParseContext context, string passthrough_text, size_t text_len) throws MarkupError {
@@ -83,7 +81,7 @@ public class Vaccine.PostTransformer : Object {
     public static string transform_post (string com) throws MarkupError {
         var xfm = new PostTransformer ();
         var post = common_clean (com).replace ("&", "&amp;");
-        xfm.ctx.parse (@"<$TOP_LEVEL_TAG>$post</$TOP_LEVEL_TAG>", -1); // requires a top-level element
+        xfm.ctx.parse ("<_top_level>" + post + "</_top_level>", -1); // requires a top-level element
         // TODO: remove when it all works
         // print (@"\n\x1b[35m==========================================\x1b[0m\n$com\n\t\t\t\t\x1b[44mv\x1b[0m\n$(xfm.dest)\n\n");
         return xfm.dest;

@@ -63,21 +63,21 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             notebook.show_tabs = (notebook.get_n_pages() > 1));
 
         window_title.bind_property ("label", this, "title", BindingFlags.SYNC_CREATE, (bind, src, ref target) => {
-            target = @"$(src.get_string ()) \u2015 Vaccine";
+            target = src.get_string () + " ― Vaccine";
             return true;
         });
 
         notebook.bind_property ("page", window_title, "label", BindingFlags.DEFAULT, (bind, src, ref target) => {
             var page = notebook.get_nth_page ((int) src);
             assert (page != null);
-            target = @"$(page.name)";
+            target = page.name;
             return true;
         });
 
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
             foreach (Board b in boards) {
-                var row = new Gtk.Label (@"/$(b.board)/ - $(b.title)");
+                var row = new Gtk.Label ("/%s/ - %s".printf (b.board, b.title));
                 row.name = b.board;
                 row.margin = 6;
                 row.halign = Gtk.Align.START;
@@ -157,7 +157,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             panelview.name = thread.title;
         });
 
-        panelview.name = "Loading\u2026";
+        panelview.name = "Loading…";
         panelview.add (threadpane);
         add_page (panelview);
 

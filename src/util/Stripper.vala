@@ -1,8 +1,6 @@
 // strips XML tags, not clothes
 
 public class Vaccine.Stripper : Object {
-    private const string TOP_LEVEL_TAG = "_top_level"; // no one will ever use this
-
     private const MarkupParser parser = { null, null, visit_text, null, null };
 
     private MarkupParseContext ctx;
@@ -24,7 +22,7 @@ public class Vaccine.Stripper : Object {
             .replace ("&gt;", ">")
             .replace ("&#039;", "'");
         try {
-            xfm.ctx.parse (@"<$TOP_LEVEL_TAG>$post</$TOP_LEVEL_TAG>", -1); // requires a top-level element
+            xfm.ctx.parse ("<_top_level>" + post + "</_top_level>", -1); // requires a top-level element
         } catch (MarkupError e) {
             debug (e.message);
             return null;
