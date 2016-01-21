@@ -37,17 +37,6 @@
                 <property name="title" translatable="yes">image_loading_page</property>
               </packing>
             </child>
-            <child>
-              <object class="GtkDrawingArea" id="post_image">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-              <packing>
-                <property name="name">page0</property>
-                <property name="title" translatable="yes">page0</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
           </object>
           <packing>
             <property name="expand">True</property>

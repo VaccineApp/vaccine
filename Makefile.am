@@ -16,6 +16,7 @@ vaccine_SOURCES = \
 	src/view/AboutDialog.vala \
 	src/view/CatalogItem.vala \
 	src/view/CatalogWidget.vala \
+	src/view/CoverImage.vala \
 	src/view/MainWindow.vala \
 	src/view/PanelView.vala \
 	src/view/PostListRow.vala \
