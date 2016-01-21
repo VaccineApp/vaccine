@@ -1,7 +1,7 @@
 using Gee;
 
 public class Vaccine.Thread : Object, ListModel {
-    private ArrayList<Post> posts = new ArrayList<Post> ();
+    public ArrayList<Post> posts = new ArrayList<Post> ();
 
     public string title {
         owned get {

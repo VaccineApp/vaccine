@@ -13,11 +13,9 @@ public class Vaccine.PostReplies : Object, ListModel {
     private void update_replies (uint pos, uint rem, uint add) {
         var quote = "&gt;&gt;%lld".printf (post.no);
         replies.clear ();
-        post.thread.foreach (p => {
+        foreach (var p in post.thread.posts)
             if (p.com.contains (quote))
                 replies.add (p);
-            return true;
-        });
     }
 
     public Object? get_item (uint position) {
