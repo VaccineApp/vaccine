@@ -5,11 +5,6 @@ public class Vaccine.ThreadPane : Gtk.Box {
     [GtkChild] private Gtk.Label heading;
     [GtkChild] private Gtk.Button closebutton;
 
-    private void add_separator (Gtk.ListBoxRow row, Gtk.ListBoxRow? before) {
-        if (before != null && row.get_header () == null)
-            row.set_header (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
-    }
-
     // we already have it from the catalog
     public Gdk.Pixbuf? op_thumb { private get; construct; }
 
@@ -23,7 +18,6 @@ public class Vaccine.ThreadPane : Gtk.Box {
 
     public ThreadPane (Gdk.Pixbuf? op_thumb = null) {
         Object (op_thumb: op_thumb);
-        list.set_header_func (add_separator);
     }
 
     public ThreadPane.with_title (string title) {

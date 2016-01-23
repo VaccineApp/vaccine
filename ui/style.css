@@ -20,6 +20,11 @@ VaccineThreadPane > GtkScrolledWindow {
 	border-top: 1px solid @theme_bg_color;
 }
 
+/* separators between rows */
+VaccinePostListRow + VaccinePostListRow {
+	border-top: 1px solid #ddd;
+}
+
 GtkLabel.n_replies_label {
         color: @theme_base_color;
 }
