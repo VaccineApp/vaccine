@@ -71,6 +71,29 @@
             </child>
           </object>
         </child>
+        <child>
+          <object class="GtkButton" id="open_in_browser_button">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="sensitive">False</property>
+            <signal name="clicked" handler="open_in_browser" swapped="no"/>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="icon_name">text-html-symbolic</property>
+              </object>
+            </child>
+            <style>
+              <class name="image-button"/>
+            </style>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
       </object>
     </child>
   </template>

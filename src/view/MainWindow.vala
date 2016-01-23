@@ -4,6 +4,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.Label window_title;
     [GtkChild] private Gtk.SearchEntry window_searchentry;
     [GtkChild] private Gtk.Stack headerbar_stack;
+    [GtkChild] private Gtk.Button open_in_browser_button;
 
     [GtkChild] private Gtk.Notebook notebook;
 
@@ -109,6 +110,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             if (row != null) { // why is it null?
                 var child = row.get_child () as Gtk.Label;
                 FourChan.board = child.name;
+                open_in_browser_button.sensitive = false;
                 choose_board_button.label = child.label;
 
                 popover.visible = false;
@@ -123,9 +125,11 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         FourChan.catalog.downloaded.connect ((o, board, threads) => {
             catalog.clear ();
+            catalog.set_data ("url", "https://boards.4chan.org/%s/".printf (board));
             foreach (Page page in threads)
                 foreach (ThreadOP t in page.threads)
                     catalog.add (this, t);
+            open_in_browser_button.sensitive = true;
         });
 
         // set up events
@@ -158,9 +162,9 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         });
 
         panelview.name = "Loading…";
+        panelview.set_data ("url", "https://boards.4chan.org/%s/thread/%lld".printf (FourChan.board, no));
         panelview.add (threadpane);
         add_page (panelview);
-
     }
 
     private void add_page (Gtk.Widget w, bool closeable = true, bool reorderable = true) {
@@ -169,5 +173,15 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         notebook.set_tab_reorderable (tab, reorderable);
         notebook.child_set (w, "reorderable", reorderable);
         notebook.set_current_page (i);
+    }
+
+    [GtkCallback]
+    private void open_in_browser (Gtk.Button button) {
+        var current = notebook.get_nth_page (notebook.page);
+        string? url = current.get_data ("url");
+        if (url != null)
+            AppInfo.launch_default_for_uri (url, null);
+        else
+            warning ("can't open in browser");
     }
 }
