@@ -3,13 +3,17 @@ using Gee;
 public class Vaccine.Thread : Object, ListModel {
     public ArrayList<Post> posts = new ArrayList<Post> ();
 
-    public string title {
-        owned get {
-            var sub = Stripper.transform_post (op.sub);
-            var com = Stripper.transform_post (op.com);
-            var no = op.no.to_string ();
-            return "/%s/ — %s".printf (board, sub ?? com ?? no);
-        }
+    public string get_title () {
+        string? sub = Stripper.transform_post (op.sub);
+        if (sub != null)
+            return "/%s/ — %s".printf (board, sub);
+
+        string? com = Stripper.transform_post (op.com);
+        if (com != null)
+            return "/%s/ — %s".printf (board, com);
+
+        string no = op.no.to_string ();
+        return "/%s/ — %s".printf (board, no);
     }
 
     public ThreadOP op {

@@ -1,3 +1,8 @@
+/**
+ * Shows an image such that it fills its container, like
+ * background-size: cover;
+ * background-position: center;
+ */
 public class Vaccine.CoverImage : Gtk.Widget {
     private Cairo.ImageSurface image;
 

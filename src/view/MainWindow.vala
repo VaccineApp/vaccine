@@ -123,7 +123,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         FourChan.get_thread.begin (FourChan.board, no, (obj, res) => {
             Thread thread = FourChan.get_thread.end (res);
             threadpane.set_model (thread);
-            panelview.name = thread.title;
+            panelview.name = thread.get_title ();
         });
 
         panelview.name = "Loading…";
