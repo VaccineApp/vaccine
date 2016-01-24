@@ -1,14 +1,15 @@
 [GtkTemplate (ui = "/org/vaccine/app/main-window.ui")]
 public class Vaccine.MainWindow : Gtk.ApplicationWindow {
-    /*unused*/ // [GtkChild] private Gtk.HeaderBar headerbar;
-    [GtkChild] private Gtk.Label window_title;
-    [GtkChild] private Gtk.SearchEntry window_searchentry;
-    [GtkChild] private Gtk.Stack headerbar_stack;
+    [GtkChild] private Gtk.HeaderBar headerbar;
+    [GtkChild] private Gtk.SearchEntry searchentry;
+    [GtkChild] private Gtk.Button choose_board_button;
+    [GtkChild] private Gtk.ToggleButton show_search_bar_button;
     [GtkChild] private Gtk.Button open_in_browser_button;
 
+    [GtkChild] private Gtk.SearchBar searchbar;
     [GtkChild] private Gtk.Notebook notebook;
 
-    [GtkChild] private Gtk.Button choose_board_button;
+    // board chooser
     [GtkChild] private Gtk.Popover popover;
     [GtkChild] private Gtk.ListBox listbox;
     [GtkChild] private Gtk.SearchEntry board_search;
@@ -22,18 +23,20 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         { "prev_tab", prev_tab }
     };
 
-    public int dialogs = 0;
-
     void close_tab () {
         var page = notebook.get_nth_page (notebook.page);
         if (page != catalog)
             page.destroy ();
     }
 
+    // TODO: thread search
     void catalog_find () {
-        window_searchentry.grab_focus_without_selecting ();
-        headerbar_stack.set_visible_child (window_searchentry);
-        notebook.page = notebook.page_num (catalog); // TODO: thread search
+        if (!searchbar.search_mode_enabled) {
+            searchbar.search_mode_enabled = true;
+            searchentry.grab_focus_without_selecting ();
+        } else {
+            searchbar.search_mode_enabled = false;
+        }
     }
 
     void next_tab () {
@@ -63,12 +66,9 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         notebook.page_removed.connect ((w, p) =>
             notebook.show_tabs = (notebook.get_n_pages() > 1));
 
-        window_title.bind_property ("label", this, "title", BindingFlags.SYNC_CREATE, (bind, src, ref target) => {
-            target = src.get_string () + " ― Vaccine";
-            return true;
-        });
+        show_search_bar_button.bind_property ("active", searchbar, "search-mode-enabled", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 
-        notebook.bind_property ("page", window_title, "label", BindingFlags.DEFAULT, (bind, src, ref target) => {
+        notebook.bind_property ("page", headerbar, "title", BindingFlags.DEFAULT, (bind, src, ref target) => {
             var page = notebook.get_nth_page ((int) src);
             assert (page != null);
             target = page.name;
@@ -87,25 +87,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             listbox.show_all ();
         });
 
-        window_title.event.connect (event => {
-            catalog_find ();
-            return true;
-        });
-
-        window_searchentry.changed.connect (() => {
-            // TODO: thread search
-            if (window_searchentry.text == "")
-                catalog.layout.set_filter_func (null);
-            else
-                catalog.layout.set_filter_func (child => {
-                    var item = child.get_child () as CatalogItem;
-                    string query = Markup.escape_text (window_searchentry.text.down ());
-                    string subject = item.post_subject.label.down ();
-                    string comment = item.post_comment.label.down ();
-                    return subject.contains (query) || comment.contains (query);
-                });
-        });
-
         listbox.row_selected.connect (row => {
             if (row != null) { // why is it null?
                 var child = row.get_child () as Gtk.Label;
@@ -116,7 +97,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
                 popover.visible = false;
                 board_search.text = "";
 
-                notebook.set_current_page (0); // TODO: use catalog object
+                notebook.page = notebook.page_num (catalog);
             }
         });
 
@@ -130,22 +111,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
                 foreach (ThreadOP t in page.threads)
                     catalog.add (this, t);
             open_in_browser_button.sensitive = true;
-        });
-
-        // set up events
-        key_press_event.connect (key => {
-            if (notebook.page == 0) {
-                headerbar_stack.set_visible_child (window_searchentry);
-                window_searchentry.grab_focus_without_selecting ();
-                return window_searchentry.handle_event (key);
-            } else { // TODO: ThreadPane search
-                return false;
-            }
-        });
-
-        window_searchentry.focus_out_event.connect (event => {
-            headerbar_stack.set_visible_child (window_title);
-            return false;
         });
 
         this.show_all ();
@@ -183,5 +148,21 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             AppInfo.launch_default_for_uri (url, null);
         else
             warning ("can't open in browser");
+    }
+
+    [GtkCallback]
+    private void search_entry_changed (Gtk.Editable entry) {
+        var text = ((Gtk.Entry) entry).text;
+        // TODO: thread search
+        if (text == "")
+            catalog.layout.set_filter_func (null);
+        else
+            catalog.layout.set_filter_func (child => {
+                var item = child.get_child () as CatalogItem;
+                string query = Markup.escape_text (text.down ());
+                string subject = item.post_subject.label.down ();
+                string comment = item.post_comment.label.down ();
+                return subject.contains (query) || comment.contains (query);
+            });
     }
 }
