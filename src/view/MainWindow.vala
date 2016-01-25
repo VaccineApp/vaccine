@@ -4,6 +4,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.SearchEntry searchentry;
     [GtkChild] private Gtk.Button choose_board_button;
     [GtkChild] private Gtk.ToggleButton show_search_bar_button;
+    [GtkChild] private Gtk.Button refresh_catalog_button;
     [GtkChild] private Gtk.Button open_in_browser_button;
 
     [GtkChild] private Gtk.SearchBar searchbar;
@@ -72,6 +73,12 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             var page = notebook.get_nth_page ((int) src);
             assert (page != null);
             target = page.name;
+            return true;
+        });
+
+        notebook.bind_property ("page", refresh_catalog_button, "visible", BindingFlags.DEFAULT, (bind, src, ref target) => {
+            var page = notebook.get_nth_page ((int) src);
+            target = (page == catalog);
             return true;
         });
 
@@ -164,5 +171,10 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
                 string comment = item.post_comment.label.down ();
                 return subject.contains (query) || comment.contains (query);
             });
+    }
+
+    [GtkCallback]
+    private void refresh_catalog (Gtk.Button button) {
+        FourChan.catalog.download.begin (FourChan.board);
     }
 }

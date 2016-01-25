@@ -58,8 +58,8 @@
       <object class="GtkHeaderBar" id="headerbar">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="show_close_button">True</property>
         <property name="title">Vaccine</property>
+        <property name="show_close_button">True</property>
         <child>
           <object class="GtkMenuButton" id="choose_board_button">
             <property name="label">Board</property>
@@ -92,7 +92,29 @@
           </object>
           <packing>
             <property name="pack_type">end</property>
-            <property name="position">3</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="refresh_catalog_button">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="refresh_catalog" swapped="no"/>
+            <child>
+              <object class="GtkImage" id="image3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">view-refresh-symbolic</property>
+              </object>
+            </child>
+            <style>
+              <class name="refresh_catalog"/>
+            </style>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -113,7 +135,7 @@
           </object>
           <packing>
             <property name="pack_type">end</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </object>
