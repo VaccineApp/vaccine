@@ -9,6 +9,6 @@ public class Vaccine.Tab : Gtk.Box {
         this.pane = child; // needed to avoid mem leaks
         child.bind_property ("name", tablabel, "label", BindingFlags.SYNC_CREATE);
         closebutton.visible = closeable;
-        closebutton.clicked.connect(button => this.pane.destroy ());
+        closebutton.clicked.connect (button => this.pane.destroy ());
     }
 }

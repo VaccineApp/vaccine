@@ -1,6 +1,6 @@
 using Gtk;
 
-public class Vaccine.PanelView : Container {
+public class Vaccine.PanelView : Container, NotebookPage {
     private List<weak Widget> _children;
 
     private uint _current = 0;
@@ -117,5 +117,17 @@ public class Vaccine.PanelView : Container {
     public override bool draw (Cairo.Context cr) {
         base.draw (cr);
         return false;
+    }
+
+    public void open_in_browser () {
+        ((NotebookPage) _children.data).open_in_browser ();
+    }
+
+    public void filter (string text) {
+        ((NotebookPage) _children.data).filter (text);
+    }
+
+    public void refresh () {
+        ((NotebookPage) _children.data).refresh ();
     }
 }

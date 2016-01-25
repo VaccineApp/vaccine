@@ -96,11 +96,11 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="refresh_catalog_button">
+          <object class="GtkButton" id="refresh_button">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <signal name="clicked" handler="refresh_catalog" swapped="no"/>
+            <signal name="clicked" handler="refresh" swapped="no"/>
             <child>
               <object class="GtkImage" id="image3">
                 <property name="visible">True</property>
@@ -108,9 +108,6 @@
                 <property name="icon_name">view-refresh-symbolic</property>
               </object>
             </child>
-            <style>
-              <class name="refresh_catalog"/>
-            </style>
           </object>
           <packing>
             <property name="pack_type">end</property>

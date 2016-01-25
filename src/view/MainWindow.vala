@@ -4,7 +4,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.SearchEntry searchentry;
     [GtkChild] private Gtk.Button choose_board_button;
     [GtkChild] private Gtk.ToggleButton show_search_bar_button;
-    [GtkChild] private Gtk.Button refresh_catalog_button;
     [GtkChild] private Gtk.Button open_in_browser_button;
 
     [GtkChild] private Gtk.SearchBar searchbar;
@@ -76,12 +75,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             return true;
         });
 
-        notebook.bind_property ("page", refresh_catalog_button, "visible", BindingFlags.DEFAULT, (bind, src, ref target) => {
-            var page = notebook.get_nth_page ((int) src);
-            target = (page == catalog);
-            return true;
-        });
-
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
             foreach (Board b in boards) {
@@ -113,7 +106,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         FourChan.catalog.downloaded.connect ((o, board, threads) => {
             catalog.clear ();
-            catalog.set_data ("url", "https://boards.4chan.org/%s/".printf (board));
             foreach (Page page in threads)
                 foreach (ThreadOP t in page.threads)
                     catalog.add (this, t);
@@ -125,56 +117,46 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
     public void show_thread (int64 no, Gdk.Pixbuf op_thumbnail) {
         var panelview = new PanelView ();
-        var threadpane = new ThreadPane (op_thumbnail);
+        var threadpane = new ThreadPane (FourChan.board, no, op_thumbnail);
 
         FourChan.get_thread.begin (FourChan.board, no, (obj, res) => {
             Thread thread = FourChan.get_thread.end (res);
             threadpane.set_model (thread);
+
             panelview.name = thread.get_title ();
         });
 
         panelview.name = "Loading…";
-        panelview.set_data ("url", "https://boards.4chan.org/%s/thread/%lld".printf (FourChan.board, no));
         panelview.add (threadpane);
         add_page (panelview);
     }
 
-    private void add_page (Gtk.Widget w, bool closeable = true, bool reorderable = true) {
-        var tab = new Tab (notebook, w, closeable);
-        int i = notebook.append_page (w, tab);
-        notebook.set_tab_reorderable (tab, reorderable);
-        notebook.child_set (w, "reorderable", reorderable);
+    private void add_page (NotebookPage page, bool closeable = true, bool reorderable = true) {
+        var tab = new Tab (notebook, page, closeable);
+        int i = notebook.append_page (page, tab);
+        notebook.child_set (page, "reorderable", reorderable);
         notebook.set_current_page (i);
     }
 
     [GtkCallback]
     private void open_in_browser (Gtk.Button button) {
         var current = notebook.get_nth_page (notebook.page);
-        string? url = current.get_data ("url");
-        if (url != null)
-            AppInfo.launch_default_for_uri (url, null);
-        else
-            warning ("can't open in browser");
+        assert (current is NotebookPage);
+        ((NotebookPage) current).open_in_browser ();
     }
 
     [GtkCallback]
     private void search_entry_changed (Gtk.Editable entry) {
+        var current = notebook.get_nth_page (notebook.page);
         var text = ((Gtk.Entry) entry).text;
-        // TODO: thread search
-        if (text == "")
-            catalog.layout.set_filter_func (null);
-        else
-            catalog.layout.set_filter_func (child => {
-                var item = child.get_child () as CatalogItem;
-                string query = Markup.escape_text (text.down ());
-                string subject = item.post_subject.label.down ();
-                string comment = item.post_comment.label.down ();
-                return subject.contains (query) || comment.contains (query);
-            });
+        assert (current is NotebookPage);
+        ((NotebookPage) current).filter (text);
     }
 
     [GtkCallback]
-    private void refresh_catalog (Gtk.Button button) {
-        FourChan.catalog.download.begin (FourChan.board);
+    private void refresh (Gtk.Button button) {
+        var current = notebook.get_nth_page (notebook.page);
+        assert (current is NotebookPage);
+        ((NotebookPage) current).refresh ();
     }
 }
