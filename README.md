@@ -14,7 +14,6 @@ Libraries
 * libsoup
 * gee (no, not the board)
 * gstreamer-1.0
-* gtkgst-1.0
 
 Try it
 ---
