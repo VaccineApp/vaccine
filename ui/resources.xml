@@ -13,6 +13,6 @@
         <file>style.css</file>
     </gresource>
     <gresource prefix="/org/vaccine/app/gtk">
-      <file>menus.ui</file>
+        <file>menus.ui</file>
     </gresource>
 </gresources>
