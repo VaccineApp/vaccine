@@ -111,21 +111,24 @@ public class Vaccine.MediaView : Gtk.Window {
         });
     }
 
-    [GtkCallback] private void show_prev_media () {
+    [GtkCallback]
+    private void show_prev_media () {
         if (current_media.prev == null)
             show_media (media.last ());
         else
             show_media (current_media.prev);
     }
 
-    [GtkCallback] private void show_next_media () {
+    [GtkCallback]
+    private void show_next_media () {
         if (current_media.next == null)
             show_media (media.first ());
         else
             show_media (current_media.next);
     }
 
-    [GtkCallback] private void download_file () {
+    [GtkCallback]
+    private void download_file () {
         var chooser = new Gtk.FileChooserDialog ("Save As...", this,
             Gtk.FileChooserAction.SAVE,
             "_Cancel", Gtk.ResponseType.CANCEL,
@@ -153,14 +156,16 @@ public class Vaccine.MediaView : Gtk.Window {
         chooser.destroy ();
     }
 
-    [GtkCallback] private void toggle_gallery () {
+    [GtkCallback]
+    private void toggle_gallery () {
         if (btn_gallery.active)
             stack.visible_child = gallery_view;
         else
             stack.visible_child = last_widget;
     }
 
-    [GtkCallback] private void toggle_fullscreen () {
+    [GtkCallback]
+    private void toggle_fullscreen () {
         if (is_fullscreen) {
             this.unfullscreen ();
             this.modal = true;
