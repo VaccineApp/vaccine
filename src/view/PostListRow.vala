@@ -156,7 +156,8 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
             cancel.cancel ();
     }
 
-    [GtkCallback] private void show_responses () {
+    [GtkCallback]
+    private void show_responses () {
         var panelView = get_ancestor (typeof (PanelView)) as PanelView;
         var tpane = get_ancestor (typeof (ThreadPane)) as ThreadPane;
         var children = panelView.get_children ();
@@ -169,7 +170,8 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         threadpane.set_model (new PostReplies (post));
     }
 
-    [GtkCallback] private void show_media_view () {
+    [GtkCallback]
+    private void show_media_view () {
         var win = (Application.get_default () as App).main_window;
         new MediaView (win, post).present ();
     }

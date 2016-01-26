@@ -31,22 +31,24 @@ public class Vaccine.VideoPreviewWidget : Gtk.Overlay {
         preview.bind_property ("ratio", frame, "ratio");
     }
 
-    [GtkCallback] private void play_cb () {
+    [GtkCallback]
+    private void play_cb () {
         Gst.State current;
 
-        if (pipeline.get_state (out current, null, Gst.CLOCK_TIME_NONE)
-            != Gst.StateChangeReturn.SUCCESS) {
+        if (pipeline.get_state (out current, null, Gst.CLOCK_TIME_NONE) != Gst.StateChangeReturn.SUCCESS) {
             debug ("gstreamer: could not get video state");
             return;
         }
         if (current == Gst.State.PAUSED) {
             if (pipeline.set_state (Gst.State.PLAYING) != Gst.StateChangeReturn.SUCCESS)
                 debug ("gstreamer: could not play video");
-            else debug ("gstreamer: playing video");
+            else
+                debug ("gstreamer: playing video");
         } else if (current == Gst.State.PLAYING) {
             if (pipeline.set_state (Gst.State.PAUSED) != Gst.StateChangeReturn.SUCCESS)
                 debug ("gstreamer: could not pause video");
-            else debug ("gstreamer: paused video");
+            else
+                debug ("gstreamer: paused video");
         }
     }
 }
