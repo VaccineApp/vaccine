@@ -124,7 +124,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="video_view">
+          <object class="GtkBox" id="video_holder">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>

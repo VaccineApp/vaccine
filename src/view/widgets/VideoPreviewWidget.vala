@@ -1,54 +1,46 @@
 [GtkTemplate (ui = "/org/vaccine/app/video-preview-widget.ui")]
 public class Vaccine.VideoPreviewWidget : Gtk.Overlay {
     [GtkChild] private Gtk.Box sink_holder;
-    private Gtk.AspectFrame frame;
+
+    // control holder
+    [GtkChild] private Gtk.Revealer controls_revealer;
 
     // controls
-    [GtkChild] private Gtk.Button btn_play;
-    [GtkChild] private Gtk.Scale progress_scale;
-    [GtkChild] private Gtk.ToggleButton toggle_repeat;
+    [GtkChild] public Gtk.Button btn_play;
+    [GtkChild] public Gtk.Image btn_play_img;
+    [GtkChild] public Gtk.Scale progress_scale;
+    [GtkChild] public Gtk.ToggleButton toggle_repeat;
 
     // info
-    [GtkChild] private Gtk.Label progress_text_start;
-    [GtkChild] private Gtk.Label progress_text_end;
+    [GtkChild] public Gtk.Label progress_text_start;
+    [GtkChild] public Gtk.Label progress_text_end;
 
-    private Gst.Pipeline pipeline;
+    // gtksink element
+    public Gst.Element video_sink { private set; get; }
+    private Gtk.Widget? area;
 
-    public bool repeat { set; get; }
+    public VideoPreviewWidget () {
+        // init gst stuff
+        video_sink = Gst.ElementFactory.make ("gtksink", "video_sink");
+        video_sink.@get ("widget", out area);
 
-    private weak VideoPreview preview;
+        sink_holder.pack_start (area);
 
-    public VideoPreviewWidget (VideoPreview preview, Gtk.Widget sink, Gst.Pipeline pipeline) {
-        this.preview = preview;
-        this.pipeline = pipeline;
-
-        frame = new Gtk.AspectFrame (null, 0.5f, 0.5f, 1, false);
-        frame.set_shadow_type (Gtk.ShadowType.NONE);
-        frame.add (sink);
-        sink_holder.add (frame);
-        toggle_repeat.bind_property ("active", this, "repeat", BindingFlags.BIDIRECTIONAL);
-
-        preview.bind_property ("ratio", frame, "ratio");
+        sink_holder.show_all ();
+        add_events (Gdk.EventMask.ENTER_NOTIFY_MASK | Gdk.EventMask.LEAVE_NOTIFY_MASK);
     }
 
     [GtkCallback]
-    private void play_cb () {
-        Gst.State current;
+    private bool mouse_enter_cb (Gdk.EventCrossing event) {
+        controls_revealer.reveal_child = true;
+        return true;
+    }
 
-        if (pipeline.get_state (out current, null, Gst.CLOCK_TIME_NONE) != Gst.StateChangeReturn.SUCCESS) {
-            debug ("gstreamer: could not get video state");
-            return;
-        }
-        if (current == Gst.State.PAUSED) {
-            if (pipeline.set_state (Gst.State.PLAYING) != Gst.StateChangeReturn.SUCCESS)
-                debug ("gstreamer: could not play video");
-            else
-                debug ("gstreamer: playing video");
-        } else if (current == Gst.State.PLAYING) {
-            if (pipeline.set_state (Gst.State.PAUSED) != Gst.StateChangeReturn.SUCCESS)
-                debug ("gstreamer: could not pause video");
-            else
-                debug ("gstreamer: paused video");
-        }
+    [GtkCallback]
+    private bool mouse_leave_cb (Gdk.EventCrossing event) {
+        // don't hide if our mouse "leaves" into a descendant widget
+        if (event.detail != Gdk.NotifyType.INFERIOR)
+            controls_revealer.reveal_child = false;
+        return true;
     }
 }

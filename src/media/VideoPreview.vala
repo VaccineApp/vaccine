@@ -1,12 +1,7 @@
 public class Vaccine.VideoPreview : MediaPreview {
-    private Gst.Pipeline? video_pipeline;
-    private Gst.Element? video_source;
-    private Gst.Element? video_convert;
-    private Gst.Element? video_sink;
+    private Gst.Element video_source;   // playbin
 
-    private string src_plugin { set; public get; default = "uridecodebin"; }
-    private string conv_plugin { set; public get; default = "videoconvert"; }
-    private string sink_plugin { set; public get; default = "gtksink"; }
+    private string src_plugin { set; public get; default = "playbin"; }
 
     private bool _loaded = false;
     public override bool loaded { get { return _loaded; } }
@@ -15,15 +10,18 @@ public class Vaccine.VideoPreview : MediaPreview {
         owned get { return "WebM video"; }
     }
 
-    // widget info
-    private Gtk.Box? box;
-    private VideoPreviewWidget preview_area;
-    private Gtk.Widget area;
+    // hold reference to video preview widget
+    private VideoPreviewWidget? preview_widget;
 
-    private int? width = null;
-    private int? height = null;
-    public float ratio { get; set; }
-    private Gst.Structure video_info;
+    private Gtk.Adjustment adjustment;
+
+    // time in ns
+    private string convert_clocktime (uint64 time) {
+        uint64 seconds = time / Gst.SECOND;
+        uint64 min = seconds / 60;
+
+        return @"%$(uint64.FORMAT):%02$(uint64.FORMAT)".printf (min, seconds % 60);
+    }
 
     public VideoPreview (Post post)
         requires (post.filename != null && post.ext != null)
@@ -32,103 +30,229 @@ public class Vaccine.VideoPreview : MediaPreview {
             filename: @"$(post.filename)$(post.ext)",
             post: post);
         video_source = Gst.ElementFactory.make (src_plugin, "video_source");
-        video_convert = Gst.ElementFactory.make (conv_plugin, "video_convert");
-        video_sink = Gst.ElementFactory.make (sink_plugin, "video_sink");
-        video_pipeline = new Gst.Pipeline ("video_pipeline");
-        if (video_source == null || video_convert == null
-         || video_sink == null || video_pipeline == null) {
-            debug ("gstreamer: could not create all elements:");
-            if (video_source == null)
-                debug (@"\tcould not create plugin $src_plugin");
-            if (video_convert == null)
-                debug (@"\tcould not create plugin $conv_plugin");
-            if (video_sink == null)
-                debug (@"\tcould not create plugin $sink_plugin");
-            if (video_pipeline == null)
-                debug ("\tcould not create video pipeline");
-            return;
+        if (video_source == null) {
+            error (@"could not create plugin $src_plugin");
         }
-        if (!(video_sink is Gst.Base.Sink)) {
-            debug (@"gstreamer: video_sink ($sink_plugin) is not a sink element");
-        }
-        video_sink.get ("widget", out area);
-        preview_area = new VideoPreviewWidget (this, area, video_pipeline);
     }
 
     ~VideoPreview () {
-        if (box != null)
+        if (preview_widget != null)
             stop_with_widget ();
         debug ("VideoPreview dtor");
     }
 
+    private weak Binding? bind_position;
+    private weak Binding? bind_duration;
+    private weak Binding? bind_is_playing;
+    private weak Binding? bind_repeat;
+
     public override void init_with_widget (Gtk.Widget widget)
-        requires (widget is Gtk.Box)
+        requires (widget is VideoPreviewWidget)
     {
-        box = widget as Gtk.Box;
-        box.pack_start (preview_area);
-        box.show_all ();
+        preview_widget = widget as VideoPreviewWidget;
 
-        if (!loaded) {
-            video_pipeline.add_many (video_source, video_convert, video_sink);
-            if (!video_convert.link (video_sink)) {
-                debug ("gstreamer: failed to link convert -> sink");
-                return;
-            }
-            video_source.set ("uri", url);
-            debug (@"downloading from $url");
-            video_source.pad_added.connect (pad_added_handler);
-        }
+        terminate = false;
+        // set the sink element
+        video_source["video-sink"] = preview_widget.video_sink;
+        // set the URI
+        video_source["uri"] = url;
 
-        if (video_pipeline.set_state (Gst.State.PLAYING) == Gst.StateChangeReturn.FAILURE) {
-            debug ("gstreamer: failed to set state to playing");
-        } else
-            debug ("gstreamer: set video to playing");
+        // create adjustment
+        adjustment = new Gtk.Adjustment (0, 0, duration, 1, 0, 0);
+        preview_widget.progress_scale.adjustment = adjustment;
+
+        // bind properties:
+        bind_position = bind_property ("position", preview_widget.progress_text_start,
+            "label", BindingFlags.DEFAULT, (binding, srcval, ref targetval) => {
+                targetval.set_string (convert_clocktime (srcval.get_int64 ()));
+                return true;
+            });
+        bind_duration = bind_property ("duration", preview_widget.progress_text_end,
+            "label", BindingFlags.DEFAULT, (binding, srcval, ref targetval) => {
+                targetval.set_string (convert_clocktime (srcval.get_uint64 ()));
+                return true;
+            });
+        bind_property ("position", adjustment, "value", BindingFlags.BIDIRECTIONAL, null,
+            (binding, srcval, ref targetval) => {   // adjustment.value -> position
+                return video_source.seek_simple (Gst.Format.TIME,
+                    Gst.SeekFlags.FLUSH | Gst.SeekFlags.ACCURATE,
+                    (int64) srcval.get_double ());
+            });
+        bind_property ("duration", adjustment, "upper", BindingFlags.DEFAULT);
+        bind_is_playing = bind_property ("playing", preview_widget.btn_play_img,
+            "icon-name", BindingFlags.DEFAULT, (binding, srcval, ref targetval) => {
+                if (srcval.get_boolean ())  // playing
+                    targetval = "media-playback-pause-symbolic";
+                else
+                    targetval = "media-playback-start-symbolic";
+                return true;
+            });
+        bind_repeat = bind_property ("repeat", preview_widget.toggle_repeat,
+                                     "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+
+        // start playing
+        if (video_source.set_state (Gst.State.PLAYING) == Gst.StateChangeReturn.FAILURE)
+            debug ("failed to start playing");
+
+        // add callback
+        preview_widget.btn_play.clicked.connect (toggle_play);
+
+        // listen to the bus
+        video_source.get_bus ().add_watch (Priority.DEFAULT, handle_message);
+
+        // set up monitor
+        Idle.add (monitor_bus);
     }
 
     public override void stop_with_widget ()
-        requires (box != null)
+        requires (preview_widget != null)
     {
-        if (video_pipeline.set_state (Gst.State.NULL) == Gst.StateChangeReturn.FAILURE)
-            debug ("gstreamer: failed to stop video");
-        else
-            debug ("gstreamer: stopped video");
-        box.remove (preview_area);
-        box = null;
-        video_source.pad_added.disconnect (pad_added_handler);
+        terminate = true;
+        video_source["video-sink"] = null;
+        video_source.set_state (Gst.State.NULL);
+
+        // unbind all properties
+        bind_position.unbind ();
+        bind_position = null;
+        bind_duration.unbind ();
+        bind_duration = null;
+        bind_is_playing.unbind ();
+        bind_is_playing = null;
+        bind_repeat.unbind ();
+        bind_repeat = null;
+
+        adjustment = null;
+
+        // disconnect widget event handlers
+        preview_widget.btn_play.clicked.disconnect (toggle_play);
+
+        // preview_widget.progress_scale.adjustment = null;
+        preview_widget = null;
     }
 
-    /* connects the video_source's src pad to the video_convert's sink pad
-     * shamefully taken from valadoc's tutorial on Gst.Element
-     */
-    private void pad_added_handler (Gst.Element src, Gst.Pad new_pad) {
-        Gst.Pad sink_pad = video_convert.get_static_pad ("sink");
-        debug (@"received new pad $(new_pad.name) from $(src.name)");
+    // if video is playing
+    public bool playing { get; private set; }
 
-        if (sink_pad.is_linked ())
-            return;
+    // if seeking is enabled
+    private bool _seek_enabled = false;
+    public bool seek_enabled { get { return _seek_enabled; } }
 
-        // check new pad's type
-        Gst.Caps new_pad_caps = new_pad.query_caps (null);
-        unowned Gst.Structure new_pad_struct = new_pad_caps.get_structure (0);
-        string new_pad_type = new_pad_struct.get_name ();
-        video_info = new_pad_struct.copy ();
-        // FIXME: (possibly use Gst.Query?)
-        video_info.fixate ();
-        if (!video_info.get_int ("width", out width))
-            debug ("failed to get width");
-        if (!video_info.get_int ("height", out height))
-            debug ("failed to get height");
-        if (width != null && height != null) {
-            ratio = (float) width / height;
-            debug (@"width = $width, height = $height, ratio is $ratio");
+    // position in video
+    public int64 position { get; set; default = -1; }
+
+    // length of video
+    public uint64 duration { get; private set; default = Gst.CLOCK_TIME_NONE; }
+
+    public bool terminate { get; private set; }
+
+    // if stream has ended
+    public bool end_of_stream { get; private set; }
+
+    // repeat the video
+    public bool repeat { get; set; default = true; }
+
+    // handle messages from the bus
+    private bool handle_message (Gst.Bus bus, Gst.Message msg) {
+        if (terminate)
+            return Source.REMOVE;
+        switch (msg.type) {
+        case Gst.MessageType.ERROR:
+            GLib.Error err;
+            string debug_info;
+
+            msg.parse_error (out err, out debug_info);
+            stdout.printf ("Error received from element %s: %s\n", msg.src.name, err.message);
+            stdout.printf ("Debugging information: %s\n", debug_info != null ? debug_info : "none");
+            break;
+        case Gst.MessageType.EOS:
+            debug ("End-of-stream reached");
+            end_of_stream = true;
+            if (repeat) {
+                if (video_source.seek_simple (Gst.Format.TIME,
+                    Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
+                    0))
+                    end_of_stream = false;
+                else
+                    debug ("failed to seek to beginning");
+            } else
+                video_source.set_state (Gst.State.PAUSED);
+            break;
+        case Gst.MessageType.DURATION_CHANGED:
+            duration = Gst.CLOCK_TIME_NONE;
+            break;
+        case Gst.MessageType.STATE_CHANGED:
+            Gst.State old_state;
+            Gst.State new_state;
+            Gst.State pending_state;
+
+            msg.parse_state_changed (out old_state, out new_state, out pending_state);
+            if (msg.src == video_source) {
+                debug ("Pipeline state changed from %s to %s",
+                    Gst.Element.state_get_name (old_state),
+                    Gst.Element.state_get_name (new_state));
+                if (new_state == Gst.State.READY)
+                    _loaded = true;
+                playing = (new_state == Gst.State.PLAYING);
+
+                if (playing) {
+                    Gst.Query query = new Gst.Query.seeking (Gst.Format.TIME);
+                    int64 start;
+                    int64 end;
+
+                    if (video_source.query (query)) {
+                        query.parse_seeking (null, out _seek_enabled, out start, out end);
+                        if (seek_enabled)
+                            debug (@"seeking is enabled from $start to $end");
+                        else
+                            debug ("seeking is disabled");
+                    } else
+                        debug ("seeking query failed");
+                    end_of_stream = false;
+                }
+            }
+            break;
+        default:
+            // do nothing
+            break;
         }
+        return terminate ? Source.REMOVE : Source.CONTINUE;
+    }
 
-        // attempt the link
-        if (new_pad.link (sink_pad) != Gst.PadLinkReturn.OK)
-            debug (@"link failed with type $new_pad_type");
-        else {
-            debug (@"successfully linked with type $new_pad_type");
-            _loaded = true;
+    // update information from the video
+    private bool monitor_bus () {
+        if (playing) {
+            Gst.Format fmt = Gst.Format.TIME;
+            int64 current = -1;
+            Gst.ClockTime stream_length = Gst.CLOCK_TIME_NONE;
+
+            // get position
+            if (!video_source.query_position (fmt, out current))
+                debug ("could not query media position");
+            else
+                position = current;
+
+            // get stream duration
+            if (duration == Gst.CLOCK_TIME_NONE) {
+                if (!video_source.query_duration (fmt, out stream_length))
+                    debug ("could not query media duration");
+                else
+                    duration = stream_length;
+            }
+
         }
+        return terminate ? Source.REMOVE : Source.CONTINUE;
+    }
+
+    private void toggle_play () {
+        Gst.State new_state = playing ? Gst.State.PAUSED : Gst.State.PLAYING;
+
+        if (new_state == Gst.State.PLAYING && end_of_stream) {
+            if (!video_source.seek_simple (Gst.Format.TIME,
+                Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, 0))
+                debug ("failed to reset stream");
+        }
+        Gst.StateChangeReturn ret = video_source.set_state (new_state);
+        if (ret == Gst.StateChangeReturn.FAILURE)
+            debug ("Unable to change state");
     }
 }

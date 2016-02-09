@@ -66,7 +66,7 @@ gsettings_SCHEMAS = schemas/org.vaccine.app.gschema.xml
 gschemas.compiled: $(gsettings_SCHEMAS:.xml=.valid)
 	$(AM_V_GEN) $(GLIB_COMPILE_SCHEMAS) .
 
-all-local: gschemas.compiled
+all-local: schemas/gschemas.compiled
 
 EXTRA_DIST = $(gsettings_SCHEMAS)
 

@@ -13,6 +13,7 @@ public class Vaccine.ImagePreview : MediaPreview {
 
     uint? timeout_id = null;
 
+    // holds reference to single DrawingArea
     private Gtk.DrawingArea? canvas;
 
     public override bool loaded { get { return image_data != null; } }

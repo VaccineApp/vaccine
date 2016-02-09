@@ -15,8 +15,13 @@ public class Vaccine.MediaView : Gtk.Window {
     [GtkChild] private Gtk.ProgressBar download_progress;
     [GtkChild] private Gtk.Box gallery_view;
     [GtkChild] private Gtk.IconView gallery_icons;
+
+    // usable widget
     [GtkChild] private Gtk.DrawingArea image_view;
-    [GtkChild] private Gtk.Box video_view;
+
+    // must be filled with VideoPreviewWidget
+    [GtkChild] private Gtk.Box video_holder;
+    private VideoPreviewWidget video_view;
 
     // custom data
     private Gtk.ApplicationWindow parent_window;
@@ -56,6 +61,11 @@ public class Vaccine.MediaView : Gtk.Window {
         gallery_icons.model = store;
 
         set_transient_for (window);
+
+        // add VideoPreviewWidget to box
+        video_view = new VideoPreviewWidget ();
+        video_holder.pack_start (video_view);
+        video_holder.show_all ();
 
         current_media = media.first ();
         while (current_media.next != null && current_media.data.post != post)
@@ -98,13 +108,16 @@ public class Vaccine.MediaView : Gtk.Window {
         media_onready_id = Idle.add (() => {
             if (!current_media.data.loaded)
                 return Source.CONTINUE;
+            // stop loading
             Source.remove (pulse_id);
             pulse_id = null;
             download_progress.set_fraction (1);
             if (current_media.data is ImagePreview)
                 stack.visible_child = image_view;
-            else if (current_media.data is VideoPreview)
-                stack.visible_child = video_view;
+            else if (current_media.data is VideoPreview) {
+                stack.visible_child = video_holder;
+            } else
+                error ("failed !!!");
             last_widget = stack.visible_child;
             media_onready_id = null;
             return Source.REMOVE;
