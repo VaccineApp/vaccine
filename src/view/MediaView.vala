@@ -146,10 +146,11 @@ public class Vaccine.MediaView : Gtk.Window {
 
     [GtkCallback]
     private void download_file () {
-        var chooser = new Gtk.FileChooserDialog ("Save As...", this,
+        var chooser = new Gtk.FileChooserDialog ("Save File", this,
             Gtk.FileChooserAction.SAVE,
             "_Cancel", Gtk.ResponseType.CANCEL,
-            "_Save As", Gtk.ResponseType.ACCEPT);
+            "_Save", Gtk.ResponseType.ACCEPT);
+        chooser.set_current_name (current_media.data.filename);
         var filter = new Gtk.FileFilter ();
         filter.set_filter_name (current_media.data.filetype);
         filter.add_pattern ("*" + current_media.data.post.ext);
