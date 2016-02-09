@@ -5,6 +5,8 @@
   <template class="VaccineVideoPreviewWidget" parent="GtkOverlay">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <signal name="enter-notify-event" handler="mouse_enter_cb" swapped="no"/>
+    <signal name="leave-notify-event" handler="mouse_leave_cb" swapped="no"/>
     <child>
       <object class="GtkBox" id="sink_holder">
         <property name="visible">True</property>
@@ -19,7 +21,7 @@
       </packing>
     </child>
     <child type="overlay">
-      <object class="GtkAlignment" id="alignment1">
+      <object class="GtkAlignment" id="control">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="yalign">1</property>
@@ -55,9 +57,8 @@
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="tooltip_text" translatable="yes">Play</property>
-                            <signal name="clicked" handler="play_cb" swapped="no"/>
                             <child>
-                              <object class="GtkImage" id="image7">
+                              <object class="GtkImage" id="btn_play_img">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="icon_name">media-playback-start-symbolic</property>
