@@ -37,6 +37,8 @@ public class Vaccine.MediaView : Gtk.Window {
 
     public MediaView (Gtk.ApplicationWindow window, Post post) {
         Object (thread: post.thread);
+        assert (post.filename != null);
+
         parent_window = window;
         var store = new Gtk.ListStore (3, typeof (Gdk.Pixbuf), typeof (string), typeof (MediaPreview));
         gallery_icons.pixbuf_column = 0;
@@ -71,6 +73,7 @@ public class Vaccine.MediaView : Gtk.Window {
         while (current_media.next != null && current_media.data.post != post)
             current_media = current_media.next;
         last_widget = loading_view;
+        title = current_media.data.filename;
         show_media (current_media, true);
     }
 
@@ -101,6 +104,7 @@ public class Vaccine.MediaView : Gtk.Window {
             download_progress.pulse ();
             return Source.CONTINUE;
         });
+        title = current_media.data.filename;
         if (current_media.data is ImagePreview)
             current_media.data.init_with_widget (image_view);
         else if (current_media.data is VideoPreview)
