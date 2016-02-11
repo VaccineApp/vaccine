@@ -47,18 +47,7 @@ namespace Vaccine {
         public Settings settings { get; private set; }
 
         private void load_settings () {
-#if DEBUG
-            try {
-                SettingsSchemaSource sss = new SettingsSchemaSource.from_directory ("schemas/", null, true);
-                SettingsSchema schema = sss.lookup (application_id, false);
-                this.settings = new Settings.full (schema, null, null);
-            } catch (Error e) {
-                debug (e.message);
-                this.settings = new Settings (application_id);
-            }
-#else
             this.settings = new Settings (application_id);
-#endif
 
             this.settings.bind ("use-dark-theme",
                         Gtk.Settings.get_default (), "gtk-application-prefer-dark-theme",
