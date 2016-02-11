@@ -26,7 +26,7 @@ public class Vaccine.MediaView : Gtk.Window {
     // custom data
     private Gtk.ApplicationWindow parent_window;
     public Thread thread { construct; get; }
-    private List<MediaPreview> media = new List<MediaPreview> ();
+    private MediaStore store;
     private unowned List<MediaPreview> current_media;
     private unowned Gtk.Widget last_widget;
 
@@ -40,26 +40,11 @@ public class Vaccine.MediaView : Gtk.Window {
         assert (post.filename != null);
 
         parent_window = window;
-        var store = new Gtk.ListStore (3, typeof (Gdk.Pixbuf), typeof (string), typeof (MediaPreview));
+
         gallery_icons.pixbuf_column = 0;
         gallery_icons.text_column = 1;
-        post.thread.foreach (p => {
-            if (p.filename != null) {
-                var item = MediaPreview.from_post (p);
-                if (item == null) {
-                    debug (@"file extension \"$(p.ext)\" unsupported");
-                    return true;
-                }
-                store.insert_with_values (null, -1,
-                    0, p.pixbuf,
-                    1, p.filename + p.ext,
-                    2, item,
-                    -1);
-                media.append (item);
-            }
-            return true;
-        });
 
+        store = new MediaStore ((!) (post.thread));
         gallery_icons.model = store;
 
         set_transient_for (window);
@@ -69,7 +54,7 @@ public class Vaccine.MediaView : Gtk.Window {
         video_holder.pack_start (video_view);
         video_holder.show_all ();
 
-        current_media = media.first ();
+        current_media = store.previews.first ();
         while (current_media.next != null && current_media.data.post != post)
             current_media = current_media.next;
         last_widget = loading_view;
@@ -131,7 +116,7 @@ public class Vaccine.MediaView : Gtk.Window {
     [GtkCallback]
     private void show_prev_media () {
         if (current_media.prev == null)
-            show_media (media.last ());
+            show_media (store.previews.last ());
         else
             show_media (current_media.prev);
     }
@@ -139,7 +124,7 @@ public class Vaccine.MediaView : Gtk.Window {
     [GtkCallback]
     private void show_next_media () {
         if (current_media.next == null)
-            show_media (media.first ());
+            show_media (store.previews.first ());
         else
             show_media (current_media.next);
     }

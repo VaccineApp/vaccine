@@ -2,6 +2,16 @@ public abstract class Vaccine.MediaPreview : Object {
     public const string[] supported_images = { ".gif", ".png", ".jpg" };
     public const string[] supported_videos = { ".webm" };
 
+    public static bool is_supported (string extension) {
+        foreach (var ext in supported_images)
+            if (extension == ext)
+                return true;
+        foreach (var ext in supported_videos)
+            if (extension == ext)
+                return true;
+        return false;
+    }
+
     /**
      * Creates a new MediaPreview from a post, if the media is supported.
      * Otherwise returns null.
