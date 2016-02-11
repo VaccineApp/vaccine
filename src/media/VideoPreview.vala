@@ -13,7 +13,7 @@ public class Vaccine.VideoPreview : MediaPreview {
     // hold reference to video preview widget
     private VideoPreviewWidget? preview_widget;
 
-    private Gtk.Adjustment adjustment;
+    private Gtk.Adjustment? adjustment;
 
     // time in ns
     private string convert_clocktime (uint64 time) {

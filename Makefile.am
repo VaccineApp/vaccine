@@ -10,6 +10,7 @@ vaccine_SOURCES = \
 	src/media/MediaPreview.vala \
 	src/media/ImagePreview.vala \
 	src/media/VideoPreview.vala \
+	src/media/MediaStore.vala \
 	src/model/Board.vala \
 	src/model/Page.vala \
 	src/model/Post.vala \
