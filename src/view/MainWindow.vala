@@ -119,6 +119,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         var panelview = new PanelView ();
         var threadpane = new ThreadPane (FourChan.board, no, op_thumbnail);
 
+        panelview.name = "Loading…";
         FourChan.get_thread.begin (FourChan.board, no, (obj, res) => {
             Thread thread = FourChan.get_thread.end (res);
             threadpane.set_model (thread);
@@ -126,7 +127,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             panelview.name = thread.get_title ();
         });
 
-        panelview.name = "Loading…";
         panelview.add (threadpane);
         add_page (panelview);
     }
@@ -136,6 +136,19 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         int i = notebook.append_page (page, tab);
         notebook.child_set (page, "reorderable", reorderable);
         notebook.set_current_page (i);
+
+        // bind page name to headerbar title
+        page.bind_property ("name", headerbar, "title", BindingFlags.DEFAULT,
+            (bind, src, ref target) => {
+                assert (bind != null);
+                assert (bind.source != null);
+                // only set title if this is the current page
+                if (notebook.page_num (bind.source as Gtk.Widget) == notebook.page) {
+                    target = src;
+                    return true;
+                } else
+                    return false;
+            });
     }
 
     [GtkCallback]
