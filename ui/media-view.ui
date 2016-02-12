@@ -249,6 +249,7 @@
                     <property name="icon_name">document-save-as-symbolic</property>
                   </object>
                 </child>
+                <accelerator key="s" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                 <style>
                   <class name="image-button"/>
                 </style>
