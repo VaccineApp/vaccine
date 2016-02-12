@@ -41,13 +41,12 @@ public class Vaccine.MediaView : Gtk.Window {
 
         parent_window = window;
 
-        gallery_icons.pixbuf_column = 0;
-        gallery_icons.text_column = 1;
+        gallery_icons.pixbuf_column = 1;
+        gallery_icons.text_column = 2;
 
         store = new MediaStore ((!) (post.thread));
         gallery_icons.model = store;
 
-        set_transient_for (window);
 
         // add VideoPreviewWidget to box
         video_view = new VideoPreviewWidget ();
@@ -55,11 +54,12 @@ public class Vaccine.MediaView : Gtk.Window {
         video_holder.show_all ();
 
         current_media = store.previews.first ();
-        while (current_media.next != null && current_media.data.post != post)
+        while (current_media.next != null && current_media.data.id != post.no)
             current_media = current_media.next;
         last_widget = loading_view;
         title = current_media.data.filename;
         show_media (current_media, true);
+        set_transient_for (window);
     }
 
     ~MediaView () {
@@ -69,6 +69,7 @@ public class Vaccine.MediaView : Gtk.Window {
             Source.remove ((!) pulse_id);
         if (media_onready_id != null)
             Source.remove ((!) media_onready_id);
+        debug ("MediaView dtor");
     }
 
     private void show_media (List<MediaPreview> next_media, bool initial = false) {
@@ -101,14 +102,16 @@ public class Vaccine.MediaView : Gtk.Window {
             Source.remove (pulse_id);
             pulse_id = null;
             download_progress.set_fraction (1);
+            media_onready_id = null;
+
             if (current_media.data is ImagePreview)
-                stack.visible_child = image_view;
+                last_widget = image_view;
             else if (current_media.data is VideoPreview) {
-                stack.visible_child = video_holder;
+                last_widget = video_holder;
             } else
                 error ("failed !!!");
-            last_widget = stack.visible_child;
-            media_onready_id = null;
+            if (stack.visible_child != gallery_view)
+                stack.visible_child = last_widget;
             return Source.REMOVE;
         });
     }
@@ -137,8 +140,8 @@ public class Vaccine.MediaView : Gtk.Window {
             "_Save", Gtk.ResponseType.ACCEPT);
         chooser.set_current_name (current_media.data.filename);
         var filter = new Gtk.FileFilter ();
-        filter.set_filter_name (current_media.data.filetype);
-        filter.add_pattern ("*" + current_media.data.post.ext);
+        filter.set_filter_name (current_media.data.extension);
+        filter.add_pattern ("*" + current_media.data.extension);
         chooser.add_filter (filter);
         if (chooser.run () == Gtk.ResponseType.ACCEPT) {
             string fname = chooser.get_filename ();

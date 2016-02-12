@@ -6,10 +6,6 @@ public class Vaccine.VideoPreview : MediaPreview {
     private bool _loaded = false;
     public override bool loaded { get { return _loaded; } }
 
-    public override string filetype {
-        owned get { return "WebM video"; }
-    }
-
     // hold reference to video preview widget
     private VideoPreviewWidget? preview_widget;
 
@@ -23,12 +19,10 @@ public class Vaccine.VideoPreview : MediaPreview {
         return @"%$(uint64.FORMAT):%02$(uint64.FORMAT)".printf (min, seconds % 60);
     }
 
-    public VideoPreview (Post post)
+    public VideoPreview (MediaStore media_store, Post post)
         requires (post.filename != null && post.ext != null)
     {
-         Object (url: @"https://i.4cdn.org/$(post.board)/$(post.tim)$(post.ext)",
-            filename: @"$(post.filename)$(post.ext)",
-            post: post);
+        base (media_store, post);
         video_source = Gst.ElementFactory.make (src_plugin, "video_source");
         if (video_source == null) {
             error (@"could not create plugin $src_plugin");

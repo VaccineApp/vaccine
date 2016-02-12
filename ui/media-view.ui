@@ -7,6 +7,7 @@
     <property name="modal">True</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
+    <property name="skip_taskbar_hint">True</property>
     <child>
       <object class="GtkStack" id="stack">
         <property name="visible">True</property>
@@ -165,6 +166,7 @@
                     <property name="icon_name">go-previous-symbolic</property>
                   </object>
                 </child>
+                <accelerator key="Left" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                 <style>
                   <class name="image-button"/>
                 </style>
@@ -189,6 +191,7 @@
                     <property name="icon_name">go-next-symbolic</property>
                   </object>
                 </child>
+                <accelerator key="Right" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                 <style>
                   <class name="image-button"/>
                 </style>

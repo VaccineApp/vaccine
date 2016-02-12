@@ -18,16 +18,10 @@ public class Vaccine.ImagePreview : MediaPreview {
 
     public override bool loaded { get { return image_data != null; } }
 
-    public override string filetype {
-        owned get { return post.ext[1:4].up () + " image"; }
-    }
-
-    public ImagePreview (Post post)
+    public ImagePreview (MediaStore media_store, Post post)
         requires (post.filename != null && post.ext != null)
     {
-        Object (url: @"https://i.4cdn.org/$(post.board)/$(post.tim)$(post.ext)",
-                filename: @"$(post.filename)$(post.ext)",
-                post: post);
+        base (media_store, post);
         image_data_load_cancel = new Cancellable ();
         FourChan.download_image.begin (url, image_data_load_cancel, (obj, res) => {
             image_data = FourChan.download_image.end (res);
@@ -36,9 +30,13 @@ public class Vaccine.ImagePreview : MediaPreview {
         });
     }
 
-    ~ImagePreview () {
+    public override void cancel_everything () {
         if (image_data_load_cancel != null)
             image_data_load_cancel.cancel ();
+        base.cancel_everything ();
+    }
+
+    ~ImagePreview () {
         if (canvas != null)
             stop_with_widget ();
         debug ("ImagePreview dtor");

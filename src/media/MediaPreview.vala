@@ -16,15 +16,22 @@ public abstract class Vaccine.MediaPreview : Object {
      * Creates a new MediaPreview from a post, if the media is supported.
      * Otherwise returns null.
      */
-    public static MediaPreview? from_post (Post post) {
+    public static MediaPreview? from_post (MediaStore media_store, Post post) {
         foreach (var ext in supported_images)
             if (post.ext == ext)
-                return new ImagePreview (post);
+                return new ImagePreview (media_store, post);
         foreach (var ext in supported_videos)
             if (post.ext == ext)
-                return new VideoPreview (post);
+                return new VideoPreview (media_store, post);
         return null;    /* TODO: add support for more files */
     }
+
+    public weak MediaStore store { get; construct; }
+
+    /**
+     * The post number
+     */
+    public int64 id { get; construct; }
 
     /**
      * The remote filename.
@@ -37,14 +44,54 @@ public abstract class Vaccine.MediaPreview : Object {
     public string filename { get; construct; }
 
     /**
-     * A file type (like "GIF images")
+     * file extension
      */
-    public abstract string filetype { owned get; }
+    public string extension { get; construct; }
 
     /**
-     * The post containing the data for this preview.
+     * The thumbnail URL
      */
-    public Post post { get; construct; }
+    public string thumbnail_url { get; construct; }
+
+    /**
+     * The thumbnail
+     */
+    public Gdk.Pixbuf? thumbnail { get; private set; }
+
+    protected MediaPreview (MediaStore media_store, Post post) {
+        Object (store: media_store,
+                id: post.no,
+                url: @"https://i.4cdn.org/$(post.board)/$(post.tim)$(post.ext)",
+                filename: @"$(post.filename)$(post.ext)",
+                extension: post.ext,
+                thumbnail_url: @"https://i.4cdn.org/$(post.board)/$(post.tim)s.jpg");
+    }
+
+    public Cancellable? cancel_thumbnail_download;
+
+    public virtual void cancel_everything () {
+        if (cancel_thumbnail_download != null)
+            cancel_thumbnail_download.cancel ();
+    }
+
+    construct {
+        cancel_thumbnail_download = new Cancellable ();
+        FourChan.download_image.begin (thumbnail_url, cancel_thumbnail_download, (obj, res) => {
+            thumbnail = FourChan.download_image.end (res).get_static_image ();
+            Gtk.TreePath path;
+            Gtk.TreeIter iter;
+            if (cancel_thumbnail_download.is_cancelled ())
+                return;
+            if (store.get_path_and_iter (this, out path, out iter))
+                store.row_changed (path, iter);
+            cancel_thumbnail_download = null;
+        });
+    }
+
+    ~MediaPreview () {
+        cancel_everything ();
+        debug ("Cancelling all pending operations");
+    }
 
     /**
      * If the file has been loaded.

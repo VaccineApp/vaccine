@@ -8,7 +8,7 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
 
         t.foreach (post => {
             if (post.filename != null) {
-                var media = MediaPreview.from_post (post);
+                var media = MediaPreview.from_post (this, post);
                 if (media != null) {
                     previews.append (media);
                     ++stamp;
@@ -22,6 +22,9 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
 
     ~MediaStore () {
         debug ("MediaStore dtor");
+        // cancel all downloads
+        foreach (var preview in previews)
+            preview.cancel_thumbnail_download.cancel ();
     }
 
     private void update (uint position, uint removed, uint added) {
@@ -29,7 +32,7 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
 
         for (uint p = 0; p < thread.posts.size; ++p)
             if (thread.posts [(int)p].filename != null && MediaPreview.is_supported (thread.posts [(int)p].ext)) {
-                if (current != null && thread.posts [(int)p] == current.data.post)
+                if (current != null && thread.posts [(int)p].no == current.data.id)
                     current = current.next;
                 else {
                     if (current != null) {  // remove
@@ -44,16 +47,16 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
                         this.row_deleted (path);
                     } else
                         current = previews.last (); // insert at front
-                    var media = MediaPreview.from_post (thread.posts [(int)p]);
+                    var media = MediaPreview.from_post (this, thread.posts [(int)p]);
                     current.append (media);
                     ++stamp;
+                    current = current.next;
                     var iter = Gtk.TreeIter () {
                         stamp = this.stamp,
-                        user_data = current.next
+                        user_data = current
                     };
                     var path = get_path (iter);
                     this.row_inserted (path, iter);
-                    current = current.next;
 
                     /* Signal.connect (media.post, "pixbuf", () => {
                         MediaPreview preview = (owned) media;
@@ -72,14 +75,17 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
 
     /**
      * Get property type by index:
-     * 0 = thumbnail (Gdk.Pixbuf)
-     * 1 = filename (string)
+     * 0 = id (int64)
+     * 1 = thumbnail (Gdk.Pixbuf)
+     * 2 = filename (string)
      */
     public Type get_column_type (int index) {
         switch (index) {
         case 0:
-            return typeof (Gdk.Pixbuf);
+            return typeof (int64);
         case 1:
+            return typeof (Gdk.Pixbuf);
+        case 2:
             return typeof (string);
         default:
             return Type.INVALID;
@@ -99,16 +105,20 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
     public void get_value (Gtk.TreeIter iter, int column, out Value val) {
         assert (iter.stamp == stamp);
 
-        Post post = ((List<MediaPreview>) iter.user_data).data.post;
+        MediaPreview preview = ((List<MediaPreview>) iter.user_data).data;
 
         switch (column) {
-        case 0: // pixbuf
-            val = Value (typeof (Gdk.Pixbuf));
-            val.set_object (post.pixbuf);
+        case 0: // id
+            val = Value (typeof (int64));
+            val.set_int64 (preview.id);
             break;
-        case 1: // filename
+        case 1: // pixbuf
+            val = Value (typeof (Gdk.Pixbuf));
+            val.set_object (preview.thumbnail);
+            break;
+        case 2: // filename
             val = Value (typeof (string));
-            val.set_string (post.filename + post.ext);
+            val.set_string (preview.filename);
             break;
         default:
             val = Value (Type.INVALID);
@@ -128,7 +138,7 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
         return true;
     }
 
-    public int get_n_columns () { return 2; }
+    public int get_n_columns () { return 3; }
 
     public Gtk.TreePath? get_path (Gtk.TreeIter iter) {
         assert (iter.stamp == stamp);
@@ -200,5 +210,22 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
     public bool iter_parent (out Gtk.TreeIter iter, Gtk.TreeIter child) {
         assert (child.stamp == stamp);
         return invalid_iter (out iter); // not a tree
+    }
+
+    public bool get_path_and_iter (MediaPreview preview, out Gtk.TreePath path, out Gtk.TreeIter iter) {
+        for (unowned List<MediaPreview> link = previews.first ();
+            link != null; link = link.next) {
+            if (link.data == preview) {
+                iter = Gtk.TreeIter () {
+                    stamp = this.stamp,
+                    user_data = link
+                };
+                path = this.get_path (iter);
+                return true;
+            }
+        }
+        invalid_iter (out iter);
+        path = null;
+        return false;
     }
 } 
