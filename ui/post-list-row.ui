@@ -86,8 +86,8 @@
               <object class="GtkButton" id="image_button">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="valign">start</property>
                 <property name="receives_default">True</property>
+                <property name="valign">start</property>
                 <signal name="clicked" handler="show_media_view" swapped="no"/>
                 <child>
                   <object class="GtkImage" id="post_thumbnail">
@@ -184,6 +184,9 @@
                               <class name="n_replies_label"/>
                             </style>
                           </object>
+                          <packing>
+                            <property name="pass_through">True</property>
+                          </packing>
                         </child>
                       </object>
                     </child>
