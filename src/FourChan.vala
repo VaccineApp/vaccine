@@ -37,27 +37,50 @@ public class Vaccine.FourChan : Object {
         return list;
     }
 
-    public static async Thread get_thread (string board, int64 no) {
-        var thread = new Thread (board);
+    public static async void dl_thread (Thread thread) {
         try {
             var json = new Json.Parser ();
-            InputStream stream = yield soup.send_async (new Soup.Message ("GET", "https://a.4cdn.org/%s/thread/%lld.json".printf (board, no)));
+            InputStream stream = yield soup.send_async (new Soup.Message ("GET",
+                "https://a.4cdn.org/%s/thread/%lld.json".printf (thread.board, thread.no)));
             if (yield json.load_from_stream_async (stream, null)) {
-                var posts_arr = json.get_root ().get_object ().get_array_member ("posts");
-                posts_arr.foreach_element ((arr, index, node) => {
-                    Post p;
-                    if (index == 0) p = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
-                    else            p = Json.gobject_deserialize (typeof (Post), node) as Post;
-                    assert (p != null);
-                    p.thread = thread;
-                    thread.append (p);
-                });
+                var posts = new ArrayList<Post> ();
+                json.get_root ()
+                    .get_object ()
+                    .get_array_member ("posts")
+                    .foreach_element ((arr, index, node) => {
+                        Post p;
+                        if (index == 0) p = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
+                        else            p = Json.gobject_deserialize (typeof (Post), node) as Post;
+                        assert (p != null);
+                        p.thread = thread;
+                        posts.add (p);
+                    });
+                if (thread.posts == null) {
+                    thread.posts = posts;
+                    thread.items_changed (0, 0, posts.size);
+                } else {
+                    // update thread
+                    int old_n_posts = thread.posts.size;
+                    uint added = 0;
+                    for (int i = 0; i < posts.size; ++i) {
+                        if (i > thread.posts.size-1) { // new post
+                            thread.posts.add (posts[i]);
+                            ++added;
+                        } else if (thread.posts[i].no != posts[i].no) { // post deleted
+                            thread.posts.remove_at (i);
+                            thread.items_changed (i, 1, 0);
+                            --i;
+                        }
+                    }
+                    if (added > 0) {
+                        thread.items_changed (old_n_posts, 0, added);
+                    }
+                }
             }
         } catch (Error e) {
             new ErrorDialog (e.message);
             error (e.message);
         }
-        return thread;
     }
 
     public static async Gdk.PixbufAnimation? download_image (string url, Cancellable cancel) {

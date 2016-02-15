@@ -118,12 +118,12 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     public void show_thread (int64 no, Gdk.Pixbuf op_thumbnail) {
         var panelview = new PanelView ();
         var threadpane = new ThreadPane (FourChan.board, no, op_thumbnail);
+        var thread = new Thread (FourChan.board, no);
+        threadpane.set_model (thread);
 
         panelview.name = "Loading…";
-        FourChan.get_thread.begin (FourChan.board, no, (obj, res) => {
-            Thread thread = FourChan.get_thread.end (res);
-            threadpane.set_model (thread);
-
+        FourChan.dl_thread.begin (thread, (obj, res) => {
+            FourChan.dl_thread.end (res);
             panelview.name = thread.get_title ();
         });
 

@@ -6,7 +6,7 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
     public MediaStore (Thread t) {
         Object (thread: t);
 
-        t.foreach (post => {
+        t.posts.foreach (post => {
             if (post.filename != null) {
                 var media = MediaPreview.from_post (this, post);
                 if (media != null) {
@@ -228,4 +228,4 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
         path = null;
         return false;
     }
-} 
+}
