@@ -89,9 +89,6 @@ public class Vaccine.PostTransformer : Object {
 
     public static string common_clean (string com) {
         return com
-            .compress ()
-            .replace ("\n", "\\n") // in code tags
-            .replace ("\t", "\\t")
             .replace ("<br></br>", "\n")
             .replace ("<br>",      "\n") // unclosed tag
             .replace ("<br />",    "\n")

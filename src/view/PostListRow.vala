@@ -142,6 +142,7 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
             // TODO handle touch up event
         });
 
+        // TODO property binding for thread updates
         var nreplies = post.nreplies;
         if (nreplies == 0) {
             responses_button.destroy ();
