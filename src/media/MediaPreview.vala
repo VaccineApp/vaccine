@@ -77,11 +77,12 @@ public abstract class Vaccine.MediaPreview : Object {
     construct {
         cancel_thumbnail_download = new Cancellable ();
         FourChan.download_image.begin (thumbnail_url, cancel_thumbnail_download, (obj, res) => {
-            thumbnail = FourChan.download_image.end (res).get_static_image ();
-            Gtk.TreePath path;
-            Gtk.TreeIter iter;
+            var anim = FourChan.download_image.end (res);
             if (cancel_thumbnail_download.is_cancelled ())
                 return;
+            thumbnail = anim.get_static_image ();
+            Gtk.TreePath path;
+            Gtk.TreeIter iter;
             if (store.get_path_and_iter (this, out path, out iter))
                 store.row_changed (path, iter);
             cancel_thumbnail_download = null;

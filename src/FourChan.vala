@@ -64,7 +64,7 @@ public class Vaccine.FourChan : Object {
         var msg = new Soup.Message ("GET", url);
         try {
             var stream = yield soup.send_async (msg, cancel);
-            return yield new Gdk.PixbufAnimation.from_stream_async (stream, null);
+            return yield new Gdk.PixbufAnimation.from_stream_async (stream, cancel);
         } catch (Error e) {
             debug (e.message);
             return null;
