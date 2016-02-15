@@ -5,6 +5,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.Button choose_board_button;
     [GtkChild] private Gtk.ToggleButton show_search_bar_button;
     [GtkChild] private Gtk.Button open_in_browser_button;
+    [GtkChild] private Gtk.Button refresh_button;
 
     [GtkChild] private Gtk.SearchBar searchbar;
     [GtkChild] private Gtk.Notebook notebook;
@@ -92,6 +93,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
                 var child = row.get_child () as Gtk.Label;
                 FourChan.board = child.name;
                 open_in_browser_button.sensitive = false;
+                refresh_button.sensitive = false;
                 choose_board_button.label = child.label;
 
                 popover.visible = false;
@@ -110,6 +112,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
                 foreach (ThreadOP t in page.threads)
                     catalog.add (this, t);
             open_in_browser_button.sensitive = true;
+            refresh_button.sensitive = true;
         });
 
         this.show_all ();
