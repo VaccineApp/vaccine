@@ -4,23 +4,19 @@ public class Vaccine.Thread : Object, ListModel {
     public ArrayList<Post>? posts = null;
 
     public string get_title () {
-        string? sub = Stripper.transform_post (op.sub);
-        if (sub != null)
+        var op = posts[0] as ThreadOP;
+
+        if (op.sub != null) {
+            string? sub = Stripper.transform_post (op.sub);
             return "/%s/ — %s".printf (board, sub);
-
-        string? com = Stripper.transform_post (op.com);
-        if (com != null)
-            return "/%s/ — %s".printf (board, com);
-
-        string no = op.no.to_string ();
-        return "/%s/ — %s".printf (board, no);
-    }
-
-    public ThreadOP op {
-        owned get {
-            assert (posts.size > 0);
-            return posts[0] as ThreadOP;
         }
+
+        if (op.com != null) {
+            string? com = Stripper.transform_post (op.com);
+            return "/%s/ — %s".printf (board, com);
+        }
+
+        return "/%s/ — %lld".printf (board, no);
     }
 
     public string board { get; construct; }
