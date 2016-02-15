@@ -52,7 +52,11 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         post_name.visible = prefs.get_boolean ("show-trips");
         prefs.bind ("show-trips", post_name, "visible", SettingsBindFlags.GET);
 
-        post_name.label = "<b>%s</b> <span color=\"#aaa\">%s</span>".printf (post.name, post.trip ?? "");
+        string name = post.name;
+        if (post.capcode != null)
+            name += " ## " + post.capcode[0].toupper().to_string () + post.capcode.substring (1);
+
+        post_name.label = "<b>%s</b> <span color=\"#aaa\">%s</span>".printf (name, post.trip ?? "");
         post_time.label = FourChan.get_post_time (post.time);
         post_no.label = "No. %lld".printf (post.no);
 
