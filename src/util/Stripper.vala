@@ -20,7 +20,8 @@ public class Vaccine.Stripper : Object {
         var post = PostTransformer.common_clean (com)
             .split ("\n")[0]
             .replace ("&gt;", ">")
-            .replace ("&#039;", "'");
+            .replace ("&#039;", "'")
+            .replace ("&", "&amp;");
         try {
             xfm.ctx.parse ("<_top_level>" + post + "</_top_level>", -1); // requires a top-level element
         } catch (MarkupError e) {
