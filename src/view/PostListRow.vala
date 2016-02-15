@@ -71,12 +71,7 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         post_textview.buffer = new Gtk.TextBuffer (tags);
         if (post.com != null) {
             try {
-                string src;
-                if (post is ThreadOP && ((ThreadOP) post).sticky == 1)
-                    src = PostTransformer.common_clean (post.com, true);
-                else
-                    src = PostTransformer.common_clean (post.com, false);
-                new PostTextBuffer (src).fill_text_buffer (post_textview.buffer);
+                new PostTextBuffer (post.com).fill_text_buffer (post_textview.buffer);
             } catch (Error e) {
                 debug (e.message);
             }

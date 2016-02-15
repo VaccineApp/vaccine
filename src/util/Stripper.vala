@@ -19,6 +19,7 @@ public class Vaccine.Stripper : Object {
         var xfm = new Stripper ();
         var post = PostTransformer.common_clean (com)
             .split ("\n")[0]
+            .replace ("\r", "")
             .replace ("&gt;", ">")
             .replace ("&#039;", "'")
             .replace ("&", "&amp;");

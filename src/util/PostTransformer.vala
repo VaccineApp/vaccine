@@ -78,27 +78,24 @@ public class Vaccine.PostTransformer : Object {
         debug (@"error: $(error.message)\n");
     }
 
-    public static string transform_post (string com, bool ignore_br = false) throws MarkupError {
+    public static string transform_post (string com) throws MarkupError {
         var xfm = new PostTransformer ();
-        var post = common_clean (com, ignore_br).replace ("&", "&amp;");
+        var post = common_clean (com).replace ("&", "&amp;");
         xfm.ctx.parse ("<_top_level>" + post + "</_top_level>", -1); // requires a top-level element
         // TODO: remove when it all works
         // print (@"\n\x1b[35m==========================================\x1b[0m\n$com\n\t\t\t\t\x1b[44mv\x1b[0m\n$(xfm.dest)\n\n");
         return xfm.dest;
     }
 
-    public static string common_clean (string com, bool ignore_br = false) {
-        if (ignore_br)
-            return com
-                .replace ("<br></br>", "")
-                .replace ("<br>",      "") // unclosed tag
-                .replace ("<br />",    "")
-                .replace ("<wbr>",     "");
-        else
-            return com
-                .replace ("<br></br>", "\n")
-                .replace ("<br>",      "\n") // unclosed tag
-                .replace ("<br />",    "\n")
-                .replace ("<wbr>",     "");
+    public static string common_clean (string com) {
+        string br_replace = "\n";
+        if (com.contains ("\n"))
+            br_replace = "";
+
+        return com
+            .replace ("<br></br>", br_replace)
+            .replace ("<br>",      br_replace) // unclosed tag
+            .replace ("<br />",    br_replace)
+            .replace ("<wbr>",     "");
     }
 }
