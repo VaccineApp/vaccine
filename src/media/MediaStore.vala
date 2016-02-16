@@ -121,7 +121,7 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
 
         iter = Gtk.TreeIter () {
             stamp = this.stamp,
-            user_data = previews.nth (path.get_indices ()[0])   // save List<G> link
+            user_data = previews.nth (path.get_indices ()[0])   // save List<MediaPreview> link
         };
         return true;
     }

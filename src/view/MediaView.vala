@@ -46,7 +46,14 @@ public class Vaccine.MediaView : Gtk.Window {
 
         store = new MediaStore ((!) (post.thread));
         gallery_icons.model = store;
-
+        gallery_icons.item_activated.connect (path => {
+            Gtk.TreeIter iter;
+            if (store.get_iter (out iter, path)) {
+                if (stack.visible_child == gallery_view)
+                    btn_gallery.active = false;
+                show_media ((List<MediaPreview>) iter.user_data);
+            }
+        });
 
         // add VideoPreviewWidget to box
         video_view = new VideoPreviewWidget ();
