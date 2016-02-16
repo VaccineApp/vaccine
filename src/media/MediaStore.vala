@@ -57,18 +57,6 @@ public class Vaccine.MediaStore : Object, Gtk.TreeModel {
                     };
                     var path = get_path (iter);
                     this.row_inserted (path, iter);
-
-                    /* Signal.connect (media.post, "pixbuf", () => {
-                        MediaPreview preview = (owned) media;
-                        Gtk.TreeIter iter2;
-
-                        if (!iter_nth_child (out iter2, null, previews.position (preview)))
-                            debug (@"failed to get iter for $(preview.post.filename + preview.post.ext)");
-                        else {
-                            Gtk.TreePath path2 = get_path (iter2);
-                            row_changed (path2, iter2);
-                        }
-                    }, media); */
                 }
             }
     }
