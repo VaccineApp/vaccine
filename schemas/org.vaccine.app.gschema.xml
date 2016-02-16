@@ -20,5 +20,8 @@
       <default>false</default>
       <summary>Use dark theme</summary>
     </key>
+    <key name="win-geom" type="(iiii)">
+      <default>(100,100,1100,800)</default>
+    </key>
   </schema>
 </schemalist>

@@ -62,7 +62,6 @@ namespace Vaccine {
 
         protected override void activate () {
             base.activate ();
-            add_action_entries (actions, this);
             main_window.present ();
         }
     }

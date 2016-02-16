@@ -59,6 +59,12 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         app.set_accels_for_action ("win.next_tab", {"<Primary>Tab"});
         app.set_accels_for_action ("win.prev_tab", {"<Primary><Shift>Tab"});
 
+        Variant geom = App.settings.get_value ("win-geom");
+        int x, y, width, height;
+        geom.get ("(iiii)", out x, out y, out width, out height);
+        move (x, y);
+        resize (width, height);
+
         App.settings.changed["filter-nsfw-content"].connect (load_boards);
         load_boards ();
 
@@ -107,6 +113,14 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         });
 
         this.show_all ();
+    }
+
+    public override bool delete_event (Gdk.EventAny ev) {
+        int x, y, width, height;
+        get_position (out x, out y);
+        get_size (out width, out height);
+        App.settings.set ("win-geom", "(iiii)", x, y, width, height);
+        return false;
     }
 
     public void load_boards () {
