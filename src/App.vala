@@ -2,7 +2,9 @@ namespace Vaccine {
     public const string PROGRAM_VERSION = "0.0.1";
 
     public class App : Gtk.Application {
+        public static Settings settings;
         public FourChan chan = new FourChan ();
+        PreferencesView? prefs = null;
 
         public App () {
             Object (application_id: "org.vaccine.app",
@@ -18,7 +20,16 @@ namespace Vaccine {
         };
 
         void show_preferences () {
-            new PreferencesView (main_window, settings).present ();
+            if (prefs != null)
+                return;
+
+            prefs = new PreferencesView ();
+            prefs.transient_for = main_window;
+            prefs.delete_event.connect (() => {
+                prefs = null;
+                return Gdk.EVENT_PROPAGATE;
+            });
+            prefs.present ();
         }
 
         void show_about () {
@@ -35,7 +46,11 @@ namespace Vaccine {
         protected override void startup () {
             base.startup ();
             add_action_entries (actions, this);
-            load_settings ();
+
+            settings = new Settings (application_id);
+            settings.bind ("use-dark-theme",
+                Gtk.Settings.get_default (), "gtk-application-prefer-dark-theme",
+                SettingsBindFlags.DEFAULT);
 
             main_window = new MainWindow (this);
 
@@ -49,16 +64,6 @@ namespace Vaccine {
             base.activate ();
             add_action_entries (actions, this);
             main_window.present ();
-        }
-
-        public Settings settings { get; private set; }
-
-        private void load_settings () {
-            this.settings = new Settings (application_id);
-
-            this.settings.bind ("use-dark-theme",
-                        Gtk.Settings.get_default (), "gtk-application-prefer-dark-theme",
-                        SettingsBindFlags.DEFAULT);
         }
     }
 }
