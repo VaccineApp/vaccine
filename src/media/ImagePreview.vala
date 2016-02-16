@@ -23,11 +23,7 @@ public class Vaccine.ImagePreview : MediaPreview {
     {
         base (media_store, post);
         image_data_load_cancel = new Cancellable ();
-        FourChan.download_image.begin (url, image_data_load_cancel, (obj, res) => {
-            image_data = FourChan.download_image.end (res);
-            image_data_load_cancel = null;
-            frame_iter = image_data.get_iter (null);
-        });
+
     }
 
     public override void cancel_everything () {
@@ -49,6 +45,13 @@ public class Vaccine.ImagePreview : MediaPreview {
         canvas = widget as Gtk.DrawingArea;
         if (loaded) // reset frame_iter on init
             frame_iter = image_data.get_iter (null);
+        else {  // download image if not loaded
+            FourChan.download_image.begin (url, image_data_load_cancel, (obj, res) => {
+                image_data = FourChan.download_image.end (res);
+                image_data_load_cancel = null;
+                frame_iter = image_data.get_iter (null);
+            });
+        }
         canvas.draw.connect (draw_image);
         timeout_id = Idle.add (update_animated_image);
     }
@@ -66,6 +69,8 @@ public class Vaccine.ImagePreview : MediaPreview {
     }
 
     private bool update_animated_image () {
+        if (canvas == null)
+            return Source.REMOVE;
         if (!loaded)    // wait until we have finished loading
             return Source.CONTINUE;
         if (!is_animated) {
