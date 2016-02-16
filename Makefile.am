@@ -44,7 +44,14 @@ vaccine_CFLAGS = \
 	$(SOUP_CFLAGS) \
 	$(GEE_CFLAGS) \
 	$(GSTREAMER_CFLAGS) \
-	$(GSTREAMER_BASE_CFLAGS)
+	$(GSTREAMER_BASE_CFLAGS) \
+	-Wno-deprecated-declarations \
+	-Wno-discarded-qualifiers \
+	-Wno-implicit-function-declaration \
+	-Wno-incompatible-pointer-types \
+	-Wno-unused-but-set-variable \
+	-Wno-unused-label \
+	-Wno-unused-function
 
 vaccine_LDADD = \
 	$(GTK3_LIBS) \
