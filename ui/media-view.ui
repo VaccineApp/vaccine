@@ -87,7 +87,7 @@
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">never</property>
                 <property name="min_content_width">400</property>
-                <property name="min_content_height">400</property>
+                <property name="min_content_height">300</property>
                 <child>
                   <object class="GtkIconView" id="gallery_icons">
                     <property name="visible">True</property>
@@ -95,6 +95,7 @@
                     <property name="margin">6</property>
                     <property name="columns">3</property>
                     <property name="item_width">128</property>
+                    <property name="spacing">6</property>
                     <property name="reorderable">True</property>
                     <property name="activate_on_single_click">True</property>
                   </object>

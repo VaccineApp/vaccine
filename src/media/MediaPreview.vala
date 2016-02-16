@@ -80,7 +80,12 @@ public abstract class Vaccine.MediaPreview : Object {
             var anim = FourChan.download_image.end (res);
             if (cancel_thumbnail_download.is_cancelled ())
                 return;
-            thumbnail = anim.get_static_image ();
+            int width = 128;
+            Gdk.Pixbuf image = anim.get_static_image ();
+            if (image.width > width)
+                thumbnail = image.scale_simple (width, (int)(image.height * ((double)width/image.width)), Gdk.InterpType.BILINEAR);
+            else
+                thumbnail = image;
             Gtk.TreePath path;
             Gtk.TreeIter iter;
             if (store.get_path_and_iter (this, out path, out iter))
