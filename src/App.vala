@@ -22,7 +22,14 @@ namespace Vaccine {
         }
 
         void show_about () {
-            new AboutDialog (main_window).present ();
+            string[] authors = {"benwaffle", "Prince781"};
+            Gtk.show_about_dialog (get_active_window (),
+                program_name: "Vaccine",
+                copyright: "Copyright © 2016 - Vaccine Developers",
+                authors: authors,
+                website: "https://github.com/VaccineApp/vaccine",
+                website_label: "GitHub",
+                license_type: Gtk.License.GPL_3_0);
         }
 
         protected override void startup () {

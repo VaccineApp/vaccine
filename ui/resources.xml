@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/org/vaccine/app">
-        <file>about-dialog.ui</file>
         <file>main-window.ui</file>
         <file>thread-pane.ui</file>
         <file>post-list-row.ui</file>
