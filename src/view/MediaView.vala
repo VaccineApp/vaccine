@@ -75,9 +75,9 @@ public class Vaccine.MediaView : Gtk.Window {
     private void show_media (List<MediaPreview> next_media, bool initial = false) {
         if (!initial)
             current_media.data.stop_with_widget ();
+        current_media = next_media;
         if (!current_media.data.loaded)
             stack.visible_child = loading_view;
-        current_media = next_media;
         if (pulse_id != null) {
             Source.remove ((!) pulse_id);
             pulse_id = null;
