@@ -59,6 +59,9 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         app.set_accels_for_action ("win.next_tab", {"<Primary>Tab"});
         app.set_accels_for_action ("win.prev_tab", {"<Primary><Shift>Tab"});
 
+        App.settings.changed["filter-nsfw-content"].connect (load_boards);
+        load_boards ();
+
         listbox.set_filter_func (row => (row.get_child () as Gtk.Label).name.contains (board_search.text));
         board_search.changed.connect (listbox.invalidate_filter);
 
@@ -74,18 +77,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             assert (page != null);
             target = page.name;
             return true;
-        });
-
-        FourChan.get_boards.begin ((obj, res) => {
-            var boards = FourChan.get_boards.end (res);
-            foreach (Board b in boards) {
-                var row = new Gtk.Label ("/%s/ - %s".printf (b.board, b.title));
-                row.name = b.board;
-                row.margin = 6;
-                row.halign = Gtk.Align.START;
-                listbox.add (row);
-            }
-            listbox.show_all ();
         });
 
         listbox.row_selected.connect (row => {
@@ -116,6 +107,21 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         });
 
         this.show_all ();
+    }
+
+    public void load_boards () {
+        FourChan.get_boards.begin ((obj, res) => {
+            var boards = FourChan.get_boards.end (res);
+            listbox.foreach (w => w.destroy ());
+            foreach (Board b in boards) {
+                var row = new Gtk.Label ("/%s/ - %s".printf (b.board, b.title));
+                row.name = b.board;
+                row.margin = 6;
+                row.halign = Gtk.Align.START;
+                listbox.add (row);
+            }
+            listbox.show_all ();
+        });
     }
 
     public void show_thread (int64 no, Gdk.Pixbuf op_thumbnail) {
