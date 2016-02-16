@@ -209,6 +209,28 @@
           </object>
         </child>
         <child>
+          <object class="GtkButton" id="btn_present">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Fullscreen</property>
+            <signal name="clicked" handler="toggle_fullscreen" swapped="no"/>
+            <child>
+              <object class="GtkImage" id="image3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">view-fullscreen-symbolic</property>
+              </object>
+            </child>
+            <style>
+              <class name="image-button"/>
+            </style>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkBox" id="box2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -262,17 +284,17 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="btn_present">
+              <object class="GtkButton" id="btn_reverse_search">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="tooltip_text" translatable="yes">Fullscreen</property>
-                <signal name="clicked" handler="toggle_fullscreen" swapped="no"/>
+                <property name="tooltip_text" translatable="yes">Reverse image search</property>
+                <signal name="clicked" handler="reverse_image_search" swapped="no"/>
                 <child>
-                  <object class="GtkImage" id="image3">
+                  <object class="GtkImage" id="image7">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="icon_name">view-fullscreen-symbolic</property>
+                    <property name="icon_name">edit-find-symbolic</property>
                   </object>
                 </child>
                 <style>
@@ -291,7 +313,6 @@
           </object>
           <packing>
             <property name="pack_type">end</property>
-            <property name="position">1</property>
           </packing>
         </child>
       </object>

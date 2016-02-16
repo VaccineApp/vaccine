@@ -8,6 +8,7 @@ public class Vaccine.MediaView : Gtk.Window {
     [GtkChild] private Gtk.ToggleButton btn_gallery;
     // [GtkChild] private Gtk.Button btn_download;
     [GtkChild] private Gtk.Button btn_present;
+    [GtkChild] private Gtk.Button btn_reverse_search;
 
     // view and containers
     [GtkChild] private Gtk.Stack stack;
@@ -83,6 +84,7 @@ public class Vaccine.MediaView : Gtk.Window {
         if (!initial)
             current_media.data.stop_with_widget ();
         current_media = next_media;
+        btn_reverse_search.sensitive = current_media.data is ImagePreview;
         if (!current_media.data.loaded)
             stack.visible_child = loading_view;
         if (pulse_id != null) {
@@ -175,6 +177,12 @@ public class Vaccine.MediaView : Gtk.Window {
             stack.visible_child = gallery_view;
         else
             stack.visible_child = last_widget;
+    }
+
+    [GtkCallback]
+    private void reverse_image_search () {
+        MediaPreview preview = current_media.data;
+        AppInfo.launch_default_for_uri ("https://www.google.com/searchbyimage?&image_url=%s".printf (preview.url), null);
     }
 
     [GtkCallback]
