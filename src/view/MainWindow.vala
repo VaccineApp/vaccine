@@ -65,10 +65,31 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         move (x, y);
         resize (width, height);
 
-        App.settings.changed["filter-nsfw-content"].connect (load_boards);
-        load_boards ();
+        App.settings.changed["filter-nsfw-content"].connect (() =>
+            listbox.invalidate_filter ());
 
-        listbox.set_filter_func (row => (row.get_child () as Gtk.Label).name.contains (board_search.text));
+        FourChan.get_boards.begin ((obj, res) => {
+            var boards = FourChan.get_boards.end (res);
+            listbox.foreach (w => w.destroy ());
+            foreach (Board b in boards) {
+                var row = new Gtk.Label ("/%s/ - %s".printf (b.board, b.title));
+                row.name = b.board;
+                row.margin = 6;
+                row.halign = Gtk.Align.START;
+                row.set_data ("nsfw", b.ws_board == 0);
+                listbox.add (row);
+            }
+            listbox.show_all ();
+        });
+
+        listbox.set_filter_func (row => {
+            var label = row.get_child () as Gtk.Label;
+            if (App.settings.get_boolean ("filter-nsfw-content") && label.get_data ("nsfw"))
+                return false;
+            if (board_search.text.length == 0)
+                return true;
+            return label.name.contains (board_search.text);
+        });
         board_search.changed.connect (listbox.invalidate_filter);
 
         notebook.page_added.connect ((w, p) =>
@@ -121,21 +142,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         get_size (out width, out height);
         App.settings.set ("win-geom", "(iiii)", x, y, width, height);
         return false;
-    }
-
-    public void load_boards () {
-        FourChan.get_boards.begin ((obj, res) => {
-            var boards = FourChan.get_boards.end (res);
-            listbox.foreach (w => w.destroy ());
-            foreach (Board b in boards) {
-                var row = new Gtk.Label ("/%s/ - %s".printf (b.board, b.title));
-                row.name = b.board;
-                row.margin = 6;
-                row.halign = Gtk.Align.START;
-                listbox.add (row);
-            }
-            listbox.show_all ();
-        });
     }
 
     public void show_thread (int64 no, Gdk.Pixbuf op_thumbnail) {

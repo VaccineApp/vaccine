@@ -22,14 +22,11 @@ public class Vaccine.FourChan : Object {
             var json = new Json.Parser ();
             InputStream stream = yield soup.send_async (new Soup.Message ("GET", "https://a.4cdn.org/boards.json"));
             if (yield json.load_from_stream_async (stream, null)) {
-                bool sfw_only = App.settings.get_boolean ("filter-nsfw-content");
                 json.get_root ()
                     .get_object ()
                     .get_array_member ("boards")
                     .foreach_element ((arr, index, node) => {
                         var board = Json.gobject_deserialize (typeof (Board), node) as Board;
-                        if (sfw_only && board.ws_board == 0)
-                            return;
                         list.add (board);
                     });
             }
