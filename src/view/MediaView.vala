@@ -99,7 +99,7 @@ public class Vaccine.MediaView : Gtk.Window {
             download_progress.pulse ();
             return Source.CONTINUE;
         });
-        title = current_media.data.filename;
+        title = @"$(current_media.data.filename) ($(store.previews.position (current_media)+1) of $(store.previews.length ()))";
         if (current_media.data is ImagePreview)
             current_media.data.init_with_widget (image_view);
         else if (current_media.data is VideoPreview)
