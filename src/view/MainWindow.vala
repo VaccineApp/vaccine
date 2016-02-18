@@ -9,6 +9,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
     [GtkChild] private Gtk.SearchBar searchbar;
     [GtkChild] private Gtk.Notebook notebook;
+    [GtkChild] private Gtk.Stack content_stack;
 
     // board chooser
     [GtkChild] private Gtk.Popover popover;
@@ -117,6 +118,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
                 popover.visible = false;
                 board_search.text = "";
 
+                content_stack.visible_child = notebook;
                 notebook.page = notebook.page_num (catalog);
             }
         });
