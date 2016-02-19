@@ -40,7 +40,9 @@ namespace Vaccine {
                 authors: authors,
                 website: "https://github.com/VaccineApp/vaccine",
                 website_label: "GitHub",
-                license_type: Gtk.License.GPL_3_0);
+                license_type: Gtk.License.GPL_3_0,
+                comments: "A GTK3 imageboard client",
+                logo_icon_name: "applications-internet");
         }
 
         protected override void startup () {
