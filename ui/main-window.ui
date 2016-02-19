@@ -76,7 +76,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="title">
+                      <object class="GtkLabel" id="no_content_header">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Not browsing anything</property>
@@ -95,7 +95,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="subtitle">
+                      <object class="GtkLabel" id="no_content_description">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Select a board to begin</property>

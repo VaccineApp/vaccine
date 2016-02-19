@@ -8,8 +8,10 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.Button refresh_button;
 
     [GtkChild] private Gtk.SearchBar searchbar;
-    [GtkChild] private Gtk.Notebook notebook;
     [GtkChild] private Gtk.Stack content_stack;
+    [GtkChild] private Gtk.Notebook notebook;
+    [GtkChild] private Gtk.Alignment no_content;
+    [GtkChild] private Gtk.Label no_content_description;
 
     // board chooser
     [GtkChild] private Gtk.Popover popover;
@@ -65,6 +67,18 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         geom.get ("(iiii)", out x, out y, out width, out height);
         move (x, y);
         resize (width, height);
+
+
+        // meme magic:
+        const string[] no_content_texts = {
+            "Select a board to begin",
+            "Select a board to waste time on",
+            "Select a board to shitpost about animu",
+            "Start wasting time",
+            "Get out of your mom's basement"
+        };
+
+        no_content_description.label = no_content_texts [Random.int_range (0, no_content_texts.length)];
 
         App.settings.changed["filter-nsfw-content"].connect (() =>
             listbox.invalidate_filter ());
