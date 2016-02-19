@@ -102,7 +102,7 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         post_textview.buffer = new Gtk.TextBuffer (tags);
         if (post.com != null) {
             try {
-                new PostTextBuffer (post.com).fill_text_buffer (post_textview.buffer);
+                new PostTextBuffer (post.com).fill_text_buffer (post_textview.buffer, post_textview);
             } catch (Error e) {
                 debug (e.message);
             }

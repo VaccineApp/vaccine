@@ -20,6 +20,7 @@ PKG_CHECK_MODULES([GEE], [gee-0.8])
 PKG_CHECK_MODULES([GSTREAMER], [gstreamer-1.0])
 PKG_CHECK_MODULES([GSTREAMER_BASE], [gstreamer-base-1.0])
 PKG_CHECK_MODULES([GSTREAMER_PLUGINS_BAD], [gstreamer-plugins-bad-1.0]) # just check for this
+PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-3.0])
 
 AM_VALAFLAGS=" \
     --pkg gtk+-3.0 \
@@ -28,6 +29,7 @@ AM_VALAFLAGS=" \
     --pkg gee-0.8 \
     --pkg gstreamer-1.0 \
     --pkg gstreamer-base-1.0 \
+    --pkg gtksourceview-3.0 \
     --target-glib=2.38 \
     --gresources=\$(top_srcdir)/ui/resources.xml \
     --enable-experimental \

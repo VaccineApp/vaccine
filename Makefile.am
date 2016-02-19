@@ -43,6 +43,7 @@ vaccine_CFLAGS = \
 	$(GEE_CFLAGS) \
 	$(GSTREAMER_CFLAGS) \
 	$(GSTREAMER_BASE_CFLAGS) \
+	$(GTKSOURCEVIEW_CFLAGS) \
 	-Wno-deprecated-declarations \
 	-Wno-discarded-qualifiers \
 	-Wno-implicit-function-declaration \
@@ -58,6 +59,7 @@ vaccine_LDADD = \
 	$(GEE_LIBS) \
 	$(GSTREAMER_LIBS) \
 	$(GSTREAMER_BASE_LIBS) \
+	$(GTKSOURCEVIEW_LIBS) \
 	-lm
 
 run: vaccine
