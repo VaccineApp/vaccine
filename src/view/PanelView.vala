@@ -8,7 +8,7 @@ public class Vaccine.PanelView : Container, NotebookPage {
         get { return _current; }
         set {
             _current = value;
-            queue_resize_no_redraw ();
+            queue_draw ();
         }
     }
 
@@ -17,7 +17,7 @@ public class Vaccine.PanelView : Container, NotebookPage {
         get { return _max_visible; }
         set {
             _max_visible = value;
-            queue_resize_no_redraw ();
+            queue_resize ();
         }
     }
 
@@ -79,11 +79,6 @@ public class Vaccine.PanelView : Container, NotebookPage {
         child_allocation.y = allocation.y + border_width;
 
         int visible = (int) uint.min(max_visible, length);
-        Requisition child_minsize, child_natsize;
-        if (visible > 0) {
-            _children.nth_data (current).get_preferred_size (out child_minsize, out child_natsize);
-            allocation.width = int.max(visible * int.max(child_natsize.width, child_minsize.width), allocation.width);
-        }
         child_allocation.width = (allocation.width - 2*border_width) / visible;
         child_allocation.height = allocation.height - 2*border_width;
 
