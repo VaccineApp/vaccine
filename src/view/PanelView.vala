@@ -77,8 +77,16 @@ public class Vaccine.PanelView : Container, NotebookPage {
         Allocation child_allocation = Allocation ();
         child_allocation.x = allocation.x + border_width;
         child_allocation.y = allocation.y + border_width;
-        child_allocation.width = (allocation.width - 2*border_width) / (int) uint.min(max_visible, length);
+
+        int visible = (int) uint.min(max_visible, length);
+        Requisition child_minsize, child_natsize;
+        if (visible > 0) {
+            _children.nth_data (current).get_preferred_size (out child_minsize, out child_natsize);
+            allocation.width = int.max(visible * int.max(child_natsize.width, child_minsize.width), allocation.width);
+        }
+        child_allocation.width = (allocation.width - 2*border_width) / visible;
         child_allocation.height = allocation.height - 2*border_width;
+
         uint nthchild = 0;
         _children.foreach (widget => {
             Allocation widget_allocation = Allocation() {
@@ -93,10 +101,22 @@ public class Vaccine.PanelView : Container, NotebookPage {
                 widget.show ();
             ++nthchild;
         });
+
         base.size_allocate (allocation);
     }
 
-    public new void get_preferred_size (out Requisition minimum_size, out Requisition natural_size) {
+    public override void get_preferred_width (out int minimum_width, out int natural_width) {
+        base.get_preferred_width (out minimum_width, out natural_width);
+        int visible = (int) uint.min(max_visible, _children.length ());
+        Requisition child_minsize, child_natsize;
+        if (visible > 0) {
+            _children.nth_data (current).get_preferred_size (out child_minsize, out child_natsize);
+            minimum_width = int.max(visible * child_minsize.width, minimum_width);
+            natural_width = int.max(visible * child_natsize.width, natural_width);
+        }
+    }
+
+    /* public new void get_preferred_size (out Requisition minimum_size, out Requisition natural_size) {
         unowned List<Widget> list = _children.nth (current);
         minimum_size = { 0, 0 };
         natural_size = { 0, 0 };
@@ -111,7 +131,7 @@ public class Vaccine.PanelView : Container, NotebookPage {
             natural_size.width += child_natsize.width;
             natural_size.height += child_natsize.height;
         }
-    }
+    } */
 
     // What is the point of this method?
     public override bool draw (Cairo.Context cr) {
