@@ -80,8 +80,8 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         no_content_description.label = no_content_texts [Random.int_range (0, no_content_texts.length)];
 
-        App.settings.changed["filter-nsfw-content"].connect (() =>
-            listbox.invalidate_filter ());
+        App.settings.changed["filter-nsfw-content"].connect (listbox.invalidate_filter);
+        board_search.changed.connect (listbox.invalidate_filter);
 
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
@@ -105,7 +105,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
                 return true;
             return label.name.contains (board_search.text);
         });
-        board_search.changed.connect (listbox.invalidate_filter);
 
         notebook.page_added.connect ((w, p) =>
             notebook.show_tabs = (notebook.get_n_pages() > 1));
