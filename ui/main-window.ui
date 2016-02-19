@@ -196,6 +196,9 @@
                 <property name="icon_name">view-refresh-symbolic</property>
               </object>
             </child>
+            <style>
+              <class name="image-button"/>
+            </style>
           </object>
           <packing>
             <property name="pack_type">end</property>
