@@ -1,7 +1,11 @@
 Vaccine
 =======
 
-![hero](res/hero.png)
+![Catalog](res/vaccine-catalog.png)
+
+![Media View](res/vaccine-mediaview.png)
+
+![Panel View](res/vaccine-panelview.png)
 
 This is an imageboard browser for Linux that is written in Vala and uses GTK.
 Please contribute and report bugs.
@@ -13,7 +17,8 @@ Libraries
 * json-glib
 * libsoup
 * gee (no, not the board)
-* gstreamer-1.0
+* gstreamer-1.0 (>= 1.6)
+* gtksourceview-3.0
 
 Try it
 ---
