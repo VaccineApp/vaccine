@@ -48,35 +48,34 @@ public class Vaccine.PostTextBuffer : Object {
         var link_regex = /(\w+:\/\/\S*)/;
         var tokens = link_regex.split (text);
         foreach (var elem in tokens) {
-            if (link_regex.match (elem))
+            if (link_regex.match (elem)) {
                 buffer.insert_with_tags_by_name (ref iter, elem, -1, "link", current_tag);
-            else {
-                if (current_tag == "code" && text_view != null) {
-                    buffer.insert (ref iter, "\n", -1);
-                    Gtk.TextChildAnchor anchor = buffer.create_child_anchor (iter);
-                    Gtk.SourceView source_view = new Gtk.SourceView ();
-                    source_view.buffer.text = elem;
+            } else if (current_tag == "code" && text_view != null) {
+                buffer.insert (ref iter, "\n", -1);
+                Gtk.TextChildAnchor anchor = buffer.create_child_anchor (iter);
+                Gtk.SourceView source_view = new Gtk.SourceView ();
+                source_view.buffer.text = elem;
 
-                    Gtk.SourceBuffer sbuffer = source_view.buffer as Gtk.SourceBuffer;
-                    sbuffer.style_scheme = Gtk.SourceStyleSchemeManager.get_default ().get_scheme ("tango");
-                    sbuffer.highlight_syntax = true;
-                    sbuffer.undo_manager = null;
-                    source_view.monospace = true;
-                    source_view.editable = false;
-                    source_view.input_hints = Gtk.InputHints.NONE;
+                Gtk.SourceBuffer sbuffer = source_view.buffer as Gtk.SourceBuffer;
+                sbuffer.style_scheme = Gtk.SourceStyleSchemeManager.get_default ().get_scheme ("tango");
+                sbuffer.highlight_syntax = true;
+                sbuffer.undo_manager = null;
+                source_view.monospace = true;
+                source_view.editable = false;
+                source_view.input_hints = Gtk.InputHints.NONE;
 
-                    // guess programming language
-                    bool result_uncertain;
-                    string type = ContentType.guess (null, elem.data, out result_uncertain);
-                    debug ("GtkSourceView: type '%s' %s", type, result_uncertain ? "(uncertain)" : "");
-                    sbuffer.language = Gtk.SourceLanguageManager.get_default ().guess_language (null, type);
+                // guess programming language
+                bool result_uncertain;
+                string type = ContentType.guess (null, elem.data, out result_uncertain);
+                debug ("GtkSourceView: type '%s' %s", type, result_uncertain ? "(uncertain)" : "");
+                sbuffer.language = Gtk.SourceLanguageManager.get_default ().guess_language (null, type);
 
-                    text_view.add_child_at_anchor (source_view, anchor);
-                    source_view.show_all ();
-                    buffer.get_end_iter (out iter);
-                    buffer.insert (ref iter, "\n", -1);
-                } else
-                    buffer.insert_with_tags_by_name (ref iter, elem, -1, current_tag);
+                text_view.add_child_at_anchor (source_view, anchor);
+                source_view.show_all ();
+                buffer.get_end_iter (out iter);
+                buffer.insert (ref iter, "\n", -1);
+            } else {
+                buffer.insert_with_tags_by_name (ref iter, elem, -1, current_tag);
             }
         }
     }
