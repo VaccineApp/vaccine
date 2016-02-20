@@ -62,6 +62,11 @@ public class Vaccine.Thread : Object, ListModel {
         return posts == null ? 0 : posts.size;
     }
 
+    public void set_filter (string text) {
+        foreach (Post p in posts)
+            p.visible = (p.com != null && text in p.com);
+    }
+
     public void update_thread () {
         debug ("updating thread %lld".printf (no));
         FourChan.dl_thread.begin (this);

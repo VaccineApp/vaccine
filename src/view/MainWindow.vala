@@ -22,7 +22,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
     const ActionEntry[] shortcuts = {
         { "close_tab", close_tab },
-        { "catalog_find", catalog_find },
+        { "toggle_search", toggle_search },
         { "next_tab", next_tab },
         { "prev_tab", prev_tab }
     };
@@ -33,8 +33,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             page.destroy ();
     }
 
-    // TODO: thread search
-    void catalog_find () {
+    void toggle_search () {
         if (!searchbar.search_mode_enabled) {
             searchbar.search_mode_enabled = true;
             searchentry.grab_focus_without_selecting ();
@@ -58,7 +57,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         app.set_accels_for_action ("app.quit", {"<Primary>Q"});
         app.set_accels_for_action ("win.close_tab", {"<Primary>W"});
-        app.set_accels_for_action ("win.catalog_find", {"<Primary>F"});
+        app.set_accels_for_action ("win.toggle_search", {"<Primary>F"});
         app.set_accels_for_action ("win.next_tab", {"<Primary>Tab"});
         app.set_accels_for_action ("win.prev_tab", {"<Primary><Shift>Tab"});
 
@@ -67,7 +66,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         geom.get ("(iiii)", out x, out y, out width, out height);
         move (x, y);
         resize (width, height);
-
 
         // meme magic:
         const string[] no_content_texts = {
@@ -101,7 +99,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             var label = row.get_child () as Gtk.Label;
             if (App.settings.get_boolean ("filter-nsfw-content") && label.get_data ("nsfw"))
                 return false;
-            if (board_search.text.length == 0)
+            if (board_search.text == "")
                 return true;
             return label.name.contains (board_search.text);
         });
@@ -113,11 +111,16 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         show_search_bar_button.bind_property ("active", searchbar, "search-mode-enabled", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 
-        notebook.bind_property ("page", headerbar, "title", BindingFlags.DEFAULT, (bind, src, ref target) => {
-            var page = notebook.get_nth_page ((int) src);
-            assert (page != null);
-            target = page.name;
-            return true;
+        notebook.notify["page"].connect ((obj, pspec) => {
+            NotebookPage page = notebook.get_nth_page (notebook.page) as NotebookPage;
+            headerbar.title = page.name;
+
+            if (page.search_text != null && page.search_text != "") {
+                searchbar.search_mode_enabled = true;
+                searchentry.text = page.search_text;
+            } else {
+                searchbar.search_mode_enabled = false;
+            }
         });
 
         listbox.row_selected.connect (row => {
@@ -198,7 +201,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         var current = notebook.get_nth_page (notebook.page);
         var text = ((Gtk.Entry) entry).text;
         assert (current is NotebookPage);
-        ((NotebookPage) current).filter (text);
+        ((NotebookPage) current).search_text = text;
     }
 
     [GtkCallback]

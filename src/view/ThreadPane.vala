@@ -4,6 +4,8 @@ public class Vaccine.ThreadPane : Gtk.Box, NotebookPage {
     [GtkChild] private Gtk.Box heading_box;
     [GtkChild] private Gtk.Label heading;
 
+    public string search_text { get; set; }
+
     // we already have it from the catalog
     Gdk.Pixbuf? op_thumb;
     string board;
@@ -13,6 +15,11 @@ public class Vaccine.ThreadPane : Gtk.Box, NotebookPage {
     // UI is prioritized, call set_model later when you have data
     public void set_model (ListModel model) {
         this.model = model;
+        notify["search-text"].connect (() => {
+            if (model is Thread) {
+                ((Thread) model).set_filter (search_text);
+            }
+        });
         list.bind_model (model, item => {
             var post = item as Post;
             if (post.isOP && post.pixbuf == null)
@@ -42,13 +49,9 @@ public class Vaccine.ThreadPane : Gtk.Box, NotebookPage {
         }
     }
 
-    public void filter (string text) {
-        // TODO
-        // list.invalidate_filter ();
-    }
-
     public void refresh () {
-        if (model is Thread)
+        if (model is Thread) {
             ((Thread) model).update_thread ();
+        }
     }
 }

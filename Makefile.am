@@ -36,7 +36,6 @@ resources.c: ui/resources.xml $(vaccine_resources)
 	glib-compile-resources --sourcedir=ui --generate-source --target $@ $<
 
 vaccine_CFLAGS = \
-	-g \
 	-Wno-incompatible-pointer-types \
 	$(GTK3_CFLAGS) \
 	$(JSON_GLIB_CFLAGS) \

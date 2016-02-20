@@ -2,8 +2,20 @@
 public class Vaccine.CatalogWidget : Gtk.Box, NotebookPage {
     [GtkChild] public Gtk.FlowBox layout;
 
+    public string search_text { get; set; }
+
     public CatalogWidget () {
         name = "Catalog";
+        layout.set_filter_func (child => {
+            if (search_text == null)
+                return true;
+            var item = child.get_child () as CatalogItem;
+            string query = Markup.escape_text (search_text.down ());
+            string subject = item.post_subject.label.down ();
+            string comment = item.post_comment.label.down ();
+            return subject.contains (query) || comment.contains (query);
+        });
+        notify["search-text"].connect (layout.invalidate_filter);
     }
 
     public new void add (MainWindow win, ThreadOP t) {
@@ -20,19 +32,6 @@ public class Vaccine.CatalogWidget : Gtk.Box, NotebookPage {
         } catch (Error e) {
             warning (e.message);
         }
-    }
-
-    public void filter (string text) {
-        if (text == "")
-            layout.set_filter_func (null);
-        else
-            layout.set_filter_func (child => {
-                var item = child.get_child () as CatalogItem;
-                string query = Markup.escape_text (text.down ());
-                string subject = item.post_subject.label.down ();
-                string comment = item.post_comment.label.down ();
-                return subject.contains (query) || comment.contains (query);
-            });
     }
 
     public void refresh () {

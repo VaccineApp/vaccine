@@ -47,6 +47,8 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
     public PostListRow (Post post, Gdk.Pixbuf? thumbnail = null) {
         Object (post: post);
 
+        post.bind_property ("visible", this, "visible", BindingFlags.DEFAULT);
+
         App.settings.bind ("show-trips", post_name, "visible", SettingsBindFlags.GET);
 
         string name = post.name;
