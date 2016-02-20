@@ -54,6 +54,7 @@ public class Vaccine.PostTextBuffer : Object {
                 buffer.insert (ref iter, "\n", -1);
                 Gtk.TextChildAnchor anchor = buffer.create_child_anchor (iter);
                 Gtk.SourceView source_view = new Gtk.SourceView ();
+                source_view.show_line_numbers = true;
                 source_view.buffer.text = elem;
 
                 Gtk.SourceBuffer sbuffer = source_view.buffer as Gtk.SourceBuffer;
