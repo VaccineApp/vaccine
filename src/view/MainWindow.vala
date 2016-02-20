@@ -22,7 +22,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
     const ActionEntry[] shortcuts = {
         { "close_tab", close_tab },
-        { "catalog_find", catalog_find },
+        { "toggle_search", toggle_search },
         { "next_tab", next_tab },
         { "prev_tab", prev_tab }
     };
@@ -33,8 +33,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             page.destroy ();
     }
 
-    // TODO: thread search
-    void catalog_find () {
+    void toggle_search () {
         if (!searchbar.search_mode_enabled) {
             searchbar.search_mode_enabled = true;
             searchentry.grab_focus_without_selecting ();
@@ -58,7 +57,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         app.set_accels_for_action ("app.quit", {"<Primary>Q"});
         app.set_accels_for_action ("win.close_tab", {"<Primary>W"});
-        app.set_accels_for_action ("win.catalog_find", {"<Primary>F"});
+        app.set_accels_for_action ("win.toggle_search", {"<Primary>F"});
         app.set_accels_for_action ("win.next_tab", {"<Primary>Tab"});
         app.set_accels_for_action ("win.prev_tab", {"<Primary><Shift>Tab"});
 
@@ -67,7 +66,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         geom.get ("(iiii)", out x, out y, out width, out height);
         move (x, y);
         resize (width, height);
-
 
         // meme magic:
         const string[] no_content_texts = {
@@ -116,7 +114,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         notebook.notify["page"].connect ((obj, pspec) => {
             NotebookPage page = notebook.get_nth_page (notebook.page) as NotebookPage;
             headerbar.title = page.name;
-    
+
             if (page.search_text != null && page.search_text != "") {
                 searchbar.search_mode_enabled = true;
                 searchentry.text = page.search_text;
