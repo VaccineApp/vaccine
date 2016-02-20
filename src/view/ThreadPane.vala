@@ -43,8 +43,9 @@ public class Vaccine.ThreadPane : Gtk.Box, NotebookPage {
     }
 
     public void filter (string text) {
-        // TODO
-        // list.invalidate_filter ();
+        if (model is Thread) {
+            ((Thread) model).set_filter (text);
+        }
     }
 
     public void refresh () {

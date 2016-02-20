@@ -167,6 +167,8 @@ namespace Vaccine {
                 return n;
             }
         }
+
+        public bool visible { get; set; default = true; }
     }
 
     public class ThreadOP : Post {
