@@ -101,7 +101,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             var label = row.get_child () as Gtk.Label;
             if (App.settings.get_boolean ("filter-nsfw-content") && label.get_data ("nsfw"))
                 return false;
-            if (board_search.text.length == 0)
+            if (board_search.text == "")
                 return true;
             return label.name.contains (board_search.text);
         });
