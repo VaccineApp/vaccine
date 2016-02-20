@@ -67,6 +67,11 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         tags.add (underline);
 
         // TODO spoiler
+
+        // TODO math
+        var math = new Gtk.TextTag ("math");
+        math.font = "serif";
+        tags.add (math);
     }
 
     private Gdk.Cursor cursor_text;

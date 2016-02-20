@@ -96,6 +96,10 @@ public class Vaccine.PostTransformer : Object {
             .replace ("<br></br>", br_replace)
             .replace ("<br>",      br_replace) // unclosed tag
             .replace ("<br />",    br_replace)
-            .replace ("<wbr>",     "");
+            .replace ("<wbr>",     "")
+            .replace ("[math]", "<math>")
+            .replace ("[/math]", "</math>")
+            .replace ("[eqn]", "<eqn>")
+            .replace ("[/eqn]", "</eqn>");
     }
 }

@@ -35,6 +35,8 @@ public class Vaccine.PostTextBuffer : Object {
             current_tag = "bold";
         if (elem == "u")
             current_tag = "underline";
+        if (elem == "math" || elem == "eqn")
+            current_tag = "math";
 
         for (int i = 0; i < attrs.length; ++i) {
             if (elem == "span" && attrs[i] == "class" && vals[i] == "quote")
