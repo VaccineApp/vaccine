@@ -134,15 +134,20 @@ public class Vaccine.PanelView : Container, NotebookPage {
         return false;
     }
 
-    public void open_in_browser () {
-        ((NotebookPage) _children.data).open_in_browser ();
+    private NotebookPage threadpane () {
+        return (NotebookPage) _children.data;
     }
 
-    public void filter (string text) {
-        ((NotebookPage) _children.data).filter (text);
+    public string search_text {
+        get { return threadpane ().search_text; }
+        set { threadpane ().search_text = value; }
+    }
+
+    public void open_in_browser () {
+        threadpane ().open_in_browser ();
     }
 
     public void refresh () {
-        ((NotebookPage) _children.data).refresh ();
+        threadpane ().refresh ();
     }
 }

@@ -113,11 +113,16 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         show_search_bar_button.bind_property ("active", searchbar, "search-mode-enabled", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 
-        notebook.bind_property ("page", headerbar, "title", BindingFlags.DEFAULT, (bind, src, ref target) => {
-            var page = notebook.get_nth_page ((int) src);
-            assert (page != null);
-            target = page.name;
-            return true;
+        notebook.notify["page"].connect ((obj, pspec) => {
+            NotebookPage page = notebook.get_nth_page (notebook.page) as NotebookPage;
+            headerbar.title = page.name;
+    
+            if (page.search_text != null && page.search_text != "") {
+                searchbar.search_mode_enabled = true;
+                searchentry.text = page.search_text;
+            } else {
+                searchbar.search_mode_enabled = false;
+            }
         });
 
         listbox.row_selected.connect (row => {
@@ -198,7 +203,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         var current = notebook.get_nth_page (notebook.page);
         var text = ((Gtk.Entry) entry).text;
         assert (current is NotebookPage);
-        ((NotebookPage) current).filter (text);
+        ((NotebookPage) current).search_text = text;
     }
 
     [GtkCallback]
