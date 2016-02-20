@@ -41,6 +41,6 @@ public class Vaccine.CatalogItem : Gtk.Button {
 
     [GtkCallback]
     public void show_thread () {
-        main_window.show_thread (op.no, op.pixbuf);
+        main_window.show_thread (op.board, op.no, op.pixbuf);
     }
 }

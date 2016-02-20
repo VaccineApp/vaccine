@@ -6,7 +6,7 @@ public class Vaccine.FourChan : Object {
 
     // NOTE: pass to function if it is async,
     // otherwise function can access it directly
-    private static string _board; // TODO: save & restore
+    private static string _board;
     public static string board {
         get { return _board; }
         set {

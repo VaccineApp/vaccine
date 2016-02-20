@@ -20,8 +20,15 @@
       <default>false</default>
       <summary>Use dark theme</summary>
     </key>
+    <!-- saved app state -->
     <key name="win-geom" type="(iiii)">
       <default>(100,100,1100,800)</default>
+    </key>
+    <key name="board" type="s">
+      <default>''</default>
+    </key>
+    <key name="saved-threads" type="a(sx)">
+      <default>[]</default>
     </key>
   </schema>
 </schemalist>

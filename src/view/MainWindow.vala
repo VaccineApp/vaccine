@@ -83,6 +83,12 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         App.settings.changed["filter-nsfw-content"].connect (listbox.invalidate_filter);
         board_search.changed.connect (listbox.invalidate_filter);
 
+        string saved_board = App.settings.get_string ("board");
+        if (saved_board != "") {
+            FourChan.board = saved_board;
+            content_stack.visible_child = notebook;
+        }
+
         FourChan.get_boards.begin ((obj, res) => {
             var boards = FourChan.get_boards.end (res);
             listbox.foreach (w => w.destroy ());
@@ -94,6 +100,10 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
                 row.set_data ("nsfw", b.ws_board == 0);
                 listbox.add (row);
             }
+            if (FourChan.board != null)
+                foreach (Board b in boards)
+                    if (b.board == FourChan.board)
+                        choose_board_button.label = "/%s/ - %s".printf (b.board, b.title);
             listbox.show_all ();
         });
 
@@ -148,21 +158,49 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             refresh_button.sensitive = true;
         });
 
+        VariantIter iter;
+        string board;
+        int64 no;
+        App.settings.get ("saved-threads", "a(sx)", out iter);
+        if (iter.n_children () > 0) {
+            content_stack.visible_child = notebook;
+        }
+        while (iter.next ("(sx)", out board, out no)) {
+            show_thread (board, no, null);
+        }
+
         this.show_all ();
     }
 
     public override bool delete_event (Gdk.EventAny ev) {
+        // window geometry
         int x, y, width, height;
         get_position (out x, out y);
         get_size (out width, out height);
         App.settings.set ("win-geom", "(iiii)", x, y, width, height);
+
+        // board
+        if (FourChan.board != null)
+            App.settings.set ("board", "s", FourChan.board);
+
+        // open threads
+        Variant[] tvs = {};
+        notebook.foreach (child => {
+            if (child is PanelView) {
+                ThreadPane p = ((Gtk.Container) child).get_children ().data as ThreadPane;
+                tvs += new Variant ("(sx)", p.board, p.no);
+            }
+        });
+        Variant ta = new Variant.array (new VariantType ("(sx)"), tvs);
+        App.settings.set_value ("saved-threads", ta);
+
         return false;
     }
 
-    public void show_thread (int64 no, Gdk.Pixbuf op_thumbnail) {
+    public void show_thread (string? board, int64 no, Gdk.Pixbuf? op_thumbnail) {
         var panelview = new PanelView ();
-        var threadpane = new ThreadPane (FourChan.board, no, op_thumbnail);
-        var thread = new Thread (FourChan.board, no);
+        var threadpane = new ThreadPane (board ?? FourChan.board, no, op_thumbnail);
+        var thread = new Thread (board ?? FourChan.board, no);
         threadpane.set_model (thread);
 
         panelview.name = "Loading…";

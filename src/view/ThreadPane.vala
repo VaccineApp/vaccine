@@ -6,8 +6,8 @@ public class Vaccine.ThreadPane : Gtk.Box, NotebookPage {
 
     // we already have it from the catalog
     Gdk.Pixbuf? op_thumb;
-    string board;
-    int64 no = -1;
+    public string board;
+    public int64 no = -1;
     ListModel? model = null;
 
     // UI is prioritized, call set_model later when you have data
@@ -25,6 +25,7 @@ public class Vaccine.ThreadPane : Gtk.Box, NotebookPage {
         this.board = board;
         this.no = no;
         this.op_thumb = op_thumb;
+        heading_box.no_show_all = true;
     }
 
     public ThreadPane.with_title (string title) {
