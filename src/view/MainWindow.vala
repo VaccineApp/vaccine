@@ -51,6 +51,11 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         notebook.page = (notebook.page-1) % notebook.get_n_pages ();
     }
 
+    private struct SavedThread {
+        string board;
+        int64 no;
+    }
+
     public MainWindow (Gtk.Application app) {
         Object (application: app);
 
@@ -158,15 +163,11 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             refresh_button.sensitive = true;
         });
 
-        VariantIter iter;
-        string board;
-        int64 no;
-        App.settings.get ("saved-threads", "a(sx)", out iter);
-        if (iter.n_children () > 0) {
+        SavedThread[] saved_threads = (SavedThread[]) App.settings.get_value ("saved-threads");
+        if (saved_threads.length > 0) {
             content_stack.visible_child = notebook;
-        }
-        while (iter.next ("(sx)", out board, out no)) {
-            show_thread (board, no, null);
+            foreach (SavedThread st in saved_threads)
+                show_thread (st.board, st.no, null);
         }
 
         this.show_all ();
@@ -184,15 +185,14 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             App.settings.set ("board", "s", FourChan.board);
 
         // open threads
-        Variant[] tvs = {};
+        SavedThread[] tvs = {};
         notebook.foreach (child => {
             if (child is PanelView) {
                 ThreadPane p = ((Gtk.Container) child).get_children ().data as ThreadPane;
-                tvs += new Variant ("(sx)", p.board, p.no);
+                tvs += SavedThread () { board = p.board, no = p.no };
             }
         });
-        Variant ta = new Variant.array (new VariantType ("(sx)"), tvs);
-        App.settings.set_value ("saved-threads", ta);
+        App.settings.set_value ("saved-threads", tvs);
 
         return false;
     }
