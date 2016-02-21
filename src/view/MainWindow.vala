@@ -67,12 +67,10 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         app.set_accels_for_action ("win.next_tab", {"<Primary>Tab"});
         app.set_accels_for_action ("win.prev_tab", {"<Primary><Shift>Tab"});
 
-        Variant geom = App.settings.get_value ("win-geom");
         int x, y, width, height;
-        geom.get ("(iiii)", out x, out y, out width, out height);
+        App.settings.get ("win-geom", "(iiii)", out x, out y, out width, out height);
         move (x, y);
         resize (width, height);
-
 
         // meme magic:
         const string[] no_content_texts = {
