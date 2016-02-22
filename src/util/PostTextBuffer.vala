@@ -19,6 +19,9 @@ public class Vaccine.PostTextBuffer : Object {
 
     static string[]? style_scheme_ids { get; private set; }
 
+    // maps class => content type
+    static HashTable<string,string> language_types { get; private set; }
+
     static construct {
         style_scheme_ids = Gtk.SourceStyleSchemeManager.get_default ().get_scheme_ids ();
         if (style_scheme_ids == null) {
@@ -27,6 +30,21 @@ public class Vaccine.PostTextBuffer : Object {
         } else
             foreach (var scheme in style_scheme_ids)
                 debug ("found style scheme '%s'", scheme);
+
+        language_types = new HashTable<string,string> (GLib.str_hash, GLib.str_equal);
+        language_types.insert ("C", "text/x-csrc");
+        language_types.insert ("C#", "text/x-csharp");
+        language_types.insert ("C++", "text/x-c++src");
+        language_types.insert ("Java", "text/x-java");
+        language_types.insert ("JavaScript", "application/javascript");
+        language_types.insert ("Haskell", "text/x-haskell");
+        language_types.insert ("HTML", "text/html");
+        language_types.insert ("Python", "text/x-python");
+        // TODO: add more
+    }
+
+    static List<Bayes.Guess> guess_language (string data) {
+        return (Application.get_default () as App).code_classifier.guess (data);
     }
 
     void visit_start (MarkupParseContext context, string elem, string[] attrs, string[] vals) throws MarkupError {
@@ -79,6 +97,15 @@ public class Vaccine.PostTextBuffer : Object {
                     bool result_uncertain;
                     string type = ContentType.guess (null, elem.data, out result_uncertain);
                     debug ("GtkSourceView: type '%s' %s", type, result_uncertain ? "(uncertain)" : "");
+                    if (result_uncertain || ContentType.is_a (type, "text/plain")) {
+                        Bayes.Guess best_guess = guess_language (elem).data;
+                        debug ("guessing %s with probability %f",
+                            best_guess.get_name (), best_guess.get_probability ());
+                        string new_type = language_types.lookup (best_guess.get_name ());
+                        if (new_type != null)
+                            type = new_type;
+                        debug ("content type is %s", new_type);
+                    }
                     sbuffer.language = Gtk.SourceLanguageManager.get_default ().guess_language (null, type);
 
                     text_view.add_child_at_anchor (source_view, anchor);

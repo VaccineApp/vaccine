@@ -12,6 +12,7 @@
         <file>error-dialog.ui</file>
         <file>tab.ui</file>
         <file>style.css</file>
+        <file>code-training-set.json</file>
     </gresource>
     <gresource prefix="/org/vaccine/app/gtk">
         <file>menus.ui</file>

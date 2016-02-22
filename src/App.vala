@@ -4,11 +4,22 @@ namespace Vaccine {
     public class App : Gtk.Application {
         public static Settings settings;
         public FourChan chan = new FourChan ();
+        public Bayes.Classifier code_classifier = new Bayes.Classifier ();
         PreferencesView? prefs = null;
 
         public App () {
             Object (application_id: "org.vaccine.app",
                     flags: ApplicationFlags.FLAGS_NONE);
+            try {
+                // FIXME: disabled until Bayes.StorageMemory.new_from_stream () is written
+                // code_classifier.storage = new Bayes.StorageMemory.from_file ("resource://org/vaccine/app/code-training-set.json");
+
+                // for now we just load from disk
+                code_classifier.storage = new Bayes.StorageMemory.from_file ("ui/code-training-set.json");
+            } catch (Error e) {
+                debug ("failed to load training set: %s", e.message);
+                code_classifier.storage = new Bayes.StorageMemory ();
+            }
         }
 
         public MainWindow main_window { get; private set; }
