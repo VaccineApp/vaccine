@@ -82,7 +82,9 @@ public class Vaccine.PostTextBuffer : Object {
                     sbuffer.language = Gtk.SourceLanguageManager.get_default ().guess_language (null, type);
 
                     text_view.add_child_at_anchor (source_view, anchor);
-                    source_view.show_all ();
+                    // FIXME: text_view does not resize properly (initially)
+                    text_view.show_all ();
+
                     buffer.get_end_iter (out iter);
                     buffer.insert (ref iter, "\n", -1);
                 } else {
