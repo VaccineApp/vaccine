@@ -12,10 +12,9 @@ namespace Vaccine {
                     flags: ApplicationFlags.FLAGS_NONE);
             try {
                 // FIXME: disabled until Bayes.StorageMemory.new_from_stream () is written
-                // code_classifier.storage = new Bayes.StorageMemory.from_file ("resource://org/vaccine/app/code-training-set.json");
-
-                // for now we just load from disk
-                code_classifier.storage = new Bayes.StorageMemory.from_file ("ui/code-training-set.json");
+                var istream = GLib.resources_open_stream ("/org/vaccine/app/code-training-set.json", GLib.ResourceLookupFlags.NONE);
+                code_classifier.storage = new Bayes.StorageMemory.from_stream (istream);
+                debug ("loaded source code training file");
             } catch (Error e) {
                 debug ("failed to load training set: %s", e.message);
                 code_classifier.storage = new Bayes.StorageMemory ();
