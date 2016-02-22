@@ -11,7 +11,6 @@ namespace Vaccine {
             Object (application_id: "org.vaccine.app",
                     flags: ApplicationFlags.FLAGS_NONE);
             try {
-                // FIXME: disabled until Bayes.StorageMemory.new_from_stream () is written
                 var istream = GLib.resources_open_stream ("/org/vaccine/app/code-training-set.json", GLib.ResourceLookupFlags.NONE);
                 code_classifier.storage = new Bayes.StorageMemory.from_stream (istream);
                 debug ("loaded source code training file");
