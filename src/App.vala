@@ -13,6 +13,10 @@ namespace Vaccine {
             try {
                 var istream = GLib.resources_open_stream ("/org/vaccine/app/code-training-set.json", GLib.ResourceLookupFlags.NONE);
                 code_classifier.storage = new Bayes.StorageMemory.from_stream (istream);
+                // FIXME: bayes-glib bindings
+                code_classifier.set_tokenizer (text => {
+                    return Bayes.tokenizer_code_tokens (text, null);
+                });
                 debug ("loaded source code training file");
             } catch (Error e) {
                 debug ("failed to load training set: %s", e.message);
