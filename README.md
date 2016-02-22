@@ -10,15 +10,21 @@ Vaccine
 This is an imageboard browser for Linux that is written in Vala and uses GTK.
 Please contribute and report bugs.
 
-Libraries
----
+# Dependencies
+| Package name             | Version  |
+|--------------------------|----------|
+| glib2                    | >= 2.44  |
+| vala                     |          |
+| gtk3                     | >=3.18   |
+| libsoup                  | >=2.4    |
+| libgee                   | >=0.18   |
+| gstreamer                | >=1.6    |
+| gstreamer-plugins-bad    | >= 1.6   |
+| json-glib                | >=1.0    |
+| gtksourceview3           | >=3.16   |
+| [bayes-glib]             | >=0.2    |
 
-* GTK+ 3
-* json-glib
-* libsoup
-* gee (no, not the board)
-* gstreamer-1.0 (>= 1.6)
-* gtksourceview-3.0
+[bayes-glib]: https://github.com/VaccineApp/bayes-glib/
 
 Try it
 ---
