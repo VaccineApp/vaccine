@@ -145,14 +145,15 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
             // TODO handle touch up event
         });
 
-        // TODO property binding for thread updates
-        var nreplies = post.nreplies;
-        if (nreplies == 0) {
-            responses_button.destroy ();
-        } else {
-            responses_amount.label = nreplies > 99 ? "99+" : nreplies.to_string ();
-            responses_amount.get_style_context ().remove_class ("label");
-        }
+        responses_amount.get_style_context ().remove_class ("label");
+        post.notify["nreplies"].connect (() => {
+            if (post.nreplies > 0) {
+                responses_button.show_all ();
+            } else {
+                responses_button.visible = false;
+            }
+            responses_button.label = post.nreplies > 99 ? "99+" : post.nreplies.to_string ();
+        });
     }
 
     ~PostListRow () {

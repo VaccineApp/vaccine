@@ -129,7 +129,7 @@ namespace Vaccine {
         // begin vaccine stuff
         public bool isOP { get { return resto == 0; } }
 
-        public weak Thread? thread = null;
+        public unowned Thread? thread { get; set; default = null; }
 
         private string _board;
         public string board {
@@ -157,15 +157,21 @@ namespace Vaccine {
             return cancel;
         }
 
-        public uint nreplies {
-            get {
-                var quote = "&gt;&gt;%lld".printf (no);
-                uint n = 0;
-                foreach (var p in thread.posts)
-                    if (p.com != null && p.com.contains (quote))
-                        ++n;
-                return n;
-            }
+        public uint nreplies { get; set; default = 0; }
+
+        construct {
+            // we should only be setting the thread once
+            notify["thread"].connect (() => {
+                assert (thread != null);
+                thread.items_changed.connect (() => {
+                    string quote = "&gt;&gt;%lld".printf (no);
+                    uint n = 0;
+                    foreach (var p in thread.posts)
+                        if (p.com != null && quote in p.com)
+                            ++n;
+                    nreplies = n;
+                });
+            });
         }
 
         public bool visible { get; set; default = true; }
