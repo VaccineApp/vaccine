@@ -77,6 +77,7 @@ public class Vaccine.PostTextBuffer : Object {
                 source_view.monospace = true;
                 source_view.editable = false;
                 source_view.input_hints = Gtk.InputHints.NONE;
+                source_view.show_line_numbers = true;
 
                 // guess programming language
                 bool result_uncertain;
