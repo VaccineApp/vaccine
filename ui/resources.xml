@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/org/vaccine/app">
-        <file>main-window.ui</file>
-        <file>thread-pane.ui</file>
-        <file>post-list-row.ui</file>
-        <file>catalog-widget.ui</file>
-        <file>catalog-item.ui</file>
-        <file>preferences-view.ui</file>
-        <file>media-view.ui</file>
-        <file>video-preview-widget.ui</file>
-        <file>error-dialog.ui</file>
-        <file>tab.ui</file>
-        <file>style.css</file>
-        <file>code-training-set.json</file>
+        <file compressed="true" preprocess="xml-stripblanks">main-window.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">thread-pane.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">post-list-row.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">catalog-widget.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">catalog-item.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">preferences-view.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">media-view.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">video-preview-widget.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">error-dialog.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">tab.ui</file>
+        <file compressed="true">style.css</file>
+        <file compressed="true">code-training-set.json</file>
     </gresource>
     <gresource prefix="/org/vaccine/app/gtk">
-        <file>menus.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">menus.ui</file>
     </gresource>
 </gresources>
