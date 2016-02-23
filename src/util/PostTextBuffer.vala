@@ -62,53 +62,51 @@ public class Vaccine.PostTextBuffer : Object {
             if (!inside_code && link_regex.match (elem)) {
                 buffer.insert_with_tags_by_name (ref iter, elem, -1, "link", current_tag);
                 debug_text += elem;
+            } else if (current_tag == "code" && text_view != null) {
+                buffer.insert (ref iter, "\n", -1);
+                Gtk.TextChildAnchor anchor = buffer.create_child_anchor (iter);
+                Gtk.SourceView source_view = new Gtk.SourceView ();
+                source_view.buffer.text = elem;
+
+                // debug_text += @"\n[gtksourceview]$elem[/gtksourceview]\n";
+
+                Gtk.SourceBuffer sbuffer = source_view.buffer as Gtk.SourceBuffer;
+                sbuffer.style_scheme = Gtk.SourceStyleSchemeManager.get_default ().get_scheme ("tango");
+                sbuffer.highlight_syntax = true;
+                sbuffer.undo_manager = null;
+                source_view.monospace = true;
+                source_view.editable = false;
+                source_view.input_hints = Gtk.InputHints.NONE;
+
+                // guess programming language
+                bool result_uncertain;
+                string type = ContentType.guess (null, elem.data, out result_uncertain);
+                debug ("GtkSourceView: type '%s' %s", type, result_uncertain ? "(uncertain)" : "");
+                if (result_uncertain || type == "text/plain") {
+                    List<Bayes.Guess> guesses = guess_language (elem);
+                    string lang;
+                    if (guesses != null) {
+                        var best_guess = guesses.data;
+                        debug ("guessing %s with probability %f",
+                            best_guess.get_name (), best_guess.get_probability ());
+                        lang = best_guess.get_name ();
+                    } else {
+                        debug ("could not guess language");
+                        lang = "text";
+                    }
+                    sbuffer.language = Gtk.SourceLanguageManager.get_default ().get_language (lang);
+                } else
+                    sbuffer.language = Gtk.SourceLanguageManager.get_default ().guess_language (null, type);
+
+                text_view.add_child_at_anchor (source_view, anchor);
+                // FIXME: text_view does not resize properly (initially)
+                text_view.show_all ();
+
+                buffer.get_end_iter (out iter);
+                buffer.insert (ref iter, "\n", -1);
             } else {
-                if (current_tag == "code" && text_view != null) {
-                    buffer.insert (ref iter, "\n", -1);
-                    Gtk.TextChildAnchor anchor = buffer.create_child_anchor (iter);
-                    Gtk.SourceView source_view = new Gtk.SourceView ();
-                    source_view.buffer.text = elem;
-
-                    // debug_text += @"\n[gtksourceview]$elem[/gtksourceview]\n";
-
-                    Gtk.SourceBuffer sbuffer = source_view.buffer as Gtk.SourceBuffer;
-                    sbuffer.style_scheme = Gtk.SourceStyleSchemeManager.get_default ().get_scheme ("tango");
-                    sbuffer.highlight_syntax = true;
-                    sbuffer.undo_manager = null;
-                    source_view.monospace = true;
-                    source_view.editable = false;
-                    source_view.input_hints = Gtk.InputHints.NONE;
-
-                    // guess programming language
-                    bool result_uncertain;
-                    string type = ContentType.guess (null, elem.data, out result_uncertain);
-                    debug ("GtkSourceView: type '%s' %s", type, result_uncertain ? "(uncertain)" : "");
-                    if (result_uncertain || type == "text/plain") {
-                        List<Bayes.Guess> guesses = guess_language (elem);
-                        string lang;
-                        if (guesses != null) {
-                            var best_guess = guesses.data;
-                            debug ("guessing %s with probability %f",
-                                best_guess.get_name (), best_guess.get_probability ());
-                            lang = best_guess.get_name ();
-                        } else {
-                            debug ("could not guess language");
-                            lang = "text";
-                        }
-                        sbuffer.language = Gtk.SourceLanguageManager.get_default ().get_language (lang);
-                    } else
-                        sbuffer.language = Gtk.SourceLanguageManager.get_default ().guess_language (null, type);
-
-                    text_view.add_child_at_anchor (source_view, anchor);
-                    // FIXME: text_view does not resize properly (initially)
-                    text_view.show_all ();
-
-                    buffer.get_end_iter (out iter);
-                    buffer.insert (ref iter, "\n", -1);
-                } else {
-                    // debug_text += elem;
-                    buffer.insert_with_tags_by_name (ref iter, elem, -1, current_tag);
-                }
+                // debug_text += elem;
+                buffer.insert_with_tags_by_name (ref iter, elem, -1, current_tag);
             }
         }
     }
