@@ -24,7 +24,8 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         { "close_tab", close_tab },
         { "toggle_search", toggle_search },
         { "next_tab", next_tab },
-        { "prev_tab", prev_tab }
+        { "prev_tab", prev_tab },
+        { "fullscreen", toggle_fullscreen }
     };
 
     void close_tab () {
@@ -50,6 +51,22 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         notebook.page = (notebook.page-1) % notebook.get_n_pages ();
     }
 
+    private bool _is_fullscreen = false;
+    private bool is_fullscreen {
+        get { return _is_fullscreen; }
+        set {
+            _is_fullscreen = value;
+            if (_is_fullscreen)
+                this.fullscreen ();
+            else
+                this.unfullscreen ();
+        }
+    }
+
+    void toggle_fullscreen () {
+        is_fullscreen = !is_fullscreen;
+    }
+
     public MainWindow (Gtk.Application app) {
         Object (application: app);
 
@@ -60,6 +77,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         app.set_accels_for_action ("win.toggle_search", {"<Primary>F"});
         app.set_accels_for_action ("win.next_tab", {"<Primary>Tab"});
         app.set_accels_for_action ("win.prev_tab", {"<Primary><Shift>Tab"});
+        app.set_accels_for_action ("win.fullscreen", {"F11"});
 
         Variant geom = App.settings.get_value ("win-geom");
         int x, y, width, height;
