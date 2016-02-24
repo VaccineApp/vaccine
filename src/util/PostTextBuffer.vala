@@ -83,7 +83,7 @@ public class Vaccine.PostTextBuffer : Object {
                 bool result_uncertain;
                 string type = ContentType.guess (null, elem.data, out result_uncertain);
                 debug ("GtkSourceView: type '%s' %s", type, result_uncertain ? "(uncertain)" : "");
-                if (result_uncertain || type == "text/plain") {
+                if (result_uncertain || type == "text/plain" || !ContentType.is_a (type, "text/plain")) {
                     List<Bayes.Guess> guesses = guess_language (elem);
                     string lang;
                     if (guesses != null) {
