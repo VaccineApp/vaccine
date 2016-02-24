@@ -17,18 +17,6 @@ public class Vaccine.PostTextBuffer : Object {
 
     private string current_tag = null;
 
-    static string[]? style_scheme_ids { get; private set; }
-
-    static construct {
-        style_scheme_ids = Gtk.SourceStyleSchemeManager.get_default ().get_scheme_ids ();
-        if (style_scheme_ids == null) {
-            debug ("no style scheme IDs found for GtkSourceView");
-            style_scheme_ids = { "" };
-        } else
-            foreach (var scheme in style_scheme_ids)
-                debug ("found style scheme '%s'", scheme);
-    }
-
     static List<Bayes.Guess> guess_language (string data) {
         return (Application.get_default () as App).code_classifier.guess (data);
     }
