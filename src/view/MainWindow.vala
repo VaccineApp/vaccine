@@ -83,7 +83,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         int x, y, width, height;
         geom.get ("(iiii)", out x, out y, out width, out height);
         move (x, y);
-        resize (width, height);
+        set_default_size (width, height);
 
         // meme magic:
         const string[] no_content_texts = {
