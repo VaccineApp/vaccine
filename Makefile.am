@@ -1,3 +1,4 @@
+SUBDIRS = bayes-glib
 bin_PROGRAMS = vaccine
 
 vaccine_SOURCES = \
@@ -44,7 +45,7 @@ vaccine_CFLAGS = \
 	$(GSTREAMER_CFLAGS) \
 	$(GSTREAMER_BASE_CFLAGS) \
 	$(GTKSOURCEVIEW_CFLAGS) \
-	$(BAYES_GLIB_CFLAGS) \
+	-Ibayes-glib/src \
 	-Wno-deprecated-declarations \
 	-Wno-discarded-qualifiers \
 	-Wno-implicit-function-declaration \
@@ -61,7 +62,7 @@ vaccine_LDADD = \
 	$(GSTREAMER_LIBS) \
 	$(GSTREAMER_BASE_LIBS) \
 	$(GTKSOURCEVIEW_LIBS) \
-	$(BAYES_GLIB_LIBS) \
+	bayes-glib/src/libbayes-glib-1.0.a \
 	-lm
 
 run: vaccine

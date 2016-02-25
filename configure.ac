@@ -21,9 +21,9 @@ PKG_CHECK_MODULES([GSTREAMER], [gstreamer-1.0])
 PKG_CHECK_MODULES([GSTREAMER_BASE], [gstreamer-base-1.0])
 PKG_CHECK_MODULES([GSTREAMER_PLUGINS_BAD], [gstreamer-plugins-bad-1.0]) # just check for this
 PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-3.0])
-PKG_CHECK_MODULES([BAYES_GLIB], [bayes-glib-1.0 >= 0.2.2])
 
 AM_VALAFLAGS=" \
+    --vapidir=\$(top_srcdir)/bayes-glib/src \
     --pkg gtk+-3.0 \
     --pkg json-glib-1.0 \
     --pkg libsoup-2.4 \
@@ -31,7 +31,7 @@ AM_VALAFLAGS=" \
     --pkg gstreamer-1.0 \
     --pkg gstreamer-base-1.0 \
     --pkg gtksourceview-3.0 \
-    --pkg Bayes-1.0 \
+    --pkg bayes-glib-1.0 \
     --target-glib=2.38 \
     --gresources=\$(top_srcdir)/ui/resources.xml \
     --enable-experimental \
@@ -42,6 +42,7 @@ AS_IF([test "x$enable_debug" != "xno"], [AM_VALAFLAGS="$AM_VALAFLAGS -D DEBUG"],
 AC_SUBST(AM_VALAFLAGS)
 
 AC_CONFIG_FILES([Makefile])
+AC_CONFIG_SUBDIRS([bayes-glib])
 
 AC_OUTPUT
 
