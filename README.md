@@ -29,6 +29,7 @@ Please contribute and report bugs.
 Try it
 ---
 ```Bash
+$ git clone --recursive https://github.com/VaccineApp/vaccine
 $ ./autogen.sh
 $ make -j`nproc` run
 ```
