@@ -18,6 +18,7 @@ vaccine_SOURCES = \
 	src/util/PostTextBuffer.vala \
 	src/util/PostTransformer.vala \
 	src/util/Stripper.vala \
+	src/view/BoardListRow.vala \
 	src/view/CatalogItem.vala \
 	src/view/CatalogWidget.vala \
 	src/view/CoverImage.vala \

@@ -11,6 +11,7 @@
         <file compressed="true" preprocess="xml-stripblanks">video-preview-widget.ui</file>
         <file compressed="true" preprocess="xml-stripblanks">error-dialog.ui</file>
         <file compressed="true" preprocess="xml-stripblanks">tab.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks">board-list-row.ui</file>
         <file compressed="true">style.css</file>
         <file compressed="true">code-training-set.json</file>
     </gresource>

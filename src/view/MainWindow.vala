@@ -115,10 +115,8 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             var boards = FourChan.get_boards.end (res);
             listbox.foreach (w => w.destroy ());
             foreach (Board b in boards) {
-                var row = new Gtk.Label ("/%s/ - %s".printf (b.board, b.title));
+                var row = new BoardListRow ("/%s/ - %s".printf (b.board, b.title));
                 row.name = b.board;
-                row.margin = 6;
-                row.halign = Gtk.Align.START;
                 row.set_data ("nsfw", b.ws_board == 0);
                 listbox.add (row);
             }
