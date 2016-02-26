@@ -22,9 +22,6 @@ Please contribute and report bugs.
 | gstreamer-plugins-bad    | >= 1.6   |
 | json-glib                | >=1.0    |
 | gtksourceview3           | >=3.16   |
-| [bayes-glib]             | >=0.2    |
-
-[bayes-glib]: https://github.com/VaccineApp/bayes-glib/
 
 Try it
 ---
