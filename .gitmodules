@@ -1,0 +1,3 @@
+[submodule "bayes-glib"]
+	path = bayes-glib
+	url = https://github.com/VaccineApp/bayes-glib

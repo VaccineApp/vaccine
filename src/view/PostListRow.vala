@@ -24,6 +24,34 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         var link = new Gtk.TextTag ("link");
         link.foreground = "#2a76c6";
         link.underline = Pango.Underline.SINGLE;
+        link.event.connect ((obj, event, iter) => {
+            switch (event.type) {
+            case Gdk.EventType.BUTTON_RELEASE:  // click
+                Gtk.TextIter select_start, select_end;
+                Gtk.TextView textview = obj as Gtk.TextView;
+
+                textview.buffer.get_selection_bounds (out select_start, out select_end);
+                // if text is selected, don't open any links
+                if (select_start.get_offset () != select_end.get_offset ())
+                    return false;
+                var iter_begin = iter;
+                var iter_end = iter;
+                if (iter_begin.backward_to_tag_toggle (null)
+                 && iter_end.forward_to_tag_toggle (null)) {
+                    string url = iter_begin.get_text (iter_end);
+                    try {
+                        // try open
+                        AppInfo.launch_default_for_uri (url, null);
+                    } catch (Error e) {
+                        warning (url + ": " + e.message);
+                    }
+                }
+                break;
+            default:
+                return false;
+            }
+            return false;
+        });
         tags.add (link);
 
         var code = new Gtk.TextTag ("code");
@@ -39,6 +67,11 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         tags.add (underline);
 
         // TODO spoiler
+
+        // TODO math
+        var math = new Gtk.TextTag ("math");
+        math.font = "serif";
+        tags.add (math);
     }
 
     private Gdk.Cursor cursor_text;
@@ -74,7 +107,7 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         post_textview.buffer = new Gtk.TextBuffer (tags);
         if (post.com != null) {
             try {
-                new PostTextBuffer (post.com).fill_text_buffer (post_textview.buffer);
+                new PostTextBuffer (post.com).fill_text_buffer (post_textview.buffer, post_textview);
             } catch (Error e) {
                 debug (e.message);
             }
@@ -99,50 +132,6 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
             }
             post_textview.get_window (Gtk.TextWindowType.TEXT).cursor = cursor;
             return false;
-        });
-
-        /**
-         * The example in gtk3-demo creates link tags on the fly and does g_object_set_data (tag, url).
-         * Should we be doing this? check memory & performance
-         */
-        post_textview.event_after.connect (event => {
-            // if left button up
-            if (event.type == Gdk.EventType.BUTTON_RELEASE && event.button.button == Gdk.BUTTON_PRIMARY) {
-                Gtk.TextIter select_start, select_end;
-                post_textview.buffer.get_selection_bounds (out select_start, out select_end);
-                // if text is selected, don't open any links
-                if (select_start.get_offset () != select_end.get_offset ())
-                    return;
-
-                // get buffer coords
-                int x, y;
-                post_textview.window_to_buffer_coords (Gtk.TextWindowType.WIDGET, (int) event.button.x, (int) event.button.y, out x, out y);
-
-                // get TextIter
-                Gtk.TextIter link;
-                post_textview.get_iter_at_location (out link, x, y);
-                foreach (var tag in link.get_tags ()) {
-                    // find 'link' tag
-                    if (tag.name == "link") {
-                        // go to start of link
-                        link.backward_to_tag_toggle (tags.lookup ("link"));
-                        // go to end of link
-                        Gtk.TextIter link_end = link;
-                        link_end.forward_to_tag_toggle (tags.lookup ("link"));
-                        // text between TextIters
-                        var url = link.get_text (link_end);
-                        // TODO handle quote links (>>1234)
-                        try {
-                            // try open
-                            AppInfo.launch_default_for_uri (url, null);
-                        } catch (Error e) {
-                            warning (url + ": " + e.message);
-                        }
-                        break;
-                    }
-                }
-            }
-            // TODO handle touch up event
         });
 
         // TODO property binding for thread updates
