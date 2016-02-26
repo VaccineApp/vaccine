@@ -2,15 +2,23 @@
 public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.HeaderBar headerbar;
     [GtkChild] private Gtk.SearchEntry searchentry;
+
     [GtkChild] private Gtk.Button choose_board_button;
     [GtkChild] private Gtk.ToggleButton show_search_bar_button;
     [GtkChild] private Gtk.Button open_in_browser_button;
     [GtkChild] private Gtk.Button refresh_button;
 
+    // fullscreen headerbar controls
+    [GtkChild] private Gtk.HeaderBar fs_headerbar;
+    [GtkChild] private Gtk.ToggleButton fs_choose_board_button;
+    [GtkChild] private Gtk.ToggleButton fs_show_search_bar_button;
+    [GtkChild] private Gtk.Button fs_open_in_browser_button;
+    [GtkChild] private Gtk.Button fs_refresh_button;
+    [GtkChild] private Gtk.Revealer fs_revealer;
+
     [GtkChild] private Gtk.SearchBar searchbar;
     [GtkChild] private Gtk.Stack content_stack;
     [GtkChild] private Gtk.Notebook notebook;
-    [GtkChild] private Gtk.Alignment no_content;
     [GtkChild] private Gtk.Label no_content_description;
 
     // board chooser
@@ -56,10 +64,14 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         get { return _is_fullscreen; }
         set {
             _is_fullscreen = value;
-            if (_is_fullscreen)
+            if (_is_fullscreen) {
                 this.fullscreen ();
-            else
+                popover.relative_to = fs_choose_board_button;
+            } else {
                 this.unfullscreen ();
+                popover.relative_to = choose_board_button;
+                fs_revealer.reveal_child = false;
+            }
         }
     }
 
@@ -128,10 +140,16 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             notebook.show_tabs = (notebook.get_n_pages() > 1));
 
         show_search_bar_button.bind_property ("active", searchbar, "search-mode-enabled", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        fs_show_search_bar_button.bind_property ("active", searchbar, "search-mode-enabled", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+
+        fs_open_in_browser_button.bind_property ("sensitive", open_in_browser_button, "sensitive", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        fs_refresh_button.bind_property ("sensitive", refresh_button, "sensitive", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        fs_choose_board_button.bind_property ("label", choose_board_button, "label", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 
         notebook.notify["page"].connect ((obj, pspec) => {
             NotebookPage page = notebook.get_nth_page (notebook.page) as NotebookPage;
             headerbar.title = page.name;
+            fs_headerbar.title = page.name;
 
             if (page.search_text != null && page.search_text != "") {
                 searchbar.search_mode_enabled = true;
@@ -145,6 +163,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             if (row != null) { // why is it null?
                 var child = row.get_child () as Gtk.Label;
                 FourChan.board = child.name;
+
                 open_in_browser_button.sensitive = false;
                 refresh_button.sensitive = false;
                 choose_board_button.label = child.label;
@@ -227,5 +246,34 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         var current = notebook.get_nth_page (notebook.page);
         assert (current is NotebookPage);
         ((NotebookPage) current).refresh ();
+    }
+
+    [GtkCallback]
+    private void restore (Gtk.Button button) {
+        is_fullscreen = false;
+    }
+
+    private bool in_fs_controls = false;
+
+    [GtkCallback]
+    private bool fs_controls_enter (Gdk.EventCrossing event) {
+        if (!is_fullscreen)
+            return Gdk.EVENT_PROPAGATE;
+        fs_revealer.reveal_child = true;
+        in_fs_controls = true;
+        return Gdk.EVENT_STOP;
+    }
+
+    [GtkCallback]
+    private bool fs_controls_leave (Gdk.EventCrossing event) {
+        in_fs_controls = false;
+        if (!fs_choose_board_button.active)
+            fs_revealer.reveal_child = false;
+        return Gdk.EVENT_PROPAGATE;
+    }
+
+    [GtkCallback]
+    private void fs_choose_board_button_cb () {
+        fs_revealer.reveal_child = fs_choose_board_button.active || in_fs_controls;
     }
 }
