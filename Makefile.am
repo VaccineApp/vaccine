@@ -36,6 +36,22 @@ vaccine_resources = $(shell glib-compile-resources --sourcedir=ui --generate-dep
 resources.c: ui/resources.xml $(vaccine_resources)
 	glib-compile-resources --sourcedir=ui --generate-source --target $@ $<
 
+vaccine_VALAFLAGS = \
+    --vapidir=$(top_srcdir)/bayes-glib/src \
+    --pkg gtk+-3.0 \
+    --pkg json-glib-1.0 \
+    --pkg libsoup-2.4 \
+    --pkg gee-0.8 \
+    --pkg gstreamer-1.0 \
+    --pkg gstreamer-base-1.0 \
+    --pkg gtksourceview-3.0 \
+    --pkg bayes-glib-1.0 \
+    --target-glib=2.38 \
+    --gresources=$(top_srcdir)/ui/resources.xml \
+    --enable-experimental \
+    --enable-checking \
+    --thread
+
 vaccine_CFLAGS = \
 	-Wno-incompatible-pointer-types \
 	$(GTK3_CFLAGS) \
