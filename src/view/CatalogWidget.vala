@@ -1,5 +1,5 @@
 [GtkTemplate (ui = "/org/vaccine/app/catalog-widget.ui")]
-public class Vaccine.CatalogWidget : Gtk.Box, NotebookPage {
+public class Vaccine.CatalogWidget : Gtk.ScrolledWindow, NotebookPage {
     [GtkChild] public Gtk.FlowBox layout;
 
     public string search_text { get; set; }
@@ -36,5 +36,10 @@ public class Vaccine.CatalogWidget : Gtk.Box, NotebookPage {
 
     public void refresh () {
         FourChan.catalog.download.begin (FourChan.board);
+    }
+
+    [GtkCallback]
+    public void item_selected (Gtk.FlowBoxChild child) {
+        (child.get_child () as CatalogItem).show_thread ();
     }
 }

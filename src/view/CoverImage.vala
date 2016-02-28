@@ -47,6 +47,6 @@ public class Vaccine.CoverImage : Gtk.Widget {
 
         cr.set_source_surface (image, 0, 0);
         cr.paint ();
-        return Gdk.EVENT_PROPAGATE;
+        return Gdk.EVENT_STOP;
     }
 }

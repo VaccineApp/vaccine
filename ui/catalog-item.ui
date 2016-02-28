@@ -2,130 +2,95 @@
 <!-- Generated with glade 3.19.0 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
-  <template class="VaccineCatalogItem" parent="GtkButton">
+  <template class="VaccineCatalogItem" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="receives_default">True</property>
+    <property name="events">GDK_BUTTON_PRESS_MASK | GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_STRUCTURE_MASK</property>
     <property name="margin_left">5</property>
     <property name="margin_right">5</property>
     <property name="margin_top">5</property>
     <property name="margin_bottom">5</property>
-    <signal name="clicked" handler="show_thread" swapped="no"/>
+    <property name="orientation">vertical</property>
     <child>
-      <object class="GtkBox" id="box1">
+      <object class="GtkStack" id="image_stack">
+        <property name="height_request">200</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
+        <property name="margin_left">2</property>
+        <property name="margin_right">2</property>
+        <property name="margin_top">2</property>
+        <property name="transition_duration">400</property>
+        <property name="transition_type">crossfade</property>
         <child>
-          <object class="GtkStack" id="image_stack">
-            <property name="height_request">250</property>
+          <object class="GtkSpinner" id="spinner">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">1</property>
-            <property name="margin_right">1</property>
-            <property name="margin_top">1</property>
-            <property name="transition_duration">400</property>
-            <property name="transition_type">crossfade</property>
-            <child>
-              <object class="GtkSpinner" id="spinner1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="active">True</property>
-              </object>
-              <packing>
-                <property name="name">image_loading_page</property>
-                <property name="title" translatable="yes">image_loading_page</property>
-              </packing>
-            </child>
+            <property name="active">True</property>
           </object>
           <packing>
-            <property name="expand">True</property>
+            <property name="name">image_loading_page</property>
+            <property name="title" translatable="yes">image_loading_page</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox" id="bottom_container">
+        <property name="height_request">160</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_left">2</property>
+        <property name="margin_right">2</property>
+        <property name="margin_bottom">2</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkLabel" id="post_subject">
+            <property name="width_request">200</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">&lt;b&gt;Subject&lt;/b&gt;</property>
+            <property name="use_markup">True</property>
+            <property name="justify">center</property>
+            <property name="wrap">True</property>
+            <property name="wrap_mode">word-char</property>
+            <property name="max_width_chars">30</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="bottom_container">
-            <property name="height_request">160</property>
+          <object class="GtkScrolledWindow" id="scrolledwindow1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
+            <property name="sensitive">False</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">never</property>
             <child>
-              <object class="GtkLabel" id="post_subject">
-                <property name="width_request">200</property>
+              <object class="GtkViewport" id="viewport1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="ypad">4</property>
-                <property name="label" translatable="yes">&lt;b&gt;Subject&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
-                <property name="justify">center</property>
-                <property name="wrap">True</property>
-                <property name="wrap_mode">word-char</property>
-                <property name="max_width_chars">30</property>
-                <property name="yalign">0</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkScrolledWindow" id="scrolledwindow1">
-                <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">never</property>
                 <child>
-                  <object class="GtkViewport" id="viewport1">
+                  <object class="GtkLabel" id="post_comment">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="post_comment">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_left">7</property>
-                        <property name="margin_right">7</property>
-                        <property name="margin_top">7</property>
-                        <property name="margin_bottom">7</property>
-                        <property name="label" translatable="yes"></property>
-                        <property name="use_markup">True</property>
-                        <property name="wrap">True</property>
-                        <property name="wrap_mode">word-char</property>
-                        <property name="max_width_chars">30</property>
-                        <property name="xalign">0</property>
-                        <property name="yalign">0</property>
-                      </object>
-                    </child>
+                    <property name="margin_top">7</property>
+                    <property name="margin_bottom">7</property>
+                    <property name="use_markup">True</property>
+                    <property name="wrap">True</property>
+                    <property name="wrap_mode">word-char</property>
+                    <property name="max_width_chars">30</property>
                   </object>
                 </child>
               </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
-            <child>
-              <object class="GtkLabel" id="post_n_replies">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="label" translatable="yes">3 replies</property>
-                <attributes>
-                  <attribute name="foreground" value="#88888a8a8585"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="pack_type">end</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <style>
-              <class name="textarea"/>
-            </style>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -133,7 +98,32 @@
             <property name="position">1</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkLabel" id="post_n_replies">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">end</property>
+            <property name="label" translatable="yes">3 replies</property>
+            <attributes>
+              <attribute name="foreground" value="#88888a8a8585"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <style>
+          <class name="textarea"/>
+        </style>
       </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
     </child>
     <style>
       <class name="tile"/>

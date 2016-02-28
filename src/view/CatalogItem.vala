@@ -1,9 +1,10 @@
 [GtkTemplate (ui = "/org/vaccine/app/catalog-item.ui")]
-public class Vaccine.CatalogItem : Gtk.Button {
+public class Vaccine.CatalogItem : Gtk.Box {
     // TODO: show # of replies (and make it look good)
     private weak MainWindow main_window;
 
     [GtkChild] private Gtk.Stack image_stack;
+    [GtkChild] private Gtk.Spinner spinner;
 
     [GtkChild] public Gtk.Label post_subject;
     [GtkChild] public Gtk.Label post_comment;
@@ -23,6 +24,7 @@ public class Vaccine.CatalogItem : Gtk.Button {
                 var image = new CoverImage (buf);
                 image_stack.add (image);
                 image_stack.set_visible_child (image);
+                spinner.stop ();
             });
         }
         if (t.com != null)
@@ -39,7 +41,6 @@ public class Vaccine.CatalogItem : Gtk.Button {
             cancel.cancel ();
     }
 
-    [GtkCallback]
     public void show_thread () {
         main_window.show_thread (op.no, op.pixbuf);
     }

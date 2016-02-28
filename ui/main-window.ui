@@ -117,8 +117,8 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="name">default</property>
-                    <property name="title" translatable="yes">default</property>
+                    <property name="name">no_content</property>
+                    <property name="title" translatable="yes">no_content</property>
                   </packing>
                 </child>
                 <child>

@@ -1,7 +1,7 @@
 using Gtk;
 
 public class Vaccine.PanelView : Container, NotebookPage {
-    private List<weak Widget> _children;
+    private SList<Widget> _children;
 
     private uint _current = 0;
     public uint current {
@@ -30,7 +30,7 @@ public class Vaccine.PanelView : Container, NotebookPage {
         this.set_visible (true);
         // misc
         max_visible = maximum_visible;
-        _children = new List<weak Widget> ();
+        _children = new SList<Widget> ();
     }
 
     public override void add (Widget widget) {
@@ -45,17 +45,17 @@ public class Vaccine.PanelView : Container, NotebookPage {
     }
 
     public override void remove (Widget widget) {
-        unowned List<Widget> elem = _children.find (widget);
+        unowned SList<Widget> elem = _children.find (widget);
         int position = _children.position (elem);
         if (elem.next != null)
             remove (elem.next.data);
         _children.remove (widget);
+        widget.unparent ();
         if (current >= position)
             current = position >= max_visible ? position - max_visible : position - 1;
         else if (position - (int)current < max_visible)
             current = current > 0 ? current - 1 : current;
-        widget.unparent ();
-        if (get_visible () && widget.get_visible ())
+        if (get_visible ())
             queue_resize_no_redraw ();
     }
 
@@ -64,7 +64,7 @@ public class Vaccine.PanelView : Container, NotebookPage {
     }
 
     public override SizeRequestMode get_request_mode () {
-        return SizeRequestMode.WIDTH_FOR_HEIGHT;
+        return SizeRequestMode.HEIGHT_FOR_WIDTH;
     }
 
     public override Type child_type () {
