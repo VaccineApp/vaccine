@@ -60,7 +60,7 @@ namespace Vaccine {
         /**
          * Comment
          */
-        public string com           { get; set; }
+        public string? com           { get; set; }
 
         /**
          * Renamed filename
