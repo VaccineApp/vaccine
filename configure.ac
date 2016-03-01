@@ -4,6 +4,7 @@ AC_CONFIG_AUX_DIR([build-aux])
 
 AM_INIT_AUTOMAKE([foreign subdir-objects no-dist-gzip dist-xz])
 AM_SILENT_RULES([yes])
+AM_MAINTAINER_MODE([enable])
 
 AX_CHECK_ENABLE_DEBUG([yes])
 
@@ -24,8 +25,11 @@ PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-3.0])
 
 AS_IF([test "x$enable_debug" != "xno"], [AM_VALAFLAGS="$AM_VALAFLAGS -D DEBUG"], [])
 
-AC_CONFIG_FILES([Makefile])
-AC_CONFIG_SUBDIRS([bayes-glib])
+AC_CONFIG_FILES([
+    Makefile
+    contrib/Makefile
+])
+AC_CONFIG_SUBDIRS([contrib])
 
 AC_OUTPUT
 

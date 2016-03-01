@@ -1,4 +1,4 @@
-SUBDIRS = bayes-glib
+SUBDIRS = contrib
 bin_PROGRAMS = vaccine
 
 vaccine_SOURCES = \
@@ -78,7 +78,6 @@ vaccine_LDADD = \
 	$(GSTREAMER_LIBS) \
 	$(GSTREAMER_BASE_LIBS) \
 	$(GTKSOURCEVIEW_LIBS) \
-	bayes-glib/src/libbayes-glib-1.0.a \
 	-lm
 
 run: vaccine
@@ -94,4 +93,4 @@ EXTRA_DIST = $(gsettings_SCHEMAS)
 
 CLEANFILES = *.h *.c *.o *.stamp \
 	vaccine $(vaccine_SOURCES:.vala=.c) \
-	$(vaccine_SOURCES:.vala=.lo) gschemas.compiled
+	$(vaccine_SOURCES:.vala=.lo)
