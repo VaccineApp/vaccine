@@ -115,8 +115,10 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
             var boards = FourChan.get_boards.end (res);
             listbox.foreach (w => w.destroy ());
             foreach (Board b in boards) {
-                var row = new BoardListRow ("/%s/ - %s".printf (b.board, b.title));
+                string label = "/%s/ - %s".printf (b.board, b.title);
+                var row = new BoardListRow (label);
                 row.name = b.board;
+                row.set_data ("board-name", label);
                 row.set_data ("nsfw", b.ws_board == 0);
                 listbox.add (row);
             }
@@ -124,12 +126,11 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         });
 
         listbox.set_filter_func (row => {
-            var label = row.get_child () as Gtk.Label;
-            if (App.settings.get_boolean ("filter-nsfw-content") && label.get_data ("nsfw"))
+            if (App.settings.get_boolean ("filter-nsfw-content") && row.get_data ("nsfw"))
                 return false;
             if (board_search.text == "")
                 return true;
-            return label.name.contains (board_search.text);
+            return row.name.contains (board_search.text);
         });
 
         notebook.page_added.connect ((w, p) =>
@@ -159,12 +160,12 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         listbox.row_selected.connect (row => {
             if (row != null) { // why is it null?
-                var child = row.get_child () as Gtk.Label;
-                FourChan.board = child.name;
+                string board_name = row.get_data ("board-name");
+                FourChan.board = row.name;
 
                 open_in_browser_button.sensitive = false;
                 refresh_button.sensitive = false;
-                choose_board_button.label = child.label;
+                choose_board_button.label = board_name;
 
                 popover.visible = false;
                 board_search.text = "";

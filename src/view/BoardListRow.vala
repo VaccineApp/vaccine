@@ -6,4 +6,18 @@ public class BoardListRow : Gtk.ListBoxRow {
     public BoardListRow (string label) {
         board_label.label = label;
     }
+
+    [GtkCallback]
+    private bool row_enter (Gdk.EventCrossing ev) {
+        if (ev.detail != Gdk.NotifyType.INFERIOR)
+            star_image.show ();
+        return true;
+    }
+
+    [GtkCallback]
+    private bool row_leave (Gdk.EventCrossing ev) {
+        if (ev.detail != Gdk.NotifyType.INFERIOR)
+            star_image.hide ();
+        return true;
+    }
 }
