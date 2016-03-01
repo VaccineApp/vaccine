@@ -36,11 +36,13 @@
               <object class="GtkEventBox" id="star-event-box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <signal name="button-press-event" handler="star_clicked" swapped="no"/>
                 <child>
                   <object class="GtkImage" id="star_image">
                     <property name="can_focus">False</property>
                     <property name="no_show_all">True</property>
                     <property name="icon_name">non-starred</property>
+                    <property name="icon_size">2</property>
                   </object>
                 </child>
               </object>

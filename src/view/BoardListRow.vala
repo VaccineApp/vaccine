@@ -16,8 +16,21 @@ public class BoardListRow : Gtk.ListBoxRow {
 
     [GtkCallback]
     private bool row_leave (Gdk.EventCrossing ev) {
-        if (ev.detail != Gdk.NotifyType.INFERIOR)
+        if (ev.detail != Gdk.NotifyType.INFERIOR && star_image.icon_name != "starred")
             star_image.hide ();
         return true;
+    }
+
+    [GtkCallback]
+    private bool star_clicked (Gdk.EventButton ev) {
+        if (ev.button == Gdk.BUTTON_PRIMARY && ev.type == Gdk.EventType.BUTTON_PRESS) {
+            if (star_image.icon_name == "starred")
+                star_image.icon_name = "non-starred";
+            else
+                star_image.icon_name = "starred";
+
+            return true;
+        }
+        return false;
     }
 }
