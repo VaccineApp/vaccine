@@ -1,7 +1,5 @@
 AC_INIT([vaccine], [0.0.1])
 
-AC_CONFIG_AUX_DIR([build-aux])
-
 AM_INIT_AUTOMAKE([foreign subdir-objects no-dist-gzip dist-xz])
 AM_SILENT_RULES([yes])
 AM_MAINTAINER_MODE([enable])

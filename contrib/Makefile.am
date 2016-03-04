@@ -18,4 +18,4 @@ libbayes_glib_1_0_a_SOURCES = \
 
 libbayes_glib_1_0_a_CFLAGS = $(BAYES_GLIB_CFLAGS)
 
--include $(top_srcdir)/git.mk
+-include git.mk

@@ -95,3 +95,5 @@ EXTRA_DIST = $(gsettings_SCHEMAS)
 CLEANFILES = *.h *.c *.o *.stamp \
 	vaccine $(vaccine_SOURCES:.vala=.c) \
 	$(vaccine_SOURCES:.vala=.lo)
+
+-include $(top_srcdir)/git.mk
