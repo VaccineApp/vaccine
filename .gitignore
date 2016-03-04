@@ -55,7 +55,7 @@ Makefile
 build-aux
 
 # this is a vala proj
-*.c
+src/*.c
 
 vaccine
 .gdb_history
