@@ -96,4 +96,11 @@ CLEANFILES = *.h *.c *.o *.stamp \
 	vaccine $(vaccine_SOURCES:.vala=.c) \
 	$(vaccine_SOURCES:.vala=.lo)
 
+GITIGNOREFILES = \
+	aclocal.m4 \
+	compile \
+	depcomp \
+	install-sh \
+	missing
+
 -include $(top_srcdir)/git.mk
