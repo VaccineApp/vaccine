@@ -77,7 +77,6 @@ dnl Process .in Files
 dnl ***********************************************************************
 AC_CONFIG_FILES([
 	Makefile
-	bayes-glib/data/bayes-glib-1.0.pc
 	bayes-glib/src/bayes-version.h
 ])
 AC_OUTPUT

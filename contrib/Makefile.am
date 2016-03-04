@@ -20,4 +20,4 @@ libbayes_glib_1_0_a_CFLAGS = $(BAYES_GLIB_CFLAGS)
 
 GITIGNOREFILES = aclocal.m4
 
--include git.mk
+-include $(top_srcdir)/git.mk
