@@ -1,3 +1,4 @@
+SUBDIRS = icons
 data_desktopdir = $(datadir)/applications
 data_desktop_DATA = org.vaccine.app.desktop
 

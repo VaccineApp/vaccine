@@ -8,7 +8,6 @@
     <property name="window_position">center</property>
     <property name="default_width">1200</property>
     <property name="default_height">800</property>
-    <property name="icon_name">web-browser</property>
     <property name="gravity">center</property>
     <child>
       <object class="GtkOverlay" id="main_overlay">

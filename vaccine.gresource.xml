@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/org/vaccine/app">
+        <file compressed="true" preprocess="xml-stripblanks">ui/about-dialog.ui</file>
         <file compressed="true" preprocess="xml-stripblanks">ui/main-window.ui</file>
         <file compressed="true" preprocess="xml-stripblanks">ui/thread-pane.ui</file>
         <file compressed="true" preprocess="xml-stripblanks">ui/post-list-row.ui</file>

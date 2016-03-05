@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.19.0 -->
+<interface>
+  <requires lib="gtk+" version="3.16"/>
+  <template class="VaccineAboutDialog" parent="GtkAboutDialog">
+    <property name="can_focus">False</property>
+    <property name="modal">True</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="icon_name">vaccine</property>
+    <property name="type_hint">dialog</property>
+    <property name="program_name">Vaccine</property>
+    <property name="version">0.0.1</property>
+    <property name="copyright" translatable="yes">Copyright © 2016 - Vaccine Developers</property>
+    <property name="comments" translatable="yes">A GTK3 imageboard client</property>
+    <property name="website">https://github.com/VaccineApp/vaccine</property>
+    <property name="website_label" translatable="yes">GitHub</property>
+    <property name="authors">benwaffle
+Prince781</property>
+    <property name="artists">Prince781</property>
+    <property name="logo_icon_name">vaccine</property>
+    <property name="license_type">gpl-3-0</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="aboutdialog-vbox1">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="aboutdialog-action_area1">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

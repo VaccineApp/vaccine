@@ -19,6 +19,7 @@ vaccine_SOURCES = \
 	src/util/PostTextBuffer.vala \
 	src/util/PostTransformer.vala \
 	src/util/Stripper.vala \
+	src/view/AboutDialog.vala \
 	src/view/CatalogItem.vala \
 	src/view/CatalogWidget.vala \
 	src/view/CoverImage.vala \
@@ -30,7 +31,8 @@ vaccine_SOURCES = \
 	src/view/Tab.vala \
 	src/view/ThreadView.vala \
 	src/view/widgets/VideoPreviewWidget.vala \
-	vaccine-resources.c
+	vaccine-resources.c \
+	data/icons/hicolor/icons-resources.c
 
 vaccine_resources = $(shell glib-compile-resources --sourcedir=$(top_srcdir) --generate-dependencies $(top_srcdir)/vaccine.gresource.xml)
 vaccine-resources.c: vaccine.gresource.xml $(vaccine_resources) Makefile
@@ -47,7 +49,7 @@ vaccine_VALAFLAGS = \
     --pkg gtksourceview-3.0 \
     --pkg bayes-glib-1.0 \
     --target-glib=2.38 \
-    --gresources=$(top_srcdir)/vaccine.gresource.xml \
+    --gresources=$(top_srcdir)/{vaccine,data/icons/hicolor/icons}.gresource.xml \
     --enable-experimental \
     --enable-checking \
     --thread

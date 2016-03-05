@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/vaccine/app/icons">
+    <file preprocess="to-pixdata">512x512/apps/vaccine.png</file>
+    <file preprocess="to-pixdata">256x256/apps/vaccine.png</file>
+    <file preprocess="to-pixdata">128x128/apps/vaccine.png</file>
+    <file preprocess="to-pixdata">64x64/apps/vaccine.png</file>
+    <file preprocess="to-pixdata">48x48/apps/vaccine.png</file>
+    <file preprocess="to-pixdata">32x32/apps/vaccine.png</file>
+    <file preprocess="to-pixdata">24x24/apps/vaccine.png</file>
+  </gresource>
+</gresources>
