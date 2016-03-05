@@ -31,7 +31,8 @@ public class Vaccine.Thread : Object, ListModel {
             this.update_thread ();
             return Source.CONTINUE;
         };
-        timeout_id = Timeout.add_seconds (10, update_cb);
+        // timeout_id = Timeout.add_seconds (10, update_cb);
+        timeout_id = Gdk.threads_add_timeout (10 * 1000, update_cb);
     }
 
     ~Thread () {
@@ -63,12 +64,19 @@ public class Vaccine.Thread : Object, ListModel {
     }
 
     public void set_filter (string text) {
-        foreach (Post p in posts)
-            p.visible = (p.com != null && text in p.com);
+        if (posts != null)
+            foreach (Post p in posts)
+                p.visible = (p.com != null && text in p.com);
     }
 
     public void update_thread () {
         debug ("updating thread %lld".printf (no));
         FourChan.dl_thread.begin (this);
     }
+
+    // new post added
+    public signal void post_added (Post post);
+
+    // post was removed
+    public signal void post_removed (Post post);
 }

@@ -40,9 +40,12 @@ public class Vaccine.FourChan : Object {
     public static async void dl_thread (Thread thread) {
         try {
             var json = new Json.Parser ();
+            debug ("parser new");
             InputStream stream = yield soup.send_async (new Soup.Message ("GET",
                 "https://a.4cdn.org/%s/thread/%lld.json".printf (thread.board, thread.no)));
+            debug ("stream new");
             if (yield json.load_from_stream_async (stream, null)) {
+                debug ("done loading from stream");
                 var posts = new ArrayList<Post> ();
                 json.get_root ()
                     .get_object ()
@@ -55,6 +58,7 @@ public class Vaccine.FourChan : Object {
                         p.thread = thread;
                         posts.add (p);
                     });
+                debug ("done parsing from stream");
                 if (thread.posts == null) {
                     thread.posts = posts;
                     thread.items_changed (0, 0, posts.size);
@@ -66,9 +70,11 @@ public class Vaccine.FourChan : Object {
                         if (i > thread.posts.size-1) { // new post
                             thread.posts.add (posts[i]);
                             ++added;
+                            thread.post_added (posts[i]);
                         } else if (thread.posts[i].no != posts[i].no) { // post deleted
                             thread.posts.remove_at (i);
                             thread.items_changed (i, 1, 0);
+                            thread.post_removed (posts[i]);
                             --i;
                         }
                     }
@@ -76,6 +82,8 @@ public class Vaccine.FourChan : Object {
                         thread.items_changed (old_n_posts, 0, added);
                     }
                 }
+
+                debug ("done");
             }
         } catch (Error e) {
             new ErrorDialog (e.message);

@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/org/vaccine/app/error-dialog.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/ui/error-dialog.ui")]
 class Vaccine.ErrorDialog : Gtk.Dialog {
     [GtkChild] Gtk.Label label;
 

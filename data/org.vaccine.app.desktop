@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Vaccine
+Comment=Browse 4chan
+Exec=vaccine
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=vaccine
+Categories=Internet;
+Keywords=4chan;Vaccine;
+DBusActivatable=true
+X-GNOME-UsesNotifications=true

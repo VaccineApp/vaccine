@@ -1,9 +1,10 @@
-[GtkTemplate (ui = "/org/vaccine/app/main-window.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/ui/main-window.ui")]
 public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.HeaderBar headerbar;
     [GtkChild] private Gtk.SearchEntry searchentry;
 
     [GtkChild] private Gtk.Button choose_board_button;
+    [GtkChild] private Gtk.Label choose_board_button_label;
     [GtkChild] private Gtk.ToggleButton show_search_bar_button;
     [GtkChild] private Gtk.Button open_in_browser_button;
     [GtkChild] private Gtk.Button refresh_button;
@@ -11,6 +12,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     // fullscreen headerbar controls
     [GtkChild] private Gtk.HeaderBar fs_headerbar;
     [GtkChild] private Gtk.ToggleButton fs_choose_board_button;
+    [GtkChild] private Gtk.Label fs_choose_board_button_label;
     [GtkChild] private Gtk.ToggleButton fs_show_search_bar_button;
     [GtkChild] private Gtk.Button fs_open_in_browser_button;
     [GtkChild] private Gtk.Button fs_refresh_button;
@@ -84,7 +86,6 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         add_action_entries (shortcuts, this);
 
-        app.set_accels_for_action ("app.quit", {"<Primary>Q"});
         app.set_accels_for_action ("win.close_tab", {"<Primary>W"});
         app.set_accels_for_action ("win.toggle_search", {"<Primary>F"});
         app.set_accels_for_action ("win.next_tab", {"<Primary>Tab"});
@@ -144,7 +145,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         fs_open_in_browser_button.bind_property ("sensitive", open_in_browser_button, "sensitive", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
         fs_refresh_button.bind_property ("sensitive", refresh_button, "sensitive", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
-        fs_choose_board_button.bind_property ("label", choose_board_button, "label", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        fs_choose_board_button_label.bind_property ("label", choose_board_button_label, "label", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 
         notebook.notify["page"].connect ((obj, pspec) => {
             NotebookPage page = notebook.get_nth_page (notebook.page) as NotebookPage;
@@ -166,7 +167,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
                 open_in_browser_button.sensitive = false;
                 refresh_button.sensitive = false;
-                choose_board_button.label = child.label;
+                choose_board_button_label.label = child.label;
 
                 popover.visible = false;
                 board_search.text = "";
@@ -200,19 +201,17 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     }
 
     public void show_thread (int64 no, Gdk.Pixbuf op_thumbnail) {
-        var panelview = new PanelView ();
-        var threadpane = new ThreadPane (FourChan.board, no, op_thumbnail);
+        var threadview = new ThreadView (FourChan.board, no);
         var thread = new Thread (FourChan.board, no);
-        threadpane.set_model (thread);
+        threadview.set_model (thread);
 
-        panelview.name = "Loading…";
+        threadview.name = "Loading…";
         FourChan.dl_thread.begin (thread, (obj, res) => {
             FourChan.dl_thread.end (res);
-            panelview.name = thread.get_title ();
+            threadview.name = thread.get_title ();
         });
 
-        panelview.add (threadpane);
-        add_page (panelview);
+        add_page (threadview);
     }
 
     private void add_page (NotebookPage page, bool closeable = true, bool reorderable = true) {

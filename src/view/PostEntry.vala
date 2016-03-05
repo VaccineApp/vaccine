@@ -1,18 +1,25 @@
-[GtkTemplate (ui = "/org/vaccine/app/ui/post-list-row.ui")]
-public class Vaccine.PostListRow : Gtk.ListBoxRow {
+[GtkTemplate (ui = "/org/vaccine/app/ui/post-entry.ui")]
+public class Vaccine.PostEntry : Gtk.Frame {
+    public Post post { get; set; }
+
+    [GtkChild] private Gtk.Revealer post_content_revealer;
     [GtkChild] private Gtk.Label post_name;
     [GtkChild] private Gtk.Label post_time;
     [GtkChild] private Gtk.Label post_no;
-
     [GtkChild] private Gtk.TextView post_textview;
-    [GtkChild] private Gtk.Button image_button;
+
+    [GtkChild] private Gtk.Revealer img_revealer;
     [GtkChild] private Gtk.Image post_thumbnail;
-    [GtkChild] private Gtk.Button responses_button;
-    [GtkChild] private Gtk.Label responses_amount;
+    [GtkChild] private Gtk.Label post_filename;
+
+    [GtkChild] private Gtk.MenuButton post_btn_replies;
+    [GtkChild] private Gtk.Label post_nreplies;
+
+    [GtkChild] private Gtk.ToggleToolButton post_btn_hide;
+
+    [GtkChild] private Gtk.Revealer post_img_btns_revealer;
 
     private Cancellable? cancel = null;
-
-    public Post post { get; construct; }
 
     static Gtk.TextTagTable tags = new Gtk.TextTagTable ();
 
@@ -77,11 +84,19 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
     private Gdk.Cursor cursor_text;
     private Gdk.Cursor cursor_pointer;
 
-    public PostListRow (Post post, Gdk.Pixbuf? thumbnail = null) {
+    private PostReplies reply_list;
+
+    private Menu menu;
+
+    public PostEntry (Post post, Gdk.Pixbuf? thumbnail = null) {
         Object (post: post);
 
+        reply_list = new PostReplies (post);
+        menu = new Menu ();
         post.bind_property ("visible", this, "visible", BindingFlags.DEFAULT);
-
+        post.bind_property ("hidden", post_btn_hide, "active", BindingFlags.INVERT_BOOLEAN);
+        post_content_revealer.bind_property ("reveal-child", post_btn_hide,
+            "active", BindingFlags.INVERT_BOOLEAN | BindingFlags.BIDIRECTIONAL);
         App.settings.bind ("show-trips", post_name, "visible", SettingsBindFlags.GET);
 
         string name = post.name;
@@ -94,7 +109,8 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
 
         if (post.filename == null) {
             assert (!post.isOP);
-            image_button.destroy ();
+            // img_revealer.reveal_child = false;
+            img_revealer.destroy ();
         } else if (thumbnail != null) {
             post_thumbnail.pixbuf = thumbnail;
         } else {
@@ -102,6 +118,10 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
                 cancel = null;
                 post_thumbnail.pixbuf = buf;
             });
+        }
+
+        if (post.filename != null) {
+            post_filename.label = post.filename + post.ext;
         }
 
         post_textview.buffer = new Gtk.TextBuffer (tags);
@@ -134,38 +154,32 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
             return false;
         });
 
-        // TODO property binding for thread updates
-        var nreplies = post.nreplies;
-        if (nreplies == 0) {
-            responses_button.destroy ();
-        } else {
-            responses_amount.label = nreplies > 99 ? "99+" : nreplies.to_string ();
-            responses_amount.get_style_context ().remove_class ("label");
-        }
+        post.bind_property ("nreplies", post_nreplies, "label", BindingFlags.DEFAULT | BindingFlags.SYNC_CREATE,
+        (obj, src, ref target) => {
+            uint val = src.get_uint ();
+            target = val > 99 ? "99+" : val.to_string ();
+            return true;
+        });
+
+        reply_list.reply_added.connect (reply => menu.append ("#%lld".printf (reply.no), null));
+
+        post_btn_replies.menu_model = menu;
     }
 
-    ~PostListRow () {
+    ~PostEntry () {
         if (cancel != null)
             cancel.cancel ();
     }
 
     [GtkCallback]
-    private void show_responses () {
-        var panelView = get_ancestor (typeof (PanelView)) as PanelView;
-        var tpane = get_ancestor (typeof (ThreadPane)) as ThreadPane;
-        var children = panelView.get_children ();
-        int position = children.index (tpane);
-        Gtk.Widget? next;
-        if ((next = children.nth_data (position + 1)) != null)
-            panelView.remove (next);
-        var threadpane = new ThreadPane.with_title ("Replies to No. %lld".printf (post.no));
-        panelView.add (threadpane);
-        threadpane.set_model (new PostReplies (post));
+    private bool image_controls_enter (Gdk.EventCrossing event) {
+        post_img_btns_revealer.reveal_child = true;
+        return Gdk.EVENT_STOP;
     }
 
     [GtkCallback]
-    private void show_media_view () {
-        var win = (Application.get_default () as App).main_window;
-        new MediaView (win, post).present ();
+    private bool image_controls_leave (Gdk.EventCrossing event) {
+        post_img_btns_revealer.reveal_child = false;
+        return Gdk.EVENT_PROPAGATE;
     }
 }

@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/org/vaccine/app/catalog-widget.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/ui/catalog-widget.ui")]
 public class Vaccine.CatalogWidget : Gtk.ScrolledWindow, NotebookPage {
     [GtkChild] public Gtk.FlowBox layout;
 

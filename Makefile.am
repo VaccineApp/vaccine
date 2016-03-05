@@ -1,4 +1,5 @@
-SUBDIRS = bayes-glib
+ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+SUBDIRS = bayes-glib data
 bin_PROGRAMS = vaccine
 
 vaccine_SOURCES = \
@@ -24,17 +25,16 @@ vaccine_SOURCES = \
 	src/view/MainWindow.vala \
 	src/view/MediaView.vala \
 	src/view/NotebookPage.vala \
-	src/view/PanelView.vala \
-	src/view/PostListRow.vala \
+	src/view/PostEntry.vala \
 	src/view/PreferencesView.vala \
 	src/view/Tab.vala \
-	src/view/ThreadPane.vala \
+	src/view/ThreadView.vala \
 	src/view/widgets/VideoPreviewWidget.vala \
-	resources.c
+	vaccine-resources.c
 
-vaccine_resources = $(shell glib-compile-resources --sourcedir=ui --generate-dependencies ui/resources.xml)
-resources.c: ui/resources.xml $(vaccine_resources)
-	glib-compile-resources --sourcedir=ui --generate-source --target $@ $<
+vaccine_resources = $(shell glib-compile-resources --sourcedir=$(top_srcdir) --generate-dependencies $(top_srcdir)/vaccine.gresource.xml)
+vaccine-resources.c: vaccine.gresource.xml $(vaccine_resources) Makefile
+	glib-compile-resources --sourcedir=$(top_srcdir) --generate-source --target $@ $<
 
 vaccine_VALAFLAGS = \
     --vapidir=$(top_srcdir)/bayes-glib/src \
@@ -47,7 +47,7 @@ vaccine_VALAFLAGS = \
     --pkg gtksourceview-3.0 \
     --pkg bayes-glib-1.0 \
     --target-glib=2.38 \
-    --gresources=$(top_srcdir)/ui/resources.xml \
+    --gresources=$(top_srcdir)/vaccine.gresource.xml \
     --enable-experimental \
     --enable-checking \
     --thread
@@ -81,17 +81,14 @@ vaccine_LDADD = \
 	bayes-glib/src/libbayes-glib-1.0.a \
 	-lm
 
-run: vaccine
+run: vaccine bayes-glib/src/libbayes-glib-1.0.a
 	G_MESSAGES_DEBUG=all \
 	GOBJECT_DEBUG=instance-count \
 	gdb -ex run vaccine
 
-
-gsettings_SCHEMAS = schemas/org.vaccine.app.gschema.xml
-@GSETTINGS_RULES@
-
-EXTRA_DIST = $(gsettings_SCHEMAS)
-
 CLEANFILES = *.h *.c *.o *.stamp \
 	vaccine $(vaccine_SOURCES:.vala=.c) \
-	$(vaccine_SOURCES:.vala=.lo) gschemas.compiled
+	$(vaccine_SOURCES:.vala=.lo)
+
+EXTRA_DIST = \
+	vaccine.gresource.xml

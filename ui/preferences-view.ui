@@ -2,6 +2,12 @@
 <!-- Generated with glade 3.19.0 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
+  <object class="GtkAdjustment" id="image_cache_size_adjustment">
+    <property name="upper">200</property>
+    <property name="value">50</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <template class="VaccinePreferencesView" parent="GtkWindow">
     <property name="can_focus">False</property>
     <property name="resizable">False</property>
@@ -12,6 +18,8 @@
       <object class="GtkStack" id="stack1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="transition_duration">100</property>
+        <property name="transition_type">crossfade</property>
         <child>
           <object class="GtkGrid" id="grid1">
             <property name="visible">True</property>
@@ -168,10 +176,4 @@
       </object>
     </child>
   </template>
-  <object class="GtkAdjustment" id="image_cache_size_adjustment">
-    <property name="upper">200</property>
-    <property name="value">50</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
 </interface>

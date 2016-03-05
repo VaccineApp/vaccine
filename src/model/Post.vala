@@ -157,18 +157,11 @@ namespace Vaccine {
             return cancel;
         }
 
-        public uint nreplies {
-            get {
-                var quote = "&gt;&gt;%lld".printf (no);
-                uint n = 0;
-                foreach (var p in thread.posts)
-                    if (p.com != null && p.com.contains (quote))
-                        ++n;
-                return n;
-            }
-        }
+        public uint nreplies { get; set; default = 0; }
 
         public bool visible { get; set; default = true; }
+
+        public bool hidden { get; set; }
     }
 
     public class ThreadOP : Post {

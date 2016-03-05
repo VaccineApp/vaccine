@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <schemalist>
   <schema id="org.vaccine.app" path="/org/vaccine/app/" gettext-domain="app">
     <!-- general -->

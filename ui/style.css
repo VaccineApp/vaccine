@@ -58,3 +58,22 @@ GtkScrolledWindow.text-view-wrapper {
 	box-shadow: none;
 	border-color: @unfocused_borders;
 }
+
+VaccineThreadView {
+	background-color: @theme_bg_color;
+}
+
+VaccinePostEntry,
+VaccinePostEntry GtkBox.header-box,
+VaccinePostEntry GtkBox.header-box > * {
+	background-color: shade(@theme_bg_color, 0.96);
+}
+
+VaccinePostEntry GtkTextView {
+/*	box-shadow: inset 0px 0px 3px shade(@theme_base_color, 0.9); */
+	background-color: shade(@theme_base_color,1.2);
+}
+
+VaccinePostEntry GtkSeparator {
+	color: shade(@theme_base_color, 0.8);
+}

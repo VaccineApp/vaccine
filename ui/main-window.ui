@@ -26,6 +26,7 @@
                 <property name="can_focus">False</property>
                 <child>
                   <object class="GtkSearchEntry" id="searchentry">
+                    <property name="width_request">300</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="primary_icon_name">edit-find-symbolic</property>
@@ -163,16 +164,45 @@
                   <object class="GtkHeaderBar" id="fs_headerbar">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="title">Vaccine</property>
                     <child>
                       <object class="GtkMenuButton" id="fs_choose_board_button">
-                        <property name="label">Board</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="popover">popover</property>
                         <signal name="toggled" handler="fs_choose_board_button_cb" swapped="no"/>
                         <child>
-                          <placeholder/>
+                          <object class="GtkBox" id="box">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="spacing">4</property>
+                            <child>
+                              <object class="GtkLabel" id="fs_choose_board_button_label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Board</property>
+                                <property name="track_visited_links">False</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkImage" id="image">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="icon_name">pan-down-symbolic</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
                         </child>
                       </object>
                     </child>
@@ -181,6 +211,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Restore</property>
                         <signal name="clicked" handler="restore" swapped="no"/>
                         <child>
                           <object class="GtkImage" id="image7">
@@ -204,6 +235,7 @@
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Open in browser</property>
                         <signal name="clicked" handler="open_in_browser" swapped="no"/>
                         <child>
                           <object class="GtkImage" id="image4">
@@ -227,6 +259,7 @@
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Refresh</property>
                         <signal name="clicked" handler="refresh" swapped="no"/>
                         <child>
                           <object class="GtkImage" id="image5">
@@ -249,6 +282,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Search</property>
                         <child>
                           <object class="GtkImage" id="image6">
                             <property name="visible">True</property>
@@ -281,13 +315,41 @@
         <property name="show_close_button">True</property>
         <child>
           <object class="GtkMenuButton" id="choose_board_button">
-            <property name="label">Board</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="receives_default">True</property>
             <property name="popover">popover</property>
             <child>
-              <placeholder/>
+              <object class="GtkBox" id="box3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="spacing">4</property>
+                <child>
+                  <object class="GtkLabel" id="choose_board_button_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Board</property>
+                    <property name="track_visited_links">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkImage" id="image8">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">pan-down-symbolic</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
             </child>
           </object>
         </child>
@@ -297,6 +359,7 @@
             <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Open in browser</property>
             <signal name="clicked" handler="open_in_browser" swapped="no"/>
             <child>
               <object class="GtkImage" id="image1">
@@ -320,6 +383,7 @@
             <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Refresh</property>
             <signal name="clicked" handler="refresh" swapped="no"/>
             <child>
               <object class="GtkImage" id="image3">
@@ -342,6 +406,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Search</property>
             <child>
               <object class="GtkImage" id="image2">
                 <property name="visible">True</property>

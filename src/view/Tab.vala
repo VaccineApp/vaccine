@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/org/vaccine/app/tab.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/ui/tab.ui")]
 public class Vaccine.Tab : Gtk.Box {
     [GtkChild] private Gtk.Label tablabel;
     [GtkChild] private Gtk.Button closebutton;

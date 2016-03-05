@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/org/vaccine/app/preferences-view.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/ui/preferences-view.ui")]
 class Vaccine.PreferencesView : Gtk.Window {
     [GtkChild] Gtk.Switch show_trips;
     [GtkChild] Gtk.Switch filter_nsfw_content;

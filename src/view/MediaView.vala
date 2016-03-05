@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/org/vaccine/app/media-view.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/ui/media-view.ui")]
 public class Vaccine.MediaView : Gtk.Window {
     // [GtkChild] private Gtk.HeaderBar headerbar;
 

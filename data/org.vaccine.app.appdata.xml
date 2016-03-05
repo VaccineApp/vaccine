@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>org.vaccine.app.desktop</id>
+  <name>Vaccine</name>
+  <summary>4chan browser</summary>
+  <project_license>GPL-3.0+</project_license>
+  <url type="homepage">https://github.com/VaccineApp/vaccine</url>
+  <url type="bugtracker">https://github.com/VaccineApp/vaccine/issues</url>
+  <categories>
+    <category>Internet</category>
+  </categories>
+</component>

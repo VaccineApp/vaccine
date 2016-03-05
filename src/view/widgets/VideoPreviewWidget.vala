@@ -1,4 +1,4 @@
-[GtkTemplate (ui = "/org/vaccine/app/video-preview-widget.ui")]
+[GtkTemplate (ui = "/org/vaccine/app/ui/video-preview-widget.ui")]
 public class Vaccine.VideoPreviewWidget : Gtk.Overlay {
     [GtkChild] private Gtk.Box sink_holder;
 
