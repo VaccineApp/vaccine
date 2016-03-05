@@ -3,10 +3,25 @@
   <id>org.vaccine.app.desktop</id>
   <name>Vaccine</name>
   <summary>4chan browser</summary>
-  <project_license>GPL-3.0+</project_license>
+  <project_license>GPL-3.0</project_license>
   <url type="homepage">https://github.com/VaccineApp/vaccine</url>
   <url type="bugtracker">https://github.com/VaccineApp/vaccine/issues</url>
   <categories>
     <category>Internet</category>
+    <category>Network</category>
   </categories>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/VaccineApp/vaccine/raw/master/res/vaccine-catalog.png</image>
+      <caption>Catalog view</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/VaccineApp/vaccine/raw/master/res/vaccine-mediaview.png</image>
+      <caption>Media view</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/VaccineApp/vaccine/raw/master/res/vaccine-panelview.png</image>
+      <caption>Panel view</caption>
+    </screenshot>
+  </screenshots>
 </component>
