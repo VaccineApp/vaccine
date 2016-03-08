@@ -9,6 +9,9 @@ AX_CHECK_ENABLE_DEBUG([yes])
 AC_PROG_CC
 AM_PROG_VALAC
 
+dnl bayes-glib
+LT_INIT([static])
+
 GLIB_GSETTINGS
 
 PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.44])
@@ -23,8 +26,10 @@ PKG_CHECK_MODULES([GTKSOURCEVIEW], [gtksourceview-3.0])
 
 AS_IF([test "x$enable_debug" != "xno"], [AM_VALAFLAGS="$AM_VALAFLAGS -D DEBUG"], [])
 
-AC_CONFIG_FILES([Makefile])
-AC_CONFIG_SUBDIRS([contrib])
+AC_CONFIG_FILES([
+    Makefile
+    contrib/Makefile
+])
 
 AC_OUTPUT
 

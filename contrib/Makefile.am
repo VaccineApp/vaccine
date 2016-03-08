@@ -16,7 +16,7 @@ libbayes_glib_1_0_a_SOURCES = \
 	bayes-glib/src/bayes-storage.c \
 	bayes-glib/src/bayes-tokenizer.c
 
-libbayes_glib_1_0_a_CFLAGS = $(BAYES_GLIB_CFLAGS)
+libbayes_glib_1_0_a_CFLAGS = $(GLIB_CFLAGS) $(JSON_GLIB_CFLAGS)
 
 GITIGNOREFILES = aclocal.m4
 

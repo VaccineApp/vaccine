@@ -101,6 +101,9 @@ GITIGNOREFILES = \
 	compile \
 	depcomp \
 	install-sh \
-	missing
+	missing \
+	config.guess \
+	config.sub \
+	ltmain.sh
 
 -include $(top_srcdir)/git.mk
