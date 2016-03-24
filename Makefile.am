@@ -1,4 +1,4 @@
-SUBDIRS = bayes-glib
+SUBDIRS = contrib
 bin_PROGRAMS = vaccine
 
 vaccine_SOURCES = \
@@ -37,7 +37,7 @@ resources.c: ui/resources.xml $(vaccine_resources)
 	glib-compile-resources --sourcedir=ui --generate-source --target $@ $<
 
 vaccine_VALAFLAGS = \
-    --vapidir=$(top_srcdir)/bayes-glib/src \
+    --vapidir=$(top_srcdir)/contrib \
     --pkg gtk+-3.0 \
     --pkg json-glib-1.0 \
     --pkg libsoup-2.4 \
@@ -61,7 +61,7 @@ vaccine_CFLAGS = \
 	$(GSTREAMER_CFLAGS) \
 	$(GSTREAMER_BASE_CFLAGS) \
 	$(GTKSOURCEVIEW_CFLAGS) \
-	-Ibayes-glib/src \
+	-I$(top_srcdir)/contrib/bayes-glib/src \
 	-Wno-deprecated-declarations \
 	-Wno-discarded-qualifiers \
 	-Wno-implicit-function-declaration \
@@ -78,7 +78,7 @@ vaccine_LDADD = \
 	$(GSTREAMER_LIBS) \
 	$(GSTREAMER_BASE_LIBS) \
 	$(GTKSOURCEVIEW_LIBS) \
-	bayes-glib/src/libbayes-glib-1.0.a \
+	$(top_builddir)/contrib/libbayes-glib-1.0.a \
 	-lm
 
 run: vaccine
@@ -94,4 +94,16 @@ EXTRA_DIST = $(gsettings_SCHEMAS)
 
 CLEANFILES = *.h *.c *.o *.stamp \
 	vaccine $(vaccine_SOURCES:.vala=.c) \
-	$(vaccine_SOURCES:.vala=.lo) gschemas.compiled
+	$(vaccine_SOURCES:.vala=.lo)
+
+GITIGNOREFILES = \
+	aclocal.m4 \
+	compile \
+	depcomp \
+	install-sh \
+	missing \
+	config.guess \
+	config.sub \
+	ltmain.sh
+
+-include $(top_srcdir)/git.mk
