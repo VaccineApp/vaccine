@@ -12,6 +12,7 @@
         <file compressed="true" preprocess="xml-stripblanks">error-dialog.ui</file>
         <file compressed="true" preprocess="xml-stripblanks">tab.ui</file>
         <file compressed="true">style.css</file>
+        <file compressed="true">style.3.20.css</file>
         <file compressed="true">code-training-set.json</file>
     </gresource>
     <gresource prefix="/org/vaccine/app/gtk">

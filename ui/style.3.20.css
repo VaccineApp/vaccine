@@ -1,0 +1,64 @@
+/*
+VaccineCatalogWidget scrolledwindow,
+VaccineCatalogWidget viewport {
+	border: none;
+}
+
+VaccineCatalogItem textarea label:disabled {
+	color: @theme_text_color;
+}
+
+VaccineCatalogItem scrolledwindow {
+	background: none;
+}
+
+VaccineThreadPane > box.heading-box {
+	background-color: @theme_base_color;
+}
+
+VaccineThreadPane > scrolledwindow {
+	border: none;
+	border-top: 1px solid @theme_bg_color;
+}
+*/
+
+/* separators between rows */
+/*
+VaccinePostListRow + VaccinePostListRow {
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+textview {
+	background: none;
+}
+
+textview:selected {
+	background: @theme_selected_bg_color;
+}
+
+scrolledwindow.text-view-wrapper {
+	border: none;
+}
+*/
+
+.tile {
+	box-shadow: inset 0 1px @theme_base_color, 0 1px 1px alpha(black,0.4);
+	border: 1px solid mix(@theme_base_color,@theme_fg_color,0.3);
+	background-image: none;
+	background-color: mix(@theme_base_color,@theme_bg_color,0.3);
+}
+
+.tile:hover {
+	background-color: @theme_base_color;
+}
+
+.tile:active {
+	border-color: @theme_selected_bg_color;
+	box-shadow: none;
+	color: @theme_selected_bg_color;
+}
+
+.tile:backdrop {
+	box-shadow: none;
+	border-color: @unfocused_borders;
+}
