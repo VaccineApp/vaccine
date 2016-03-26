@@ -21,8 +21,14 @@ public class Vaccine.VideoPreviewWidget : Gtk.Overlay {
 
     public VideoPreviewWidget () {
         // init gst stuff
-        video_sink = Gst.ElementFactory.make ("gtksink", "video_sink");
-        video_sink.@get ("widget", out area);
+        var gtk_sink = Gst.ElementFactory.make ("gtkglsink", "video_sink");
+        if (gtk_sink != null) {
+            video_sink = Gst.ElementFactory.make ("glsinkbin", null);
+            video_sink.@set ("sink", gtk_sink);
+        } else {
+            video_sink = Gst.ElementFactory.make ("gtksink", "video_sink");
+        }
+        gtk_sink.@get ("widget", out area);
 
         sink_holder.pack_start (area);
 
