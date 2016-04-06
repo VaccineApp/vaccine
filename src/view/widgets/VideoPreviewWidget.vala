@@ -26,7 +26,7 @@ public class Vaccine.VideoPreviewWidget : Gtk.Overlay {
             video_sink = Gst.ElementFactory.make ("glsinkbin", null);
             video_sink.@set ("sink", gtk_sink);
         } else {
-            video_sink = Gst.ElementFactory.make ("gtksink", "video_sink");
+            gtk_sink = Gst.ElementFactory.make ("gtksink", "video_sink");
         }
         gtk_sink.@get ("widget", out area);
 
