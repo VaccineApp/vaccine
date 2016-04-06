@@ -23,7 +23,6 @@ public class Vaccine.ImagePreview : MediaPreview {
     {
         base (media_store, post);
         image_data_load_cancel = new Cancellable ();
-
     }
 
     public override void cancel_everything () {
@@ -43,17 +42,24 @@ public class Vaccine.ImagePreview : MediaPreview {
         requires (widget is Gtk.DrawingArea)
     {
         canvas = widget as Gtk.DrawingArea;
-        if (loaded) // reset frame_iter on init
+        if (loaded) { // reset frame_iter on init
             frame_iter = image_data.get_iter (null);
-        else {  // download image if not loaded
+            if (image_data.is_static_image ())
+                canvas.queue_draw ();
+            else
+                timeout_id = Timeout.add (frame_iter.get_delay_time (), update_animated_image);
+        } else {  // download image if not loaded
             FourChan.download_image.begin (url, image_data_load_cancel, (obj, res) => {
                 image_data = FourChan.download_image.end (res);
                 image_data_load_cancel = null;
                 frame_iter = image_data.get_iter (null);
+                if (image_data.is_static_image ())
+                    canvas.queue_draw ();
+                else
+                    timeout_id = Timeout.add (frame_iter.get_delay_time (), update_animated_image);
             });
         }
         canvas.draw.connect (draw_image);
-        timeout_id = Idle.add (update_animated_image);
     }
 
     public override void stop_with_widget ()
@@ -69,19 +75,9 @@ public class Vaccine.ImagePreview : MediaPreview {
     }
 
     private bool update_animated_image () {
-        if (canvas == null)
-            return Source.REMOVE;
-        if (!loaded)    // wait until we have finished loading
-            return Source.CONTINUE;
-        if (!is_animated) {
+        if (frame_iter.advance (null))
             canvas.queue_draw ();
-            timeout_id = null;
-            return Source.REMOVE;
-        }
-        frame_iter.advance (null);
-        canvas.queue_draw ();
-        timeout_id = Timeout.add (frame_iter.get_delay_time (), update_animated_image);
-        return Source.REMOVE;
+        return Source.CONTINUE;
     }
 
     private bool draw_image (Cairo.Context ctx) {
