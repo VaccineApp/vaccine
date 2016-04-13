@@ -16,19 +16,19 @@ public class Vaccine.VideoPreviewWidget : Gtk.Overlay {
     [GtkChild] public Gtk.Label progress_text_end;
 
     // gtksink element
-    public Gst.Element video_sink { private set; get; }
+    public dynamic Gst.Element video_sink { private set; get; }
     private Gtk.Widget? area;
 
     public VideoPreviewWidget () {
         // init gst stuff
-        var gtk_sink = Gst.ElementFactory.make ("gtkglsink", "video_sink");
+        dynamic Gst.Element? gtk_sink = Gst.ElementFactory.make ("gtkglsink", "video_sink");
         if (gtk_sink != null) {
             video_sink = Gst.ElementFactory.make ("glsinkbin", null);
-            video_sink.@set ("sink", gtk_sink);
+            video_sink.sink = gtk_sink;
         } else {
             gtk_sink = Gst.ElementFactory.make ("gtksink", "video_sink");
         }
-        gtk_sink.@get ("widget", out area);
+        area = gtk_sink.widget;
 
         sink_holder.pack_start (area);
 
