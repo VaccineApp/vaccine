@@ -1,45 +1,19 @@
-/*
-VaccineCatalogWidget scrolledwindow,
-VaccineCatalogWidget viewport {
-	border: none;
+.tile scrolledwindow undershoot {
+	background-image: none;
 }
 
-VaccineCatalogItem textarea label:disabled {
+:not(:backdrop) .tile label:disabled {
 	color: @theme_text_color;
 }
 
-VaccineCatalogItem scrolledwindow {
-	background: none;
-}
-
-VaccineThreadPane > box.heading-box {
-	background-color: @theme_base_color;
-}
-
-VaccineThreadPane > scrolledwindow {
-	border: none;
-	border-top: 1px solid @theme_bg_color;
-}
-*/
-
 /* separators between rows */
-/*
-VaccinePostListRow + VaccinePostListRow {
+.post-list-row + .post-list-row {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-textview {
+textview, text {
 	background: none;
 }
-
-textview:selected {
-	background: @theme_selected_bg_color;
-}
-
-scrolledwindow.text-view-wrapper {
-	border: none;
-}
-*/
 
 .tile {
 	box-shadow: inset 0 1px @theme_base_color, 0 1px 1px alpha(black,0.4);
