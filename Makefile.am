@@ -27,7 +27,6 @@ vaccine_SOURCES = \
 	src/view/PanelView.vala \
 	src/view/PostListRow.vala \
 	src/view/PreferencesView.vala \
-	src/view/Tab.vala \
 	src/view/ThreadPane.vala \
 	src/view/widgets/VideoPreviewWidget.vala \
 	resources.c
