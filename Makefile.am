@@ -1,4 +1,8 @@
-SUBDIRS = contrib data
+SUBDIRS = \
+	contrib \
+	data \
+	$(NULL)
+
 bin_PROGRAMS = vaccine
 
 vaccine_SOURCES = \
@@ -29,7 +33,8 @@ vaccine_SOURCES = \
 	src/view/PreferencesView.vala \
 	src/view/ThreadPane.vala \
 	src/view/widgets/VideoPreviewWidget.vala \
-	resources.c
+	resources.c \
+	$(NULL)
 
 vaccine_VALAFLAGS = \
     --vapidir=$(top_srcdir)/contrib \
@@ -45,7 +50,8 @@ vaccine_VALAFLAGS = \
     --gresources=$(top_srcdir)/data/vaccine.gresource.xml \
     --enable-experimental \
     --enable-checking \
-    --thread
+    --thread \
+    $(NULL)
 
 vaccine_CFLAGS = \
 	-Wno-incompatible-pointer-types \
@@ -63,7 +69,8 @@ vaccine_CFLAGS = \
 	-Wno-incompatible-pointer-types \
 	-Wno-unused-but-set-variable \
 	-Wno-unused-label \
-	-Wno-unused-function
+	-Wno-unused-function \
+	$(NULL)
 
 vaccine_LDADD = \
 	$(GTK3_LIBS) \
@@ -74,7 +81,8 @@ vaccine_LDADD = \
 	$(GSTREAMER_BASE_LIBS) \
 	$(GTKSOURCEVIEW_LIBS) \
 	$(top_builddir)/contrib/libbayes-glib-1.0.a \
-	-lm
+	-lm \
+	$(NULL)
 
 # GResources
 vaccine_resources = $(shell glib-compile-resources --sourcedir=data --generate-dependencies data/vaccine.gresource.xml)
@@ -92,18 +100,15 @@ run: vaccine
 
 EXTRA_DIST = $(gsettings_SCHEMAS)
 
-CLEANFILES = *.h *.c *.o *.stamp \
-	vaccine $(vaccine_SOURCES:.vala=.c) \
-	$(vaccine_SOURCES:.vala=.lo)
+CLEANFILES = *.c
 
 GITIGNOREFILES = \
+	**/*.swp \
+	*.o \
+	m4 \
 	aclocal.m4 \
-	compile \
-	depcomp \
-	install-sh \
-	missing \
-	config.guess \
-	config.sub \
-	ltmain.sh
+	build-aux \
+	config.h.in \
+	$(NULL)
 
 -include $(top_srcdir)/git.mk
