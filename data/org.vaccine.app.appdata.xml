@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2016 Ben Iofel <iofelben@gmail.com> -->
+<component type="desktop">
+ <id>org.vaccine.app.desktop</id>
+ <metadata_license>CC0-1.0</metadata_license>
+ <project_license>GPL-3.0</project_license>
+ <name>Vaccine</name>
+ <summary>A Desktop 4chan Client</summary>
+ <description>
+  <p>
+    Vaccine is a desktop client for 4chan.org using GTK+.
+  </p>
+ </description>
+ <screenshots>
+  <screenshot type="default">
+    <image>https://raw.githubusercontent.com/VaccineApp/vaccine/cdc3b1feb75c928cb2a43c749e59278f97fe6a90/res/vaccine-catalog.png</image>
+  </screenshot>
+  <screenshot type="default">
+    <image>https://raw.githubusercontent.com/VaccineApp/vaccine/cdc3b1feb75c928cb2a43c749e59278f97fe6a90/res/vaccine-panelview.png</image>
+  </screenshot>
+  <screenshot type="default">
+    <image>https://raw.githubusercontent.com/VaccineApp/vaccine/cdc3b1feb75c928cb2a43c749e59278f97fe6a90/res/vaccine-mediaview.png</image>
+  </screenshot>
+ </screenshots>
+ <url type="homepage">https://vaccineapp.github.io</url>
+ <url type="bugtracker">https://github.com/vaccineapp/vaccine/issues</url>
+ <update_contact>iofelben@gmail.com</update_contact>
+
+ <kudos>
+  <kudo>AppMenu</kudo>
+  <kudo>HiDpiIcon</kudo>
+  <kudo>ModernToolkit</kudo>
+ </kudos>
+</component>
