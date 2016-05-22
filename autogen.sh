@@ -4,4 +4,5 @@ if ! test -f contrib/bayes-glib/README.md; then
     git submodule update --init
 fi
 
-autoreconf -if
+aclocal --install
+autoreconf --install
