@@ -3,6 +3,7 @@ AC_INIT([vaccine], [0.0.1])
 AM_INIT_AUTOMAKE([foreign subdir-objects no-dist-gzip dist-xz])
 AM_SILENT_RULES([yes])
 AM_MAINTAINER_MODE([enable])
+AC_CONFIG_MACRO_DIRS([m4])
 
 AX_CHECK_ENABLE_DEBUG([yes])
 
@@ -13,6 +14,7 @@ dnl bayes-glib
 LT_INIT([static])
 
 GLIB_GSETTINGS
+APPSTREAM_XML
 
 PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.44])
 PKG_CHECK_MODULES([GTK3], [gtk+-3.0])

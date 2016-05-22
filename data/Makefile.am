@@ -14,4 +14,8 @@ nobase_icon_DATA = \
 	hicolor/512x512/apps/vaccine.png \
 	hicolor/scalable/apps/vaccine.svg
 
+# appstream
+@APPSTREAM_XML_RULES@
+appstream_XML = org.vaccine.app.appdata.xml
+
 -include $(top_srcdir)/git.mk
