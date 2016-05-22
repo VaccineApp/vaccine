@@ -1,6 +1,6 @@
 # .desktop file
 desktopdir = $(datadir)/applications
-desktop_DATA = vaccine.desktop
+desktop_DATA = org.vaccine.app.desktop
 
 # icons
 icondir = $(datadir)/icons
