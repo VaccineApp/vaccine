@@ -1,4 +1,4 @@
-SUBDIRS = contrib
+SUBDIRS = contrib data
 bin_PROGRAMS = vaccine
 
 vaccine_SOURCES = \
@@ -31,10 +31,6 @@ vaccine_SOURCES = \
 	src/view/widgets/VideoPreviewWidget.vala \
 	resources.c
 
-vaccine_resources = $(shell glib-compile-resources --sourcedir=ui --generate-dependencies ui/resources.xml)
-resources.c: ui/resources.xml $(vaccine_resources)
-	glib-compile-resources --sourcedir=ui --generate-source --target $@ $<
-
 vaccine_VALAFLAGS = \
     --vapidir=$(top_srcdir)/contrib \
     --pkg gtk+-3.0 \
@@ -46,7 +42,7 @@ vaccine_VALAFLAGS = \
     --pkg gtksourceview-3.0 \
     --pkg bayes-glib-1.0 \
     --target-glib=2.38 \
-    --gresources=$(top_srcdir)/ui/resources.xml \
+    --gresources=$(top_srcdir)/data/vaccine.gresource.xml \
     --enable-experimental \
     --enable-checking \
     --thread
@@ -80,14 +76,19 @@ vaccine_LDADD = \
 	$(top_builddir)/contrib/libbayes-glib-1.0.a \
 	-lm
 
+# GResources
+vaccine_resources = $(shell glib-compile-resources --sourcedir=data --generate-dependencies data/vaccine.gresource.xml)
+resources.c: data/vaccine.gresource.xml $(vaccine_resources)
+	glib-compile-resources --sourcedir=data --generate-source --target $@ $<
+
+# GSettings
+gsettings_SCHEMAS = data/org.vaccine.app.gschema.xml
+@GSETTINGS_RULES@
+
 run: vaccine
 	G_MESSAGES_DEBUG=all \
 	GOBJECT_DEBUG=instance-count \
 	gdb -ex run vaccine
-
-
-gsettings_SCHEMAS = schemas/org.vaccine.app.gschema.xml
-@GSETTINGS_RULES@
 
 EXTRA_DIST = $(gsettings_SCHEMAS)
 

@@ -29,6 +29,7 @@ AS_IF([test "x$enable_debug" != "xno"], [AM_VALAFLAGS="$AM_VALAFLAGS -D DEBUG"],
 AC_CONFIG_FILES([
     Makefile
     contrib/Makefile
+    data/Makefile
 ])
 
 AC_OUTPUT

@@ -1,10 +1,10 @@
 [Desktop Entry]
-Name=Vaccine
-Exec=vaccine
-Terminal=false
 Type=Application
-StartupNotify=true
-Icon=web-browser
+Encoding=UTF-8
+Name=Vaccine
+Comment=A Desktop 4chan Client
+Exec=vaccine
+Terminal=False
+Icon=vaccine
 Categories=Internet;
-DBusActivatable=true
 X-GNOME-UsesNotifications=true

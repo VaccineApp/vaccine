@@ -55,7 +55,7 @@ namespace Vaccine {
                 website_label: "GitHub",
                 license_type: Gtk.License.GPL_3_0,
                 comments: "A GTK3 imageboard client",
-                logo_icon_name: "applications-internet");
+                logo_icon_name: "vaccine");
         }
 
         protected override void startup () {

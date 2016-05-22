@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+    <gresource prefix="/org/vaccine/app">
+        <file compressed="true" preprocess="xml-stripblanks" alias="main-window.ui">ui/main-window.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks" alias="thread-pane.ui">ui/thread-pane.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks" alias="post-list-row.ui">ui/post-list-row.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks" alias="catalog-widget.ui">ui/catalog-widget.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks" alias="catalog-item.ui">ui/catalog-item.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks" alias="preferences-view.ui">ui/preferences-view.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks" alias="media-view.ui">ui/media-view.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks" alias="video-preview-widget.ui">ui/video-preview-widget.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks" alias="error-dialog.ui">ui/error-dialog.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks" alias="tab.ui">ui/tab.ui</file>
+        <file compressed="true">style.css</file>
+        <file compressed="true">style.3.20.css</file>
+        <file compressed="true">code-training-set.json</file>
+    </gresource>
+    <gresource prefix="/org/vaccine/app/gtk">
+        <file compressed="true" preprocess="xml-stripblanks">menus.ui</file>
+    </gresource>
+</gresources>
