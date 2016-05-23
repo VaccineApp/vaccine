@@ -48,7 +48,8 @@ namespace Vaccine {
         void show_about () {
             string[] authors = {"benwaffle", "Prince781"};
             Gtk.show_about_dialog (get_active_window (),
-                program_name: "Vaccine",
+                program_name: Config.PACKAGE_NAME,
+                version: Config.PACKAGE_VERSION,
                 copyright: "Copyright © 2016 - Vaccine Developers",
                 authors: authors,
                 website: "https://github.com/VaccineApp/vaccine",

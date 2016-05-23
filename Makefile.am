@@ -38,6 +38,7 @@ vaccine_SOURCES = \
 
 vaccine_VALAFLAGS = \
     --vapidir=$(top_srcdir)/contrib \
+    --vapidir=$(top_srcdir)/src \
     --pkg gtk+-3.0 \
     --pkg json-glib-1.0 \
     --pkg libsoup-2.4 \
@@ -46,6 +47,7 @@ vaccine_VALAFLAGS = \
     --pkg gstreamer-base-1.0 \
     --pkg gtksourceview-3.0 \
     --pkg bayes-glib-1.0 \
+    --pkg config \
     --target-glib=2.38 \
     --gresources=$(top_srcdir)/data/vaccine.gresource.xml \
     --enable-experimental \
