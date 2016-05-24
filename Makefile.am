@@ -100,7 +100,7 @@ run: vaccine
 	GOBJECT_DEBUG=instance-count \
 	gdb -ex run vaccine
 
-EXTRA_DIST = $(gsettings_SCHEMAS) data/ui data/vaccine.gresource.xml
+EXTRA_DIST = $(gsettings_SCHEMAS) $(vaccine_resources) data/vaccine.gresource.xml
 
 CLEANFILES = *.c
 
