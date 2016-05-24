@@ -7,4 +7,5 @@ Exec=vaccine
 Terminal=False
 Icon=vaccine
 Categories=Internet;
+StartupNotify=true
 X-GNOME-UsesNotifications=true
