@@ -23,6 +23,14 @@ Please contribute and report bugs.
 | json-glib                | >=1.0    |
 | gtksourceview3           | >=3.16   |
 
+# Build Dependencies
+| Package          |
+|------------------|
+| autoconf         |
+| autoconf-archive |
+| appstream-glib   |
+| vala             |
+
 Try it
 ---
 ```Bash
