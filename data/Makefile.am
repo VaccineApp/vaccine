@@ -18,4 +18,6 @@ nobase_icon_DATA = \
 @APPSTREAM_XML_RULES@
 appstream_XML = org.vaccine.app.appdata.xml
 
+EXTRA_DIST = $(nobase_icon_DATA) $(appstream_XML) $(desktop_DATA)
+
 -include $(top_srcdir)/git.mk
