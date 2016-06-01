@@ -282,6 +282,7 @@
             <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Open in Browser</property>
             <signal name="clicked" handler="open_in_browser" swapped="no"/>
             <child>
               <object class="GtkImage" id="image1">
@@ -305,6 +306,7 @@
             <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Refresh</property>
             <signal name="clicked" handler="refresh" swapped="no"/>
             <child>
               <object class="GtkImage" id="image3">
@@ -327,6 +329,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Search</property>
             <child>
               <object class="GtkImage" id="image2">
                 <property name="visible">True</property>
