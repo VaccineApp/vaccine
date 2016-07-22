@@ -8,7 +8,6 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
     [GtkChild] private Gtk.Button image_button;
     [GtkChild] private Gtk.Image post_thumbnail;
     [GtkChild] private Gtk.Button responses_button;
-    [GtkChild] private Gtk.Label responses_amount;
 
     private Cancellable? cancel = null;
 
@@ -139,8 +138,7 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
         if (nreplies == 0) {
             responses_button.destroy ();
         } else {
-            responses_amount.label = nreplies > 99 ? "99+" : nreplies.to_string ();
-            responses_amount.get_style_context ().remove_class ("label");
+            responses_button.label = (nreplies > 99 ? "99+" : nreplies.to_string ()) + (nreplies == 1 ? " reply" : " replies");
         }
     }
 
