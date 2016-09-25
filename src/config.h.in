@@ -1,0 +1,5 @@
+#pragma once
+
+#define PACKAGE_NAME "@package@"
+
+#define PACKAGE_VERSION "@version@"
