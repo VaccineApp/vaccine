@@ -19,15 +19,14 @@ Please contribute and report bugs.
 | libsoup                  | >=2.4    |
 | libgee                   | >=0.18   |
 | gstreamer                | >=1.6    |
-| gstreamer-plugins-bad    | >= 1.6   |
+| gstreamer-plugins-bad    | >=1.6    |
 | json-glib                | >=1.0    |
 | gtksourceview3           | >=3.16   |
 
 # Build Dependencies
 | Package          |
 |------------------|
-| autoconf         |
-| autoconf-archive |
+| meson            |
 | appstream-glib   |
 | vala             |
 
@@ -35,7 +34,5 @@ Try it
 ---
 ```Bash
 $ git clone --recursive https://github.com/VaccineApp/vaccine
-$ ./autogen.sh
-$ ./configure
-$ make -j`nproc` run
+$ make
 ```
