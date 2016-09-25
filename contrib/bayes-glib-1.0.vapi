@@ -46,22 +46,6 @@ namespace Bayes {
 		public abstract uint get_token_count (string? name, string? token);
 		public abstract double get_token_probability (string name, string token);
 	}
-	[CCode (cheader_filename = "bayes-glib.h")]
-	[SimpleType]
-	public struct Classifier_autoptr {
-	}
-	[CCode (cheader_filename = "bayes-glib.h")]
-	[SimpleType]
-	public struct Guess_autoptr {
-	}
-	[CCode (cheader_filename = "bayes-glib.h")]
-	[SimpleType]
-	public struct StorageMemory_autoptr {
-	}
-	[CCode (cheader_filename = "bayes-glib.h")]
-	[SimpleType]
-	public struct Storage_autoptr {
-	}
 	[CCode (cheader_filename = "bayes-glib.h", has_type_id = false)]
 	public struct Tokens {
 	}
