@@ -34,5 +34,6 @@ Try it
 ---
 ```Bash
 $ git clone --recursive https://github.com/VaccineApp/vaccine
+$ cd vaccine
 $ make
 ```
