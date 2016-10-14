@@ -16,7 +16,7 @@ public class Vaccine.Page : Object, Json.Serializable {
     public bool deserialize_property (string prop_name, out Value val, ParamSpec pspec, Json.Node property_node) {
         if (prop_name != "threads") {
             val = Value (pspec.value_type);
-            return default_deserialize_property (prop_name, val, pspec, property_node);
+            return default_deserialize_property (prop_name, out val, pspec, property_node);
         }
 
         var list = new ArrayList<ThreadOP> ();
@@ -32,7 +32,7 @@ public class Vaccine.Page : Object, Json.Serializable {
         return true;
     }
 
-    public unowned ParamSpec find_property (string name) {
+    public unowned ParamSpec? find_property (string name) {
         return this.get_class ().find_property (name);
     }
 
