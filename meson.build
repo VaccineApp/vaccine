@@ -1,4 +1,4 @@
-project('vaccine', ['vala', 'c'])
+project('vaccine', 'vala', 'c')
 
 conf = configuration_data()
 conf.set('package', 'Vaccine')
