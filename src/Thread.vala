@@ -27,11 +27,10 @@ public class Vaccine.Thread : Object, ListModel {
     public Thread (string board, int64 no) {
         Object (board: board, no: no);
         // TODO make pref, min 10 sec per API rules
-        unowned SourceFunc update_cb = () => {
+        timeout_id = Timeout.add_seconds (10, () => {
             this.update_thread ();
             return Source.CONTINUE;
-        };
-        timeout_id = Timeout.add_seconds (10, update_cb);
+        });
     }
 
     ~Thread () {
