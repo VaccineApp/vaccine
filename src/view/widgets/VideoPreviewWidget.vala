@@ -21,15 +21,14 @@ public class Vaccine.VideoPreviewWidget : Gtk.Overlay {
 
     public VideoPreviewWidget () {
         // init gst stuff
-        dynamic Gst.Element? gtk_sink = Gst.ElementFactory.make ("gtkglsink", "video_sink");
-        if (gtk_sink != null) {
-            video_sink = Gst.ElementFactory.make ("glsinkbin", null);
-            video_sink.sink = gtk_sink;
-        } else {
+        dynamic Gst.Element? gtk_sink = Gst.ElementFactory.make ("gtksink", "video_sink");
+        if (gtk_sink == null) {
             gtk_sink = Gst.ElementFactory.make ("gtksink", "video_sink");
+            if (gtk_sink == null)
+                error("Failed to created gtksink.");
         }
+        video_sink = (!) gtk_sink;
         area = gtk_sink.widget;
-
         sink_holder.pack_start (area);
 
         sink_holder.show_all ();
