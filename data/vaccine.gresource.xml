@@ -11,6 +11,7 @@
         <file compressed="true" preprocess="xml-stripblanks" alias="video-preview-widget.ui">ui/video-preview-widget.ui</file>
         <file compressed="true" preprocess="xml-stripblanks" alias="error-dialog.ui">ui/error-dialog.ui</file>
         <file compressed="true" preprocess="xml-stripblanks" alias="tab.ui">ui/tab.ui</file>
+        <file compressed="true" preprocess="xml-stripblanks" alias="shortcuts-window.ui">ui/shortcuts-window.ui</file>
         <file compressed="true">style.css</file>
         <file compressed="true">style.3.20.css</file>
         <file compressed="true">code-training-set.json</file>

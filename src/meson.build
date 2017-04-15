@@ -24,6 +24,7 @@ src = files([
 	'view/PanelView.vala',
 	'view/PostListRow.vala',
 	'view/PreferencesView.vala',
+	'view/ShortcutsWindow.vala',
 	'view/ThreadPane.vala',
 	'view/widgets/VideoPreviewWidget.vala',
 

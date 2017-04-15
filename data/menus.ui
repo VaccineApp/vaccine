@@ -6,6 +6,10 @@
   </item>
   <section>
     <item>
+      <attribute name="label">Keyboard Shortcuts</attribute>
+      <attribute name="action">win.show-help-overlay</attribute>
+    </item>
+    <item>
       <attribute name="label">About</attribute>
       <attribute name="action">app.about</attribute>
     </item>
@@ -14,5 +18,23 @@
       <attribute name="action">app.quit</attribute>
     </item>
   </section>
+</menu>
+<menu id="catalog-sort-menu">
+  <item>
+    <attribute name="label">_Bump Order</attribute>
+    <attribute name="action">catalog.sort_bump_order</attribute>
+  </item>
+  <item>
+    <attribute name="label">Creation _Date</attribute>
+    <attribute name="action">catalog.sort_creation_date</attribute>
+  </item>
+  <item>
+    <attribute name="label">Last _Reply</attribute>
+    <attribute name="action">catalog.sort_last_reply</attribute>
+  </item>
+  <item>
+    <attribute name="label">Reply _Count</attribute>
+    <attribute name="action">catalog.sort_reply_count</attribute>
+  </item>
 </menu>
 </interface>

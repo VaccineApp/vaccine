@@ -203,13 +203,12 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         SimpleActionGroup group = new SimpleActionGroup ();
         group.add_action_entries (catalog_sort_actions, this);
         board_sort_button.insert_action_group ("catalog", group);
-        Menu menu = new Menu();
-        menu.append ("Bump Order", "catalog.sort_bump_order");
-        menu.append ("Creation Date", "catalog.sort_creation_date");
-        menu.append ("Last Reply", "catalog.sort_last_reply");
-        menu.append ("Reply Count", "catalog.sort_reply_count");
+
+        var menu = new Gtk.Builder.from_resource ("/org/vaccine/app/gtk/menus.ui")
+            .get_object ("catalog-sort-menu") as Menu;
         board_sort_button.set_menu_model (menu);
 
+        this.set_help_overlay (new ShortcutsWindow ());
         this.show_all ();
     }
 
