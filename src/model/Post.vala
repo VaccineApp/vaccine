@@ -226,5 +226,19 @@ namespace Vaccine {
          * Unique IPs participated in this thread
          */
         public uint unique_ips      { get; set; }
+
+        /**
+         * Last time modified. Includes replies, deletions,
+         * sticky/closed changes.
+         */
+        public uint last_modified   { get; set; }
+
+        /* not from JSON */
+        public uint bump_order { get; set; }
+
+        /* fix for GtkInspector crash */
+        public new uint nreplies {
+            get { return (int)replies; }
+        }
     }
 }

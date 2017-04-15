@@ -4,6 +4,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     [GtkChild] private Gtk.SearchEntry searchentry;
 
     [GtkChild] private Gtk.Button choose_board_button;
+    [GtkChild] private Gtk.MenuButton board_sort_button;
     [GtkChild] private Gtk.ToggleButton show_search_bar_button;
     [GtkChild] private Gtk.Button open_in_browser_button;
     [GtkChild] private Gtk.Button refresh_button;
@@ -33,7 +34,7 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
         { "toggle_search", toggle_search },
         { "next_tab", next_tab },
         { "prev_tab", prev_tab },
-        { "fullscreen", toggle_fullscreen }
+        { "fullscreen", toggle_fullscreen },
     };
 
     void close_tab () {
@@ -78,6 +79,13 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
     void toggle_fullscreen () {
         is_fullscreen = !is_fullscreen;
     }
+
+    const ActionEntry[] catalog_sort_actions = {
+        { "sort_bump_order", sort_bump_order },
+        { "sort_last_reply", sort_last_reply },
+        { "sort_creation_date", sort_creation_date },
+        { "sort_reply_count", sort_reply_count }
+    };
 
     public MainWindow (Gtk.Application app) {
         Object (application: app);
@@ -181,12 +189,26 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         FourChan.catalog.downloaded.connect ((o, board, threads) => {
             catalog.clear ();
+            int order = 0;
             foreach (Page page in threads)
-                foreach (ThreadOP t in page.threads)
+                foreach (ThreadOP t in page.threads) {
+                    t.bump_order = order;
                     catalog.add (this, t);
+                    ++order;
+                }
             open_in_browser_button.sensitive = true;
             refresh_button.sensitive = true;
         });
+
+        SimpleActionGroup group = new SimpleActionGroup ();
+        group.add_action_entries (catalog_sort_actions, this);
+        board_sort_button.insert_action_group ("catalog", group);
+        Menu menu = new Menu();
+        menu.append ("Bump Order", "catalog.sort_bump_order");
+        menu.append ("Creation Date", "catalog.sort_creation_date");
+        menu.append ("Last Reply", "catalog.sort_last_reply");
+        menu.append ("Reply Count", "catalog.sort_reply_count");
+        board_sort_button.set_menu_model (menu);
 
         this.show_all ();
     }
@@ -223,6 +245,38 @@ public class Vaccine.MainWindow : Gtk.ApplicationWindow {
 
         page.notify["name"].connect (() => {
             notebook.notify_property ("page");
+        });
+    }
+
+    private void sort_bump_order () {
+        catalog.layout.set_sort_func((child1,child2) => {
+            var thread1 = (child1.get_child () as CatalogItem).op;
+            var thread2 = (child2.get_child () as CatalogItem).op;
+            return (int)(thread1.bump_order - thread2.bump_order);
+        });
+    }
+
+    private void sort_creation_date () {
+        catalog.layout.set_sort_func((child1,child2) => {
+            var thread1 = (child1.get_child () as CatalogItem).op;
+            var thread2 = (child2.get_child () as CatalogItem).op;
+            return (int)(thread2.time - thread1.time);
+        });
+    }
+
+    private void sort_last_reply () {
+        catalog.layout.set_sort_func((child1,child2) => {
+            var thread1 = (child1.get_child () as CatalogItem).op;
+            var thread2 = (child2.get_child () as CatalogItem).op;
+            return (int)(thread2.last_modified - thread1.last_modified);
+        });
+    }
+
+    private void sort_reply_count () {
+        catalog.layout.set_sort_func((child1,child2) => {
+            var thread1 = (child1.get_child () as CatalogItem).op;
+            var thread2 = (child2.get_child () as CatalogItem).op;
+            return (int)(thread2.replies - thread1.replies);
         });
     }
 

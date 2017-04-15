@@ -6,7 +6,7 @@ public class Vaccine.Page : Object, Json.Serializable {
     /**
      * The page number
      */
-    public int page                    { get; set; }
+    public uint? page                    { get; set; }
 
     /**
      * The threads on this page
@@ -24,6 +24,7 @@ public class Vaccine.Page : Object, Json.Serializable {
             var o = Json.gobject_deserialize (typeof (ThreadOP), node) as ThreadOP;
             assert (o != null);
             o.board = board;
+            o.bump_order = index;
             list.add ((!) o);
         });
 
