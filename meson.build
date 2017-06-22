@@ -17,8 +17,10 @@ deps = [
     meson.get_compiler('c').find_library('m', required: false)
 ]
 
-# just check for it
-dependency('gstreamer-plugins-bad-1.0')
+gtksink = run_command('gst-inspect-1.0', 'gtksink')
+if gtksink.returncode() != 0
+  error('you need gtksink')
+endif
 
 subdir('contrib')
 subdir('data')
