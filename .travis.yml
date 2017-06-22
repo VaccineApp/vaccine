@@ -1,13 +1,13 @@
-sudo: required
-
-services:
-  - docker
-
 before_install:
-  - docker pull benwaffle/meson-vala-gtk3-docker
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq \
+        gstreamer1.0-plugins-bad \
+        libgtk-3-dev \
+        libjson-glib-dev \
+        python3-pip \
+        valac
 
 script:
-  - docker run
-      -v .:/code \
-      benwaffle/meson-vala-gtk3-docker \
-      /bin/bash -c "cd /code && mkdir build && meson build && ninja -C build"
+- mkdir build
+- meson build
+- ninja -C build
