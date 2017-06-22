@@ -5,7 +5,7 @@ sudo: required
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq
-      gstreamer2.0-plugins-bad
+      gstreamer1.0-plugins-bad
       libgee-0.8-dev
       libgtksourceview-3.0-dev
       libjson-glib-dev
