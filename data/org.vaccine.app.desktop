@@ -5,6 +5,6 @@ Comment=A Desktop 4chan Client
 Exec=vaccine
 Terminal=false
 Icon=org.vaccine.app
-Categories=Internet;
+Categories=Network;
 StartupNotify=true
 X-GNOME-UsesNotifications=true
