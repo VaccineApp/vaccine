@@ -33,3 +33,5 @@ executable('vaccine',
             include_directories: [config_inc, bayes_glib_inc],
             c_args: '-w',
             install: true)
+
+meson.add_install_script('data/post-install.sh')
