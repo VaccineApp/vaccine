@@ -1,12 +1,12 @@
-language: c
-dist: trusty
+sudo: required
+
+services:
+  - docker
 
 before_install:
-- sudo apt-get update -qq
-- sudo apt-get install -qq libgtk-3-dev valac meson
+  - docker pull benwaffle/meson-vala-gtk3-docker
 
 script:
-- mkdir build
-- cd build
-- meson ..
-- ninja
+  - docker run benwaffle/meson-vala-gtk3-docker \
+      -v .:/code \
+      /bin/bash -c "cd /code && mkdir build && meson build && ninja -C build"
