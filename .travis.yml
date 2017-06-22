@@ -7,6 +7,7 @@ before_install:
   - docker pull benwaffle/meson-vala-gtk3-docker
 
 script:
-  - docker run benwaffle/meson-vala-gtk3-docker \
+  - docker run
       -v .:/code \
+      benwaffle/meson-vala-gtk3-docker \
       /bin/bash -c "cd /code && mkdir build && meson build && ninja -C build"
