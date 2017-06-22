@@ -1,0 +1,52 @@
+{
+  "app-id": "org.vaccine.app",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "3.24",
+  "sdk": "org.gnome.Sdk",
+  "command": "vaccine",
+  "finish-args": [
+    "--socket=x11",
+    "--socket=wayland",
+    "--share=network"
+  ],
+  "cleanup": ["*.a", "*.la", "/include"],
+  "modules": [
+    {
+      "name": "gee-0.8",
+      "build-options" : {
+        "env": {
+          "PKG_CONFIG_GOBJECT_INTROSPECTION_1_0_GIRDIR": "/app/share/gir-1.0",
+          "PKG_CONFIG_GOBJECT_INTROSPECTION_1_0_TYPELIBDIR": "/app/lib/girepository-1.0"
+        }
+      },
+      "sources": [
+        {
+          "type": "git",
+          "url": "git://git.gnome.org/libgee"
+        }
+      ]
+    },
+    {
+      "name": "gtksourceview",
+      "sources": [
+        {
+          "type": "git",
+          "url": "git://git.gnome.org/gtksourceview",
+          "branch": "gnome-3-24"
+        }
+      ]
+    },
+    {
+      "name": "vaccine",
+      "buildsystem": "meson",
+      "builddir": true,
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/VaccineApp/vaccine.git",
+          "branch": "flatpak"
+        }
+      ]
+    }
+  ]
+}
