@@ -1,3 +1,6 @@
 [submodule "contrib/bayes-glib"]
 	path = contrib/bayes-glib
 	url = https://github.com/VaccineApp/bayes-glib.git
+[submodule "contrib/gtkimageview"]
+	path = contrib/gtkimageview
+	url = https://github.com/baedert/gtkimageview.git

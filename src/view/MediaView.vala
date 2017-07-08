@@ -18,7 +18,7 @@ public class Vaccine.MediaView : Gtk.Window {
     [GtkChild] private Gtk.IconView gallery_icons;
 
     // usable widget
-    [GtkChild] private Gtk.DrawingArea image_view;
+    [GtkChild] private Gtk.ImageView image_view;
 
     // must be filled with VideoPreviewWidget
     [GtkChild] private Gtk.Box video_holder;

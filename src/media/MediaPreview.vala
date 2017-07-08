@@ -2,14 +2,8 @@ public abstract class Vaccine.MediaPreview : Object {
     public const string[] supported_images = { ".gif", ".png", ".jpg" };
     public const string[] supported_videos = { ".webm" };
 
-    public static bool is_supported (string extension) {
-        foreach (var ext in supported_images)
-            if (extension == ext)
-                return true;
-        foreach (var ext in supported_videos)
-            if (extension == ext)
-                return true;
-        return false;
+    public static bool is_supported (string ext) {
+        return ext in supported_images || ext in supported_videos;
     }
 
     /**
@@ -17,13 +11,11 @@ public abstract class Vaccine.MediaPreview : Object {
      * Otherwise returns null.
      */
     public static MediaPreview? from_post (MediaStore media_store, Post post) {
-        foreach (var ext in supported_images)
-            if (post.ext == ext)
-                return new ImagePreview (media_store, post);
-        foreach (var ext in supported_videos)
-            if (post.ext == ext)
-                return new VideoPreview (media_store, post);
-        return null;    /* TODO: add support for more files */
+        if (post.ext in supported_images)
+            return new ImagePreview (media_store, post);
+        if (post.ext in supported_videos)
+            return new VideoPreview (media_store, post);
+        return null; /* TODO: add support for more files */
     }
 
     public weak MediaStore store { get; construct; }

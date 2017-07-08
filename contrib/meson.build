@@ -8,3 +8,7 @@ bayes_glib = files([
 
 bayes_glib_args = ['--vapidir=' + meson.current_source_dir(), '--pkg=bayes-glib-1.0']
 bayes_glib_inc = include_directories('bayes-glib/src')
+
+gtkimageview = files('gtkimageview/gtkimageview.c')
+gtkimageview_args = ['--vapidir=' + meson.current_source_dir() + '/gtkimageview', '--pkg=gtkimageview']
+gtkimageview_inc = include_directories('gtkimageview')

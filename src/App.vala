@@ -10,6 +10,7 @@ namespace Vaccine {
         public App () {
             Object (application_id: "org.vaccine.app",
                     flags: ApplicationFlags.FLAGS_NONE);
+
             try {
                 var istream = GLib.resources_open_stream ("/org/vaccine/app/code-training-set.json", GLib.ResourceLookupFlags.NONE);
                 code_classifier.storage = new Bayes.StorageMemory.from_stream (istream);

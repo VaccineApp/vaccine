@@ -25,9 +25,9 @@ subdir('data')
 subdir('src')
 
 executable('vaccine',
-            [src, res, bayes_glib],
+            [src, res, bayes_glib, gtkimageview],
             dependencies: deps,
-            vala_args: [res_args, bayes_glib_args],
-            include_directories: [config_inc, bayes_glib_inc],
+            vala_args: [res_args, bayes_glib_args, gtkimageview_args],
+            include_directories: [config_inc, bayes_glib_inc, gtkimageview_inc],
             c_args: '-w',
             install: true)

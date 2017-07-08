@@ -164,6 +164,8 @@ public class Vaccine.PostListRow : Gtk.ListBoxRow {
     [GtkCallback]
     private void show_media_view () {
         var win = (Application.get_default () as App).main_window;
+
+        typeof (Gtk.ImageView).ensure ();
         new MediaView (win, post).present ();
     }
 }
