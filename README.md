@@ -41,8 +41,5 @@ $ make
 # Build flatpak
 ```Bash
 $ flatpak-builder build org.vaccine.app.json
-$ flatpak builder-export repo build
-$ flatpak --user remote-add --no-gpg-verify --if-not-exists vaccine-local repo
-$ flatpak --user install vaccine-local org.vaccine.app
-$ flatpak run org.vaccine.app
+$ flatpak-builder --run build org.vaccine.app.json vaccine
 ```
