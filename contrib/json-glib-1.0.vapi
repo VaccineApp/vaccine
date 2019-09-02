@@ -324,15 +324,15 @@ namespace Json {
 		public Json.Node default_serialize_property (string property_name, GLib.Value value, GLib.ParamSpec pspec);
 		public abstract bool deserialize_property (string property_name, out GLib.Value value, GLib.ParamSpec pspec, Json.Node property_node);
 		[Version (since = "0.14")]
-		public abstract unowned GLib.ParamSpec? find_property (string name);
+		public virtual unowned GLib.ParamSpec? find_property (string name);
 		[Version (since = "0.14")]
-		public abstract GLib.Value get_property (GLib.ParamSpec pspec);
+		public virtual GLib.Value get_property (GLib.ParamSpec pspec);
 		[CCode (array_length_pos = 0.1, array_length_type = "guint")]
 		[Version (since = "0.14")]
 		public (unowned GLib.ParamSpec)[] list_properties ();
 		public abstract Json.Node serialize_property (string property_name, GLib.Value value, GLib.ParamSpec pspec);
 		[Version (since = "0.14")]
-		public abstract void set_property (GLib.ParamSpec pspec, GLib.Value value);
+		public virtual void set_property (GLib.ParamSpec pspec, GLib.Value value);
 	}
 	[CCode (cheader_filename = "json-glib/json-glib.h", has_type_id = false)]
 	[Version (since = "1.2")]

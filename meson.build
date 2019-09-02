@@ -29,7 +29,7 @@ subdir('src')
 executable('vaccine',
             [src, res, bayes_glib],
             dependencies: deps,
-            vala_args: [res_args, bayes_glib_args],
+            vala_args: [res_args, bayes_glib_args, json_glib_local_args],
             include_directories: [config_inc, bayes_glib_inc],
             c_args: '-w',
             install: true)
