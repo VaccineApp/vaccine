@@ -45,7 +45,7 @@ public class Vaccine.PanelView : Container, NotebookPage {
     }
 
     public override void remove (Widget widget) {
-        unowned List<Widget> elem = _children.find (widget);
+        unowned List<weak Widget> elem = _children.find (widget);
         int position = _children.position (elem);
         if (elem.next != null)
             remove (elem.next.data);
