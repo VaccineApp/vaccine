@@ -1,7 +1,4 @@
 debug:
-	if [ ! -d build ]; then \
-		mkdir build; \
-		meson build; \
-	fi
+	-meson build
 	ninja -C build
 	gdb -ex run build/vaccine
