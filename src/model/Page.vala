@@ -32,8 +32,4 @@ public class Vaccine.Page : Object, Json.Serializable {
         val.set_object (list);
         return true;
     }
-
-    public Json.Node serialize_property (string prop_name, Value val, ParamSpec pspec) {
-        error ("serialization not supported");
-    }
 }
