@@ -1,6 +1,6 @@
 [GtkTemplate (ui = "/org/vaccine/app/catalog-widget.ui")]
 public class Vaccine.CatalogWidget : Gtk.Box, NotebookPage {
-    [GtkChild] public Gtk.FlowBox layout;
+    [GtkChild] public unowned Gtk.FlowBox layout;
 
     public string search_text { get; set; }
 

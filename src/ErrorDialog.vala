@@ -1,6 +1,6 @@
 [GtkTemplate (ui = "/org/vaccine/app/error-dialog.ui")]
 class Vaccine.ErrorDialog : Gtk.Dialog {
-    [GtkChild] Gtk.Label label;
+    [GtkChild] unowned Gtk.Label label;
 
     public ErrorDialog (string message) {
         Object (use_header_bar: 1);

@@ -1,19 +1,19 @@
 [GtkTemplate (ui = "/org/vaccine/app/video-preview-widget.ui")]
 public class Vaccine.VideoPreviewWidget : Gtk.Overlay {
-    [GtkChild] private Gtk.Box sink_holder;
+    [GtkChild] private unowned Gtk.Box sink_holder;
 
     // control holder
-    [GtkChild] private Gtk.Revealer controls_revealer;
+    [GtkChild] private unowned Gtk.Revealer controls_revealer;
 
     // controls
-    [GtkChild] public Gtk.Button btn_play;
-    [GtkChild] public Gtk.Image btn_play_img;
-    [GtkChild] public Gtk.Scale progress_scale;
-    [GtkChild] public Gtk.ToggleButton toggle_repeat;
+    [GtkChild] public unowned Gtk.Button btn_play;
+    [GtkChild] public unowned Gtk.Image btn_play_img;
+    [GtkChild] public unowned Gtk.Scale progress_scale;
+    [GtkChild] public unowned Gtk.ToggleButton toggle_repeat;
 
     // info
-    [GtkChild] public Gtk.Label progress_text_start;
-    [GtkChild] public Gtk.Label progress_text_end;
+    [GtkChild] public unowned Gtk.Label progress_text_start;
+    [GtkChild] public unowned Gtk.Label progress_text_end;
 
     // gtksink element
     public dynamic Gst.Element video_sink { private set; get; }

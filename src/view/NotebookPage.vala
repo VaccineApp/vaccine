@@ -6,8 +6,8 @@ public interface Vaccine.NotebookPage : Gtk.Widget {
 
 [GtkTemplate (ui = "/org/vaccine/app/tab.ui")]
 public class Vaccine.Tab : Gtk.Box {
-    [GtkChild] private Gtk.Label tablabel;
-    [GtkChild] private Gtk.Button closebutton;
+    [GtkChild] private unowned Gtk.Label tablabel;
+    [GtkChild] private unowned Gtk.Button closebutton;
 
     private Gtk.Widget pane;
 

@@ -3,11 +3,11 @@ public class Vaccine.CatalogItem : Gtk.Button {
     // TODO: show # of replies (and make it look good)
     private weak MainWindow main_window;
 
-    [GtkChild] private Gtk.Stack image_stack;
+    [GtkChild] private unowned Gtk.Stack image_stack;
 
-    [GtkChild] public Gtk.Label post_subject;
-    [GtkChild] public Gtk.Label post_comment;
-    [GtkChild] public Gtk.Label post_n_replies;
+    [GtkChild] public unowned Gtk.Label post_subject;
+    [GtkChild] public unowned Gtk.Label post_comment;
+    [GtkChild] public unowned Gtk.Label post_n_replies;
 
     private Cancellable? cancel = null;
 

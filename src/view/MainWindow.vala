@@ -1,31 +1,31 @@
 [GtkTemplate (ui = "/org/vaccine/app/main-window.ui")]
 public class Vaccine.MainWindow : Gtk.ApplicationWindow {
-    [GtkChild] private Gtk.HeaderBar headerbar;
-    [GtkChild] private Gtk.SearchEntry searchentry;
+    [GtkChild] private unowned Gtk.HeaderBar headerbar;
+    [GtkChild] private unowned Gtk.SearchEntry searchentry;
 
-    [GtkChild] private Gtk.Button choose_board_button;
-    [GtkChild] private Gtk.MenuButton board_sort_button;
-    [GtkChild] private Gtk.ToggleButton show_search_bar_button;
-    [GtkChild] private Gtk.Button open_in_browser_button;
-    [GtkChild] private Gtk.Button refresh_button;
+    [GtkChild] private unowned Gtk.Button choose_board_button;
+    [GtkChild] private unowned Gtk.MenuButton board_sort_button;
+    [GtkChild] private unowned Gtk.ToggleButton show_search_bar_button;
+    [GtkChild] private unowned Gtk.Button open_in_browser_button;
+    [GtkChild] private unowned Gtk.Button refresh_button;
 
     // fullscreen headerbar controls
-    [GtkChild] private Gtk.HeaderBar fs_headerbar;
-    [GtkChild] private Gtk.ToggleButton fs_choose_board_button;
-    [GtkChild] private Gtk.ToggleButton fs_show_search_bar_button;
-    [GtkChild] private Gtk.Button fs_open_in_browser_button;
-    [GtkChild] private Gtk.Button fs_refresh_button;
-    [GtkChild] private Gtk.Revealer fs_revealer;
+    [GtkChild] private unowned Gtk.HeaderBar fs_headerbar;
+    [GtkChild] private unowned Gtk.ToggleButton fs_choose_board_button;
+    [GtkChild] private unowned Gtk.ToggleButton fs_show_search_bar_button;
+    [GtkChild] private unowned Gtk.Button fs_open_in_browser_button;
+    [GtkChild] private unowned Gtk.Button fs_refresh_button;
+    [GtkChild] private unowned Gtk.Revealer fs_revealer;
 
-    [GtkChild] private Gtk.SearchBar searchbar;
-    [GtkChild] private Gtk.Stack content_stack;
-    [GtkChild] private Gtk.Notebook notebook;
-    [GtkChild] private Gtk.Label no_content_description;
+    [GtkChild] private unowned Gtk.SearchBar searchbar;
+    [GtkChild] private unowned Gtk.Stack content_stack;
+    [GtkChild] private unowned Gtk.Notebook notebook;
+    [GtkChild] private unowned Gtk.Label no_content_description;
 
     // board chooser
-    [GtkChild] private Gtk.Popover popover;
-    [GtkChild] private Gtk.ListBox listbox;
-    [GtkChild] private Gtk.SearchEntry board_search;
+    [GtkChild] private unowned Gtk.Popover popover;
+    [GtkChild] private unowned Gtk.ListBox listbox;
+    [GtkChild] private unowned Gtk.SearchEntry board_search;
 
     private CatalogWidget catalog;
 

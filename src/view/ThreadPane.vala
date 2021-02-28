@@ -1,8 +1,8 @@
 [GtkTemplate (ui = "/org/vaccine/app/thread-pane.ui")]
 public class Vaccine.ThreadPane : Gtk.Box, NotebookPage {
-    [GtkChild] private Gtk.ListBox list;
-    [GtkChild] private Gtk.Box heading_box;
-    [GtkChild] private Gtk.Label heading;
+    [GtkChild] private unowned Gtk.ListBox list;
+    [GtkChild] private unowned Gtk.Box heading_box;
+    [GtkChild] private unowned Gtk.Label heading;
 
     public string search_text { get; set; }
 

@@ -1,13 +1,13 @@
 [GtkTemplate (ui = "/org/vaccine/app/post-list-row.ui")]
 public class Vaccine.PostListRow : Gtk.ListBoxRow {
-    [GtkChild] private Gtk.Label post_name;
-    [GtkChild] private Gtk.Label post_time;
-    [GtkChild] private Gtk.Label post_no;
+    [GtkChild] private unowned Gtk.Label post_name;
+    [GtkChild] private unowned Gtk.Label post_time;
+    [GtkChild] private unowned Gtk.Label post_no;
 
-    [GtkChild] private Gtk.TextView post_textview;
-    [GtkChild] private Gtk.Button image_button;
-    [GtkChild] private Gtk.Image post_thumbnail;
-    [GtkChild] private Gtk.Button responses_button;
+    [GtkChild] private unowned Gtk.TextView post_textview;
+    [GtkChild] private unowned Gtk.Button image_button;
+    [GtkChild] private unowned Gtk.Image post_thumbnail;
+    [GtkChild] private unowned Gtk.Button responses_button;
 
     private Cancellable? cancel = null;
 

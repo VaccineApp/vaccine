@@ -1,9 +1,9 @@
 [GtkTemplate (ui = "/org/vaccine/app/preferences-view.ui")]
 class Vaccine.PreferencesView : Gtk.Window {
-    [GtkChild] Gtk.Switch show_trips;
-    [GtkChild] Gtk.Switch filter_nsfw_content;
-    [GtkChild] Gtk.SpinButton image_cache_size_mb;
-    [GtkChild] Gtk.Switch use_dark_theme;
+    [GtkChild] unowned Gtk.Switch show_trips;
+    [GtkChild] unowned Gtk.Switch filter_nsfw_content;
+    [GtkChild] unowned Gtk.SpinButton image_cache_size_mb;
+    [GtkChild] unowned Gtk.Switch use_dark_theme;
 
     public PreferencesView () {
         App.settings.bind ("show-trips", show_trips, "active", SettingsBindFlags.DEFAULT);

@@ -1,27 +1,27 @@
 [GtkTemplate (ui = "/org/vaccine/app/media-view.ui")]
 public class Vaccine.MediaView : Gtk.Window {
-    // [GtkChild] private Gtk.HeaderBar headerbar;
+    // [GtkChild] private unowned Gtk.HeaderBar headerbar;
 
     // headerbar buttons
-    // [GtkChild] private Gtk.Button btn_prev;
-    // [GtkChild] private Gtk.Button btn_next;
-    [GtkChild] private Gtk.ToggleButton btn_gallery;
-    // [GtkChild] private Gtk.Button btn_download;
-    [GtkChild] private Gtk.Button btn_present;
-    [GtkChild] private Gtk.Button btn_reverse_search;
+    // [GtkChild] private unowned Gtk.Button btn_prev;
+    // [GtkChild] private unowned Gtk.Button btn_next;
+    [GtkChild] private unowned Gtk.ToggleButton btn_gallery;
+    // [GtkChild] private unowned Gtk.Button btn_download;
+    [GtkChild] private unowned Gtk.Button btn_present;
+    [GtkChild] private unowned Gtk.Button btn_reverse_search;
 
     // view and containers
-    [GtkChild] private Gtk.Stack stack;
-    [GtkChild] private Gtk.Alignment loading_view;
-    [GtkChild] private Gtk.ProgressBar download_progress;
-    [GtkChild] private Gtk.Box gallery_view;
-    [GtkChild] private Gtk.IconView gallery_icons;
+    [GtkChild] private unowned Gtk.Stack stack;
+    [GtkChild] private unowned Gtk.Alignment loading_view;
+    [GtkChild] private unowned Gtk.ProgressBar download_progress;
+    [GtkChild] private unowned Gtk.Box gallery_view;
+    [GtkChild] private unowned Gtk.IconView gallery_icons;
 
     // usable widget
-    [GtkChild] private Gtk.DrawingArea image_view;
+    [GtkChild] private unowned Gtk.DrawingArea image_view;
 
     // must be filled with VideoPreviewWidget
-    [GtkChild] private Gtk.Box video_holder;
+    [GtkChild] private unowned Gtk.Box video_holder;
     private VideoPreviewWidget video_view;
 
     // custom data
