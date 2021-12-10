@@ -1,7 +1,7 @@
 {
   "app-id": "org.vaccine.app",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "3.24",
+  "runtime-version": "3.38",
   "sdk": "org.gnome.Sdk",
   "command": "vaccine",
   "finish-args": [
@@ -13,11 +13,15 @@
     "--talk-name=ca.desrt.dconf",
     "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
   ],
-  "cleanup": ["*.a", "*.la", "/include"],
+  "cleanup": [
+    "*.a",
+    "*.la",
+    "/include"
+  ],
   "modules": [
     {
       "name": "gee-0.8",
-      "build-options" : {
+      "build-options": {
         "env": {
           "PKG_CONFIG_GOBJECT_INTROSPECTION_1_0_GIRDIR": "/app/share/gir-1.0",
           "PKG_CONFIG_GOBJECT_INTROSPECTION_1_0_TYPELIBDIR": "/app/lib/girepository-1.0"
@@ -26,17 +30,18 @@
       "sources": [
         {
           "type": "git",
-          "url": "git://git.gnome.org/libgee"
+          "url": "https://gitlab.gnome.org/GNOME/libgee.git"
         }
       ]
     },
     {
       "name": "gtksourceview",
+      "buildsystem": "meson",
       "sources": [
         {
           "type": "git",
-          "url": "git://git.gnome.org/gtksourceview",
-          "branch": "gnome-3-24"
+          "url": "https://gitlab.gnome.org/GNOME/gtksourceview.git",
+          "branch": "4.6.1"
         }
       ]
     },

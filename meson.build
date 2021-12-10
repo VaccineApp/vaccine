@@ -4,6 +4,11 @@ conf = configuration_data()
 conf.set('package', 'Vaccine')
 conf.set('version', '0.0.2')
 
+gtksourceview = dependency('gtksourceview-3.0', required: false)
+if not gtksourceview.found()
+  gtksourceview = dependency('gtksourceview-4')
+endif
+
 deps = [
     dependency('glib-2.0', version: '>=2.44'),
     dependency('gobject-2.0'),
@@ -13,7 +18,7 @@ deps = [
     dependency('gee-0.8'),
     dependency('gstreamer-1.0'),
     dependency('gstreamer-base-1.0'),
-    dependency('gtksourceview-3.0'),
+    gtksourceview,
     meson.get_compiler('c').find_library('m', required: false)
 ]
 
